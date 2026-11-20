@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>CAR-BTI｜車好き16タイプ診断</title>
+<meta name="description" content="スポーツカーから高級ミニバン、クロカン、丸目コンパクト、車種不問の箱推しまで。車好きタイプ（全16タイプ）× 交流温度感 × 仲間の範囲を判定してライセンスカードを発行！" />
+<meta property="og:title" content="CAR-BTI｜車好き16タイプ診断" />
+<meta property="og:description" content="全車種・全派閥・車種不問まで対応。あなたの車好きタイプとPA・SNSでの交流スタイルを20問で診断！" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://ota-leftover.github.io/car-bti/ogp.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://ota-leftover.github.io/car-bti/ogp.jpg" />
+<meta name="theme-color" content="#070b14" />
+<link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+<link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+<link rel="manifest" href="./manifest.json" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #070b14;
+  --bg-2: #0d1324;
+  --panel: rgba(15, 23, 42, 0.8);
+  --panel-solid: #10182b;
+  --border: rgba(148, 163, 184, 0.18);
+  --text: #f1f5f9;
+  --muted: #94a3b8;
+  --cyan: #22d3ee;
+  --crimson: #f43f5e;
+  --amber: #f59e0b;
+  --violet: #a78bfa;
+  --emerald: #34d399;
+  --radius: 16px;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body {
+  margin: 0; padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+body::before {
+  content: "";
+  position: fixed; inset: 0; z-index: -1;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(34, 211, 238, 0.13), transparent 40%),
+    radial-gradient(circle at 88% 18%, rgba(244, 63, 94, 0.12), transparent 42%),
+    radial-gradient(circle at 50% 90%, rgba(167, 139, 250, 0.08), transparent 45%),
+    linear-gradient(180deg, #060912 0%, #0b1121 55%, #070a13 100%);
+}
+.mono { font-family: 'Rajdhani', 'Noto Sans JP', monospace; letter-spacing: 0.04em; }
+header {
+  position: sticky; top: 0; z-index: 60;
+  background: rgba(7, 11, 20, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+.header-inner {
+  max-width: 1140px; margin: 0 auto;
+  padding: 10px 16px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.brand { display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; }
+.brand-badge {
+  width: 34px; height: 34px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--cyan), var(--crimson));
+  display: grid; place-items: center;
+  font-weight: 900; font-size: 13px; color: #050810;
+  box-shadow: 0 0 18px rgba(34, 211, 238, 0.35);
+}
+.brand-title { font-size: 19px; font-weight: 900; letter-spacing: 0.06em; line-height: 1.1; }
+.brand-sub { font-size: 10px; color: var(--muted); display: block; letter-spacing: 0.06em; }
+nav { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+nav::-webkit-scrollbar { display: none; }
+.nav-btn {
+  background: transparent; border: 1px solid transparent;
+  color: var(--muted); font-size: 13px; font-weight: 700;
+  padding: 7px 12px; border-radius: 999px; cursor: pointer;
+  white-space: nowrap; transition: all 0.18s; font-family: inherit;
+}
+.nav-btn:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+.nav-btn.active {
+  color: #06101c; background: var(--cyan);
+  box-shadow: 0 0 16px rgba(34, 211, 238, 0.35);
+}
+main { max-width: 1140px; margin: 0 auto; padding: 20px 16px 76px; }
+.view { display: none; animation: fadeUp 0.25s ease; }
+.view.active { display: block; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  border: none; border-radius: 12px; cursor: pointer;
+  font-family: inherit; font-weight: 800; font-size: 15px;
+  padding: 13px 22px; transition: all 0.18s; text-decoration: none;
+}
+.btn-primary {
+  background: linear-gradient(135deg, #06b6d4 0%, #22d3ee 48%, #f43f5e 100%);
+  color: #040812;
+  box-shadow: 0 8px 26px rgba(34, 211, 238, 0.28);
+}
+.btn-primary:hover { transform: translateY(-1px); filter: brightness(1.08); }
+.btn-secondary {
+  background: rgba(255,255,255,0.07);
+  color: var(--text);
+  border: 1px solid rgba(148, 163, 184, 0.26);
+}
+.btn-secondary:hover { background: rgba(255,255,255,0.12); border-color: var(--cyan); }
+.btn-sm { padding: 8px 14px; font-size: 13px; border-radius: 10px; }
+.pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 999px;
+  background: rgba(34, 211, 238, 0.14);
+  color: var(--cyan); border: 1px solid rgba(34, 211, 238, 0.3);
+}
+.section-head {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 12px; margin: 34px 0 14px; flex-wrap: wrap;
+}
+.section-head h2 { margin: 0; font-size: 20px; font-weight: 900; letter-spacing: 0.02em; }
+.section-head p { margin: 2px 0 0; font-size: 13px; color: var(--muted); }
+.hero {
+  position: relative; overflow: hidden; border-radius: 22px;
+  border: 1px solid rgba(34, 211, 238, 0.26);
+  background: #0a1020; box-shadow: 0 22px 60px rgba(0, 0, 0, 0.55);
+}
+.hero-bg-wrap {
+  position: relative; width: 100%; aspect-ratio: 16 / 9; max-height: 450px; overflow: hidden;
+}
+.hero-bg-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.35s ease; }
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(6, 10, 20, 0.92) 0%, rgba(6, 10, 20, 0.56) 52%, rgba(6, 10, 20, 0.18) 100%),
+              linear-gradient(0deg, rgba(6, 10, 20, 0.95) 0%, transparent 45%);
+}
+.hero-content {
+  position: absolute; inset: 0; padding: 28px;
+  display: flex; flex-direction: column; justify-content: flex-end; max-width: 680px;
+}
+.hero h1 {
+  margin: 10px 0 10px; font-size: clamp(24px, 4.3vw, 42px);
+  font-weight: 900; line-height: 1.18; text-shadow: 0 4px 24px rgba(0,0,0,0.8);
+}
+.hero h1 span {
+  background: linear-gradient(90deg, #22d3ee, #f8fafc, #fb7185);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero-desc {
+  margin: 0 0 18px; color: #cbd5e1; font-size: 14px; max-width: 560px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+}
+.hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.hero-top-right {
+  position: absolute; top: 14px; right: 14px;
+  display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; z-index: 4;
+}
+.hero-car-label {
+  background: rgba(6, 10, 20, 0.76); backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.18);
+  padding: 5px 11px; border-radius: 999px; font-size: 11px; font-weight: 700; color: #e2e8f0;
+}
+.scene-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.scene-tab {
+  background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+  color: #cbd5e1; border-radius: 999px; padding: 6px 13px;
+  font-size: 12px; font-weight: 800; cursor: pointer; font-family: inherit; transition: all 0.15s;
+}
+.scene-tab.active { background: var(--cyan); color: #050a14; border-color: var(--cyan); }
+.showcase-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(185px, 1fr)); gap: 12px;
+}
+.car-mini {
+  border-radius: 14px; overflow: hidden; border: 1px solid var(--border);
+  background: var(--panel-solid); cursor: pointer;
+  transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+}
+.car-mini:hover { transform: translateY(-3px); border-color: var(--cyan); box-shadow: 0 10px 24px rgba(34, 211, 238, 0.18); }
+.car-mini.active { border-color: var(--cyan); box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.35); }
+.car-mini-img { width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: #0b1120; }
+.car-mini-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.car-mini-body { padding: 9px 11px; }
+.car-mini-title { font-size: 13px; font-weight: 800; line-height: 1.3; }
+.car-mini-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.cluster-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.cluster-card {
+  border-radius: 16px; overflow: hidden; border: 1px solid var(--border);
+  background: var(--panel-solid); cursor: pointer; transition: transform 0.18s, border-color 0.18s;
+}
+.cluster-card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.35); }
+.cluster-thumb { position: relative; aspect-ratio: 16 / 9; overflow: hidden; }
+.cluster-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cluster-thumb::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(0deg, rgba(16,24,43,0.95) 0%, transparent 55%);
+}
+.cluster-code {
+  position: absolute; bottom: 8px; left: 12px; z-index: 2;
+  font-size: 12px; font-weight: 900; padding: 3px 9px; border-radius: 999px; color: #040812;
+}
+.cluster-body { padding: 12px 14px 14px; }
+.cluster-body h3 { margin: 0 0 4px; font-size: 16px; font-weight: 900; }
+.cluster-body p { margin: 0; font-size: 12.5px; color: var(--muted); }
+.quiz-wrap { max-width: 680px; margin: 0 auto; }
+.progress-meta {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 12.5px; color: var(--muted); margin-bottom: 8px; font-weight: 700;
+}
+.progress-track {
+  width: 100%; height: 8px; border-radius: 999px;
+  background: rgba(148, 163, 184, 0.18); overflow: hidden; margin-bottom: 20px;
+}
+.progress-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--cyan), var(--crimson));
+  transition: width 0.25s ease;
+}
+.quiz-card { padding: 24px 20px; }
+.quiz-axis-tag {
+  display: inline-block; font-size: 11px; font-weight: 800;
+  color: var(--cyan); background: rgba(34,211,238,0.12);
+  border: 1px solid rgba(34,211,238,0.28);
+  padding: 3px 10px; border-radius: 999px; margin-bottom: 12px;
+}
+.quiz-axis-tag.social {
+  color: #fcd34d; background: rgba(245,158,11,0.14); border-color: rgba(245,158,11,0.35);
+}
+.quiz-q { font-size: clamp(18px, 3vw, 22px); font-weight: 900; margin: 0 0 18px; line-height: 1.45; }
+.quiz-poles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+.pole-box {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  border-radius: 12px; padding: 12px; font-size: 13px;
+}
+.pole-box strong { display: block; font-size: 11px; margin-bottom: 4px; }
+.pole-left strong { color: var(--cyan); }
+.pole-right strong { color: var(--crimson); }
+.choice-list { display: grid; gap: 10px; }
+.choice-btn {
+  width: 100%; text-align: left;
+  background: rgba(255,255,255,0.045);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  color: var(--text); border-radius: 13px; padding: 14px 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  font-family: inherit; font-size: 14px; font-weight: 700; transition: all 0.15s;
+}
+.choice-btn:hover { border-color: var(--cyan); background: rgba(34, 211, 238, 0.1); }
+.choice-btn.selected {
+  border-color: var(--cyan); background: rgba(34, 211, 238, 0.18);
+  box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.25);
+}
+.choice-sub { display: block; font-size: 11.5px; font-weight: 500; color: var(--muted); margin-top: 2px; }
+.choice-dot {
+  width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0;
+  border: 2px solid rgba(148,163,184,0.45);
+}
+.choice-btn.selected .choice-dot { border-color: var(--cyan); background: var(--cyan); }
+.quiz-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
+.result-layout { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 20px; align-items: start; }
+.license-frame {
+  border-radius: 20px; overflow: hidden;
+  border: 1px solid rgba(34, 211, 238, 0.35);
+  background: #090e1c; box-shadow: 0 18px 46px rgba(0, 0, 0, 0.6); position: relative;
+}
+.license-visual { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #050811; }
+.license-visual img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.license-visual::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(0deg, rgba(9,14,28,0.88) 0%, transparent 38%);
+}
+.license-top-bar {
+  position: absolute; top: 10px; left: 12px; right: 12px;
+  display: flex; justify-content: space-between; align-items: center; gap: 8px; z-index: 3;
+}
+.license-badge {
+  background: rgba(6, 10, 20, 0.8); backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #f8fafc; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 999px;
+}
+.license-body { padding: 18px; }
+.license-code-row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.license-code {
+  font-size: 38px; font-weight: 900; line-height: 1;
+  background: linear-gradient(90deg, var(--cyan), #ffffff, var(--crimson));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.license-name { font-size: 20px; font-weight: 900; margin: 4px 0 6px; }
+.license-catch { font-size: 13px; color: #cbd5e1; margin: 0 0 12px; }
+.social-banner {
+  background: rgba(255,255,255,0.045);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  border-radius: 12px; padding: 10px 12px; margin-bottom: 12px;
+}
+.social-banner-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 5px; }
+.social-pill { font-size: 11.5px; font-weight: 800; padding: 3px 9px; border-radius: 999px; }
+.social-pill.temp { background: rgba(52, 211, 153, 0.16); color: #6ee7b7; border: 1px solid rgba(52, 211, 153, 0.4); }
+.social-pill.scope { background: rgba(245, 158, 11, 0.16); color: #fcd34d; border: 1px solid rgba(245, 158, 11, 0.42); }
+.social-banner-text { font-size: 12px; color: #e2e8f0; margin: 0; line-height: 1.5; }
+.tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.tag-chip {
+  font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 999px;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.16); color: #e2e8f0;
+}
+.tag-chip.accent { background: rgba(34, 211, 238, 0.16); border-color: rgba(34, 211, 238, 0.4); color: var(--cyan); }
+.tag-chip.warm { background: rgba(167, 139, 250, 0.16); border-color: rgba(167, 139, 250, 0.4); color: #ddd6fe; }
+.axis-bars { display: grid; gap: 9px; margin-top: 12px; }
+.axis-row { font-size: 12px; }
+.axis-labels { display: flex; justify-content: space-between; margin-bottom: 3px; font-weight: 700; }
+.axis-track { height: 7px; border-radius: 999px; background: rgba(255,255,255,0.1); overflow: hidden; }
+.axis-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--cyan), var(--crimson)); }
+.action-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.step-box { padding: 16px; margin-bottom: 14px; }
+.step-title {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  margin: 0 0 10px; font-size: 14px; font-weight: 900;
+}
+.step-num {
+  display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 999px;
+  background: var(--cyan); color: #050a14; margin-right: 6px; font-weight: 900;
+}
+.step-num.warm { background: var(--amber); }
+.car-select-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 8px; }
+.car-opt {
+  border-radius: 10px; overflow: hidden; border: 1.5px solid var(--border);
+  background: #0a1020; cursor: pointer; transition: all 0.15s; text-align: left;
+  padding: 0; color: inherit; font-family: inherit;
+}
+.car-opt img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
+.car-opt .all-box {
+  width: 100%; aspect-ratio: 16 / 9; display: grid; place-items: center;
+  background: linear-gradient(135deg, rgba(34,211,238,0.22), rgba(244,63,94,0.22));
+  font-size: 12px; font-weight: 900; color: #fff; text-align: center; padding: 4px;
+}
+.car-opt span { display: block; padding: 5px 6px; font-size: 11px; font-weight: 700; line-height: 1.25; }
+.car-opt.active { border-color: var(--cyan); box-shadow: 0 0 0 2px rgba(34,211,238,0.3); }
+.chip-group { display: flex; flex-wrap: wrap; gap: 6px; }
+.sel-chip {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(148,163,184,0.24);
+  color: #cbd5e1; border-radius: 999px; padding: 6px 11px;
+  font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.14s;
+}
+.sel-chip.rec { border-color: rgba(34,211,238,0.45); color: #e0f2fe; }
+.sel-chip.active { background: var(--cyan); color: #040914; border-color: var(--cyan); }
+.sel-chip.active-warm { background: var(--amber); color: #040914; border-color: var(--amber); }
+.cat-label { font-size: 11px; font-weight: 800; color: var(--muted); margin: 10px 0 6px; }
+.info-panel { padding: 18px; margin-top: 16px; }
+.info-panel h3 { margin: 0 0 8px; font-size: 15px; font-weight: 900; color: var(--cyan); }
+.info-panel ul { margin: 0; padding-left: 18px; color: #cbd5e1; font-size: 13.5px; }
+.info-panel li { margin-bottom: 5px; }
+.compat-mini-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+.compat-mini {
+  border-radius: 12px; padding: 10px; background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border); cursor: pointer; transition: border-color 0.15s;
+}
+.compat-mini:hover { border-color: var(--cyan); }
+.compat-mini .label { font-size: 10.5px; font-weight: 800; display: block; margin-bottom: 2px; }
+.compat-mini .code { font-size: 18px; font-weight: 900; }
+.compat-mini .name { font-size: 11px; color: var(--muted); display: block; line-height: 1.3; }
+.filter-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.filter-tab {
+  background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+  color: var(--muted); border-radius: 999px; padding: 7px 14px;
+  font-size: 12.5px; font-weight: 800; cursor: pointer; font-family: inherit;
+}
+.filter-tab.active { background: var(--cyan); color: #050a14; border-color: var(--cyan); }
+.dex-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(245px, 1fr)); gap: 14px; }
+.dex-card {
+  border-radius: 16px; overflow: hidden; border: 1px solid var(--border);
+  background: var(--panel-solid); cursor: pointer; transition: transform 0.18s, border-color 0.18s;
+}
+.dex-card:hover { transform: translateY(-3px); border-color: var(--cyan); }
+.dex-thumb { position: relative; aspect-ratio: 16 / 9; overflow: hidden; }
+.dex-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.dex-code-badge {
+  position: absolute; top: 8px; left: 8px;
+  background: rgba(6,10,20,0.82); backdrop-filter: blur(6px);
+  border: 1px solid rgba(34,211,238,0.45);
+  color: var(--cyan); font-weight: 900; font-size: 13px; padding: 3px 9px; border-radius: 8px;
+}
+.dex-body { padding: 12px 14px; }
+.dex-body h3 { margin: 0 0 4px; font-size: 15.5px; font-weight: 900; }
+.dex-body p { margin: 0; font-size: 12px; color: var(--muted); line-height: 1.5; }
+.matrix-quads { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 22px; }
+.quad-box { padding: 14px; }
+.quad-head { font-size: 13px; font-weight: 900; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.quad-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.m-cell {
+  border-radius: 11px; padding: 10px; background: rgba(255,255,255,0.04);
+  border: 1.5px solid var(--border); cursor: pointer; transition: all 0.16s;
+  text-align: left; color: inherit; font-family: inherit;
+}
+.m-cell strong { display: block; font-size: 15px; }
+.m-cell span { display: block; font-size: 11px; color: var(--muted); line-height: 1.25; }
+.m-cell.sel { border-color: #ffffff; background: rgba(255,255,255,0.14); }
+.m-cell.rel-best { border-color: var(--emerald); background: rgba(52,211,153,0.16); }
+.m-cell.rel-rival { border-color: var(--amber); background: rgba(245,158,11,0.15); }
+.m-cell.rel-enemy { border-color: var(--crimson); background: rgba(244,63,94,0.17); }
+.legend-row { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; margin-bottom: 14px; color: #cbd5e1; }
+.legend-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 5px; }
+.checker-box { padding: 20px; }
+.checker-cols { display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; align-items: center; margin-bottom: 16px; }
+.checker-person { display: grid; gap: 6px; }
+select.type-select {
+  width: 100%; background: #0a1020; color: var(--text);
+  border: 1px solid rgba(148,163,184,0.3); border-radius: 10px;
+  padding: 9px 10px; font-size: 13px; font-weight: 700; font-family: inherit;
+}
+.vs-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+.vs-mini { border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: #0a1020; }
+.vs-mini img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
+.vs-mini div { padding: 8px 10px; font-size: 12.5px; font-weight: 800; }
+.pa-dialogue {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  border-radius: 14px; padding: 14px; font-size: 13.5px;
+}
+.modal-backdrop {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(3, 6, 14, 0.82); backdrop-filter: blur(8px);
+  display: none; align-items: center; justify-content: center; padding: 16px;
+}
+.modal-backdrop.open { display: flex; }
+.modal-content {
+  width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto;
+  background: #0d1426; border: 1px solid rgba(34,211,238,0.35);
+  border-radius: 18px; padding: 18px; position: relative;
+}
+.modal-close {
+  position: absolute; top: 12px; right: 12px;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(255,255,255,0.1); border: none; color: #fff;
+  font-size: 18px; cursor: pointer; z-index: 5;
+}
+.preview-export-img { width: 100%; border-radius: 12px; display: block; border: 1px solid var(--border); }
+.toast {
+  position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: rgba(15, 23, 42, 0.95); color: #fff;
+  border: 1px solid var(--cyan); border-radius: 999px;
+  padding: 10px 18px; font-size: 13px; font-weight: 700;
+  opacity: 0; pointer-events: none; transition: all 0.22s; z-index: 120;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+@media (max-width: 860px) {
+  .result-layout { grid-template-columns: 1fr; }
+  .matrix-quads { grid-template-columns: 1fr; }
+  .hero-bg-wrap { max-height: none; aspect-ratio: 4 / 3; }
+  .hero-content { padding: 18px; }
+  .checker-cols { grid-template-columns: 1fr; }
+  .compat-mini-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .header-inner { flex-direction: column; align-items: stretch; gap: 8px; }
+  nav { justify-content: space-between; }
+  .quiz-poles { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand" onclick="switchView('top')">
+      <div class="brand-badge mono">CB</div>
+      <div>
+        <div class="brand-title mono">CAR-BTI</div>
+        <span class="brand-sub">車好き16タイプ診断｜全車種・全派閥・車種不問対応</span>
+      </div>
+    </div>
+    <nav>
+      <button class="nav-btn active" data-view="top" onclick="switchView('top')">TOP</button>
+      <button class="nav-btn" data-view="quiz" onclick="startOrResumeQuiz()">診断する</button>
+      <button class="nav-btn" data-view="dex" onclick="switchView('dex')">16タイプ図鑑</button>
+      <button class="nav-btn" data-view="matrix" onclick="switchView('matrix')">相性・相関図</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section id="view-top" class="view active">
+    <div class="hero">
+      <div class="hero-bg-wrap">
+        <img id="hero-img" src="./images/coupe_highway.jpg" alt="CAR-BTI Original Vehicle" />
+        <div class="hero-overlay"></div>
+        <div class="hero-top-right">
+          <div id="hero-car-label" class="hero-car-label">スポーツクーペ / GT</div>
+          <div id="hero-scene-label" class="hero-car-label" style="border-color:rgba(34,211,238,0.45); color:#67e8f9;">夜の首都高</div>
+        </div>
+        <div class="hero-content">
+          <span class="pill">全16タイプ × 交流スタイル × 全55シーン収録</span>
+          <h1>あなたの<span>車好きタイプ</span>と<br><span>交流スタイル</span>を診断する。</h1>
+          <p class="hero-desc">
+            スポーツカー、高級ミニバン、実用1BOX、無骨クロカン、丸目レトロ、商用バン、そして「車種不問の箱推し」まで。価値観だけでなく「話しかけてほしいか／同車種だけか／オールジャンル歓迎か」まで判定してライセンスカードを発行。
+          </p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" onclick="startNewQuiz()">診断をスタート（全20問・約1分半）</button>
+            <button class="btn btn-secondary" onclick="switchView('dex')">16タイプ図鑑を見る</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-head">
+      <div>
+        <h2>CAR-BTI オリジナル架空車両（11系統 × 5シーン＝全55枚）</h2>
+        <p>シーンと車種をタップすると、上のメインビジュアルが本物イラストで切り替わります。</p>
+      </div>
+    </div>
+    <div id="top-scene-tabs" class="scene-tabs"></div>
+    <div id="top-showcase" class="showcase-grid"></div>
+
+    <div class="section-head">
+      <div>
+        <h2>全車種共通の「4大車好きタイプ」</h2>
+        <p>車種が違っても「車好きタイプ」が同じなら仲間。車種が同じでも楽しみ方や交流距離感が違えば別系統。</p>
+      </div>
+    </div>
+    <div id="top-clusters" class="cluster-grid"></div>
+  </section>
+
+  <section id="view-quiz" class="view">
+    <div class="quiz-wrap">
+      <div class="progress-meta">
+        <span id="quiz-counter" class="mono">Q 01 / 20</span>
+        <span id="quiz-percent">0%</span>
+      </div>
+      <div class="progress-track"><div id="quiz-fill" class="progress-fill"></div></div>
+      <div class="card quiz-card">
+        <span id="quiz-axis-tag" class="quiz-axis-tag">軸1：愛の矛先</span>
+        <h2 id="quiz-question" class="quiz-q"></h2>
+        <div id="quiz-poles" class="quiz-poles">
+          <div class="pole-box pole-left">
+            <strong id="pole-left-label">A寄り</strong>
+            <div id="pole-left-text"></div>
+          </div>
+          <div class="pole-box pole-right">
+            <strong id="pole-right-label">B寄り</strong>
+            <div id="pole-right-text"></div>
+          </div>
+        </div>
+        <div id="quiz-choices" class="choice-list"></div>
+        <div class="quiz-foot">
+          <button id="quiz-prev" class="btn btn-secondary btn-sm" onclick="prevQuestion()">← 1つ戻る</button>
+          <button class="btn btn-secondary btn-sm" onclick="switchView('top')">TOPへ戻る</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="view-result" class="view">
+    <div class="result-layout">
+      <div>
+        <div id="license-card" class="license-frame">
+          <div class="license-visual">
+            <img id="res-car-img" src="./images/coupe_highway.jpg" alt="Your CAR-BTI Vehicle" />
+            <div class="license-top-bar">
+              <span class="license-badge mono" id="res-cluster-badge">FC CLUSTER</span>
+              <span class="license-badge" id="res-bg-badge">夜の首都高・ハイウェイ</span>
+            </div>
+          </div>
+          <div class="license-body">
+            <div class="license-code-row">
+              <div id="res-code" class="license-code mono">FCSR</div>
+              <span id="res-car-name" class="pill">スポーツクーペ / GT</span>
+            </div>
+            <div id="res-name" class="license-name">熱血セッティング番長</div>
+            <p id="res-catch" class="license-catch"></p>
+
+            <div class="social-banner">
+              <div class="social-banner-badges">
+                <span id="res-temp-pill" class="social-pill temp">声かけ待ち・受け身派</span>
+                <span id="res-scope-pill" class="social-pill scope">オールジャンル歓迎</span>
+              </div>
+              <p id="res-social-guide" class="social-banner-text"></p>
+            </div>
+
+            <div id="res-tags" class="tag-row"></div>
+            <div id="res-axes" class="axis-bars"></div>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary btn-sm" onclick="exportLicenseCard()">ライセンスカードを画像保存</button>
+          <button class="btn btn-secondary btn-sm" onclick="shareOnX()">Xで結果をシェア</button>
+          <button class="btn btn-secondary btn-sm" onclick="copyShareUrl()">結果URLをコピー</button>
+          <label class="btn btn-secondary btn-sm" style="cursor:pointer;">
+            自分の愛車写真を使う
+            <input type="file" id="custom-photo-input" accept="image/*" style="display:none" onchange="handleCustomPhoto(event)" />
+          </label>
+          <button id="reset-photo-btn" class="btn btn-secondary btn-sm" style="display:none" onclick="resetCustomPhoto()">架空車両イラストに戻す</button>
+        </div>
+
+        <div class="card info-panel">
+          <h3>このタイプの特徴・あるある</h3>
+          <p id="res-desc" style="margin:0 0 10px; font-size:13.5px; color:#e2e8f0;"></p>
+          <ul id="res-bullets"></ul>
+        </div>
+
+        <div class="card info-panel">
+          <h3>他タイプとの相性（タップで詳細）</h3>
+          <div id="res-compat" class="compat-mini-grid"></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card step-box">
+          <h3 class="step-title">
+            <span><span class="step-num">STEP 1</span>車種系統を選ぶ（車種不問・オールジャンル対応）</span>
+          </h3>
+          <div id="res-car-selector" class="car-select-grid"></div>
+          <div id="all-visual-picker" style="display:none; margin-top:10px; padding-top:10px; border-top:1px solid var(--border);">
+            <div class="cat-label" style="margin-top:0;">オールジャンル選択中：カード背景に使う車イラストを選択</div>
+            <div id="all-visual-chips" class="chip-group"></div>
+          </div>
+        </div>
+
+        <div class="card step-box">
+          <h3 class="step-title">
+            <span><span class="step-num warm">交流</span>PA・SNSでの関わり方（診断結果を微調整可）</span>
+          </h3>
+          <div class="cat-label" style="margin-top:0;">関わり方の温度感（どう接してほしいか）</div>
+          <div id="res-temp-selector" class="chip-group"></div>
+          <div class="cat-label">仲間の範囲（どこまでウェルカムか）</div>
+          <div id="res-scope-selector" class="chip-group"></div>
+        </div>
+
+        <div class="card step-box">
+          <h3 class="step-title">
+            <span><span class="step-num">STEP 2</span>スタンス・楽しみ方（最大3つ）</span>
+            <span id="stance-count" style="font-size:12px; color:var(--cyan);">0 / 3</span>
+          </h3>
+          <p style="margin:0 0 8px; font-size:12px; color:var(--muted);">水色枠は選んだ車種系統に多いおすすめスタンスです。選択すると背景シーンも自動連動します。</p>
+          <div id="res-stance-selector"></div>
+        </div>
+
+        <div class="card step-box">
+          <h3 class="step-title">
+            <span><span class="step-num">SCENE</span>背景シチュエーション（全5種・本物イラスト切替）</span>
+          </h3>
+          <div id="res-bg-selector" class="chip-group"></div>
+        </div>
+
+        <div class="card step-box">
+          <h3 class="step-title">
+            <span><span class="step-num">OPT</span>補助タグ（カルチャー圏・時代・規格）</span>
+          </h3>
+          <div class="cat-label" style="margin-top:0;">カルチャー圏（1つ選択）</div>
+          <div id="res-region-selector" class="chip-group"></div>
+          <div class="cat-label">時代・テイスト・補足（最大3つ）</div>
+          <div id="res-extra-selector" class="chip-group"></div>
+        </div>
+
+        <div style="text-align:right;">
+          <button class="btn btn-secondary btn-sm" onclick="startNewQuiz()">最初から診断し直す</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="view-dex" class="view">
+    <div class="section-head" style="margin-top:4px;">
+      <div>
+        <h2>全16タイプ図鑑</h2>
+        <p>16タイプすべて異なるシーンイラストで収録。カードをタップすると詳細を確認できます。</p>
+      </div>
+    </div>
+    <div id="dex-filters" class="filter-tabs"></div>
+    <div id="dex-grid" class="dex-grid"></div>
+  </section>
+
+  <section id="view-matrix" class="view">
+    <div class="section-head" style="margin-top:4px;">
+      <div>
+        <h2>16タイプ相性・相関図（ケミストリーマップ）</h2>
+        <p>タイプを1つタップすると、相棒・ライバル・天敵が一目でハイライトされます。</p>
+      </div>
+    </div>
+    <div class="legend-row">
+      <span><span class="legend-dot" style="background:#fff"></span>選択中</span>
+      <span><span class="legend-dot" style="background:var(--emerald)"></span>最高の相棒</span>
+      <span><span class="legend-dot" style="background:var(--amber)"></span>刺激的ライバル</span>
+      <span><span class="legend-dot" style="background:var(--crimson)"></span>犬猿の仲（4軸真逆）</span>
+    </div>
+    <div id="matrix-quads" class="matrix-quads"></div>
+
+    <div class="card checker-box">
+      <h3 style="margin:0 0 12px; font-size:17px; font-weight:900;">2人の相性チェッカー（車好きタイプ × 交流スタイルでPA遭遇をシミュレーション）</h3>
+      <div class="checker-cols">
+        <div class="checker-person">
+          <div class="cat-label" style="margin:0; color:var(--cyan);">あなた（Aさん）</div>
+          <select id="chk-a" class="type-select" onchange="renderChecker()"></select>
+          <select id="chk-a-temp" class="type-select" onchange="renderChecker()"></select>
+          <select id="chk-a-scope" class="type-select" onchange="renderChecker()"></select>
+        </div>
+        <div class="mono" style="text-align:center; font-size:20px; font-weight:900; color:var(--cyan);">VS</div>
+        <div class="checker-person">
+          <div class="cat-label" style="margin:0; color:var(--crimson);">相手（Bさん）</div>
+          <select id="chk-b" class="type-select" onchange="renderChecker()"></select>
+          <select id="chk-b-temp" class="type-select" onchange="renderChecker()"></select>
+          <select id="chk-b-scope" class="type-select" onchange="renderChecker()"></select>
+        </div>
+      </div>
+      <div id="checker-output"></div>
+    </div>
+  </section>
+</main>
+
+<div id="modal" class="modal-backdrop" onclick="if(event.target===this) closeModal()">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const CARS = [
+  { id: 'coupe', name: 'スポーツクーペ / GT', short: 'スポーツクーペ', sub: '2ドア・走り・GT', defaultBg: 'highway', recStances: ['circuit','touge','shuto','drift','stance','oem'] },
+  { id: 'supercar', name: 'スーパーカー / ハイパーカー', short: 'スーパーカー', sub: 'ミッドシップ・造形美', defaultBg: 'highway', recStances: ['circuit','morning','detailing','oem','photo'] },
+  { id: 'open', name: 'オープンカー / ロードスター', short: 'オープンカー', sub: '開放感・ライトウェイト', defaultBg: 'touge', recStances: ['touge','drive','morning','oem','photo'] },
+  { id: 'sedan', name: 'セダン（古典3ボックス）', short: 'セダン', sub: 'VIP・スポーツ・欧州', defaultBg: 'garage', recStances: ['vip','shuto','audio_hi','oem','stance'] },
+  { id: 'vip_minivan', name: '高級ミニバン / VIP 1BOX', short: '高級ミニバン', sub: 'アルヴェル系・重厚ラグジュアリー', defaultBg: 'highway', recStances: ['vip','audio_hi','audio_spl','dressup','detailing','family'] },
+  { id: 'utility_van', name: '実用ミニバン / ファミリー1BOX', short: '実用1BOX', sub: 'ステップワゴン・デリカ・車中泊', defaultBg: 'nature', recStances: ['vanlife','family','diy','drive','oem'] },
+  { id: 'wagon', name: 'ステーションワゴン / ツーリング', short: 'ワゴン', sub: 'ロングルーフ・ユーロ・積載', defaultBg: 'city', recStances: ['usdm','drive','stance','oem','vanlife'] },
+  { id: 'crocan', name: 'クロカン・本格四駆', short: 'クロカン四駆', sub: '無骨オフロード・林道・ギア', defaultBg: 'nature', recStances: ['offroad','lift','vanlife','diy','drive'] },
+  { id: 'urban_suv', name: '都会派SUV / クロスオーバー', short: '都会派SUV', sub: '街乗り・高速クルーザー', defaultBg: 'city', recStances: ['drive','detailing','oem','dressup','family'] },
+  { id: 'compact', name: 'コンパクト / ハッチバック', short: 'コンパクト', sub: '丸目レトロ・ホットハッチ・軽含む', defaultBg: 'city', recStances: ['drive','touge','usdm','itasha','minor','morning'] },
+  { id: 'truck_work', name: 'トラック・商用バン', short: 'トラック・商用', sub: 'ピックアップ・トランポ・働く車', defaultBg: 'nature', recStances: ['lift','vanlife','diy','offroad','minor'] }
+];
+
+const BACKGROUNDS = [
+  { id: 'highway', name: '夜の首都高・ハイウェイ', short: '夜の首都高', badge: 'NIGHT HIGHWAY' },
+  { id: 'city', name: '日中のシティ・ストリート', short: '日中のシティ', badge: 'DAYLIGHT CITY' },
+  { id: 'nature', name: '大自然・高原＆キャンプ', short: '大自然・高原', badge: 'NATURE & CAMP' },
+  { id: 'touge', name: '峠・ワインディング', short: '峠・山道', badge: 'MOUNTAIN PASS' },
+  { id: 'garage', name: '秘密基地ガレージ', short: 'ガレージ', badge: 'SECRET GARAGE' }
+];
+
+const SOCIAL_TEMPS = {
+  active: { id: 'active', label: '自分から絡む派', full: '自分から絡みに行く派（積極交流）', desc: 'PAやSNSでも自分から声をかけて車の輪を広げたいオープン派。' },
+  passive: { id: 'passive', label: '声かけ待ち・受け身派', full: '声かけ待ち・受け身ウェルカム', desc: '自分からは話しかけに行けないが、声をかけられると実はめちゃくちゃ嬉しいタイプ。' },
+  solo: { id: 'solo', label: '基本ソロ・静観派', full: '基本ソロ・静かに愛でたい派', desc: '群れずに自分のペースで走りたい・眺めたいマイペース派（そっとしておいてサイン）。' }
+};
+
+const SOCIAL_SCOPES = {
+  all_genre: { id: 'all_genre', label: 'オールジャンル歓迎', full: 'オールジャンル歓迎（誰でもOK）', desc: '軽トラからスーパーカーまで車種も楽しみ方も不問。車好きなら誰でも大歓迎！' },
+  same_stance: { id: 'same_stance', label: '同・楽しみ方系統', full: '同・楽しみ方系統なら仲間', desc: '車種は違っても、走り・キャンプ・オーディオ・洗車などスタンスが同じなら秒速で意気投合。' },
+  same_category: { id: 'same_category', label: '同・車種系統派', full: '同・車種系統と語りたい', desc: 'スポーツカー同士・セダン同士・クロカン同士など、同じ車の系統の仲間と集まるのが落ち着く。' },
+  same_model: { id: 'same_model', label: '同車種・同型式ガチ勢', full: '同車種・同型式ガチ勢（純血ラバー）', desc: '同じ車種・型式・メーカーの純血オーナー同士でディープな流用話や沼トークをしたいこだわり派。' }
+};
+
+const STANCE_CATEGORIES = [
+  {
+    label: '【走る】',
+    items: [
+      { id: 'circuit', name: 'サーキット・タイムアタック', bg: 'highway' },
+      { id: 'touge', name: 'ワインディング・峠', bg: 'touge' },
+      { id: 'shuto', name: 'ナイトクルーズ・首都高＆PA', bg: 'highway' },
+      { id: 'drift', name: 'ドリフト・スライド', bg: 'touge' },
+      { id: 'rally', name: 'ラリー・ダート・ジムカーナ', bg: 'nature' },
+      { id: 'offroad', name: 'オフロード・林道', bg: 'nature' }
+    ]
+  },
+  {
+    label: '【いじる】',
+    items: [
+      { id: 'vip', name: 'VIP・極低・ラグジュアリー', bg: 'highway' },
+      { id: 'stance', name: 'スタンス・エアサス・ツライチ', bg: 'highway' },
+      { id: 'usdm', name: 'USDM・ユーロスタイル', bg: 'city' },
+      { id: 'audio_hi', name: 'オーディオ（内向きハイファイ）', bg: 'garage' },
+      { id: 'audio_spl', name: 'オーディオ（外向き・大音圧）', bg: 'garage' },
+      { id: 'dressup', name: 'ドレスアップ・電飾', bg: 'highway' },
+      { id: 'itasha', name: '痛車・フルラッピング', bg: 'garage' },
+      { id: 'lift', name: 'アゲ系・アウトドア仕様', bg: 'nature' },
+      { id: 'diy', name: 'DIY整備・レストア', bg: 'garage' }
+    ]
+  },
+  {
+    label: '【愛でる・使う】',
+    items: [
+      { id: 'oem', name: '純正プラス（OEM+）・ノーマル維持', bg: 'city' },
+      { id: 'detailing', name: '洗車・ディテーリング（艶至上）', bg: 'garage' },
+      { id: 'vanlife', name: '車中泊・バンライフ・キャンプ', bg: 'nature' },
+      { id: 'family', name: 'ファミリー・実用快適', bg: 'city' },
+      { id: 'drive', name: '絶景ドライブ・カフェ巡り', bg: 'nature' },
+      { id: 'morning', name: '朝活・オフ会・ミーティング', bg: 'city' },
+      { id: 'minor', name: '珍車・マイナー車愛', bg: 'garage' }
+    ]
+  },
+  {
+    label: '【観る・語る・箱推し】',
+    items: [
+      { id: 'all_love', name: 'オールジャンル・車全般箱推し', bg: 'city' },
+      { id: 'rental', name: 'レンタカー・試乗巡り勢', bg: 'nature' },
+      { id: 'motorsport', name: 'モータースポーツ観戦（F1/GT/WRC）', bg: 'highway' },
+      { id: 'photo', name: 'カメラ・撮影勢（カーグラフィー）', bg: 'touge' },
+      { id: 'history', name: '歴史・スペック・メカニズム語り', bg: 'garage' },
+      { id: 'sim', name: 'レースシム・ミニカー・模型', bg: 'garage' }
+    ]
+  }
+];
+const ALL_STANCES = STANCE_CATEGORIES.flatMap(c => c.items);
+const REGIONS = ['国産（JDM）', 'ドイツ車', 'イタフラ車', 'アメ車（US）', '英・北欧車', 'こだわりなし'];
+const EXTRAS = ['旧車・クラシック', 'ネオクラ（80s-90s）', '丸目レトロ・可愛い系', '次世代EV・HV', 'K-CAR（軽）', '多頭飼い', 'これから所有・憧れ'];
+
+const CLUSTERS = {
+  FC: { code: 'FC', name: '魔改造・探求者', sub: '機能・体験 × 創る・弄る', desc: '中身を自分好みに煮詰めて進化させるエンジニア魂。走り・オーディオ・車中泊ギアまで、手を動かして性能を引き出す過程が一番楽しい。', color: '#22d3ee', car: 'coupe', bg: 'garage' },
+  FO: { code: 'FO', name: '本質・体験派', sub: '機能・体験 × 守る・味わう', desc: '車がもたらす体験と設計思想を純粋に楽しむ実力派。ロングドライブ、林道、純正の素性、レース観戦まで「走らせて・使ってナンボ」。', color: '#34d399', car: 'crocan', bg: 'nature' },
+  AC: { code: 'AC', name: '美学・クリエイター', sub: '造形・空間 × 創る・弄る', desc: '車を最高のキャンバスとして世界観を創り上げる表現者。車高・ツライチ・内装・電飾・痛車・色合わせに一切の妥協を許さない。', color: '#f43f5e', car: 'vip_minivan', bg: 'highway' },
+  AO: { code: 'AO', name: '純正・審美眼', sub: '造形・空間 × 守る・味わう', desc: 'メーカーが生み出した造形美と空気感を尊ぶ審美眼。艶々のボディ維持、レトロ可愛い佇まい、歴史やデザイン語りで心が満たされる。', color: '#a78bfa', car: 'compact', bg: 'city' }
+};
+
+const TYPES = {
+  FCSR: { code:'FCSR', cluster:'FC', car:'coupe', bg:'touge', name:'熱血セッティング番長', catch:'「とりあえず組んで走ってみようぜ！」が口癖の現場リーダー。', desc:'機能も体験も自分の手で引き上げ、その熱量を仲間と分かち合うタイプ。スペック表より「実際に乗って震えるか」を信じる情熱派。', bullets:['パーツ交換の翌朝には仲間を誘ってテストドライブへ出る','「なんか良くなった気がする！」の感覚が意外と鋭い','ジャンル違いのカスタム勢とも改造の苦労話で秒速で仲良くなる'] },
+  FCSL: { code:'FCSL', cluster:'FC', car:'truck_work', bg:'garage', name:'現場のチーフエンジニア', catch:'合理的なDIYと確かなデータで仲間を救う、頼れるガレージ兄貴。', desc:'目的（走り・積載・音質・キャンプ実用）に対して最も効率的なカスタムを設計し、ノウハウを惜しみなく共有する実務派。', bullets:['「それならこのパーツの方がコスパと剛性いいよ」と的確に助言','工具箱の整理整頓レベルが異常に高い','オフ会では人の車のトラブル相談コーナーになっている'] },
+  FCIR: { code:'FCIR', cluster:'FC', car:'open', bg:'garage', name:'深夜の魔改造アルケミスト', catch:'誰にウケなくてもいい。自分の理想の手応えだけを深夜に錬成する。', desc:'孤高のガレージや深夜のドライブで、自分の感性だけを頼りに車を仕上げていくロマン派の職人。不便さも愛嬌として楽しむ。', bullets:['深夜2時にふと閃いたアイデアで翌週末に作業を始める','人に説明しづらい「俺にしかわからない変化」に一番ニヤける','完成した瞬間より、試行錯誤している過程が一番幸せ'] },
+  FCIL: { code:'FCIL', cluster:'FC', car:'wagon', bg:'garage', name:'孤高の数値オタク職人', catch:'ミリ単位のセッティングと音響・足回りデータを一人で極める沼の住人。', desc:'感覚に頼らず、減衰力・空気圧・DSP特性・燃費データを徹底的に検証して自分だけの最適解を叩き出す探求者。', bullets:['メモアプリやスプレッドシートにセッティング履歴が残っている','プラシーボ効果を嫌い、必ず比較検証してから語る','同じくらいの解像度で語れる相手を見つけると3時間止まらない'] },
+  FOSR: { code:'FOSR', cluster:'FO', car:'crocan', bg:'nature', name:'週末ロードトリップ隊長', catch:'車があるから仲間と遠くへ行ける。体験と記憶を量産する冒険家。', desc:'車を「最高の体験を運んでくれる相棒」として愛し、仲間や家族と絶景・キャンプ・聖地巡礼へ飛び出すアクティブ派。', bullets:['休日の天気予報を水曜あたりから毎日チェックしている','「次の休みここ行かない？」とルートと飯屋まで組んでくれる','泥汚れや虫跡さえ「遊んだ勲章」として笑える'] },
+  FOSL: { code:'FOSL', cluster:'FO', car:'utility_van', bg:'nature', name:'語れる実用データ派', catch:'「用途に対する最適解」を見抜き、誰の車選び相談にも答えられる参謀。', desc:'積載性・燃費・維持費・パッケージングまで冷静に評価しつつ、みんなで楽しむ空間やドライブをスマートに成立させるタイプ。', bullets:['友達が車を買うとき必ずLINEで相談される','「この車のここが偉い」と設計の合理性を熱く語れる','実用車やファミリーカーの奥深さを誰より理解している'] },
+  FOIR: { code:'FOIR', cluster:'FO', car:'sedan', bg:'nature', name:'ひとり時間至上主義ドライバー', catch:'好きな音楽と、お気に入りの道。車内は誰にも邪魔されない移動書斎。', desc:'誰かと競うでもなく、ただ自分の感覚に馴染む車で深夜や早朝を流すことに至福を覚える孤高の体験派。', bullets:['特に目的地を決めず「ちょっとコンビニ」から100km走っている','シートの座り心地と視界の良さに人一倍こだわる','PAでは缶コーヒーを片手に少し離れた場所から静かに眺める'] },
+  FOIL: { code:'FOIL', cluster:'FO', car:'supercar', bg:'touge', name:'設計思想の吟味家', catch:'メーカーが込めたエンジニアリングの意図を、五感と頭脳で読み解く。', desc:'過度な改造より、開発陣がバランスさせた純正のメカニズムや歴史的背景をじっくり味わう知的な車好き。観戦勢・語り勢にも多い。', bullets:['新車発表ではデザインより先にプラットフォームと足回り形式を見る','F1やWECの戦略・技術レギュレーションの話が大好物','純正状態のままコンディションを新車同様に保ちたい'] },
+  ACSR: { code:'ACSR', cluster:'AC', car:'vip_minivan', bg:'highway', name:'夜のPAスター・魅せ師', catch:'停めた瞬間に空気が変わる。存在感とオーラで場を沸かせる主役。', desc:'自分のセンスで仕上げた1台を仲間やSNSで披露し、「カッコいい！」の歓声でさらに燃える華やかなクリエイター。', bullets:['駐車場での「映える角度」を0.5秒で見極める','イベントや夜のPAに集まる高揚感が何よりのエネルギー','ジャンルを問わず「ちゃんと手が入ってる車」にはリスペクトを送る'] },
+  ACSL: { code:'ACSL', cluster:'AC', car:'urban_suv', bg:'city', name:'ミリ単位の美学ディレクター', catch:'「なんとなくカッコいい」を言語化し、全体の統一感で魅せるプロデューサー。', desc:'配色・ホイールサイズ・車高・内装トーンまで緻密に計算してコンセプトを統一し、SNSやオフ会でも一目置かれる洗練派。', bullets:['ボディ色・ホイール・キャリパーの3色ルールなど明確な美学がある','「足し算より引き算」で洗練されたカスタムを好む','写真撮影時の構図や光環境にも妥協しない'] },
+  ACIR: { code:'ACIR', cluster:'AC', car:'compact', bg:'garage', name:'自己満アートの求道者', catch:'流行り？知らない。自分が「好き」と思った世界観を愛車に全部詰める。', desc:'周囲の評価より自分のときめきを最優先。レトロカスタム、痛車、個性的な内装やカラーリングなど唯一無二の1台を愛でる芸術家。', bullets:['「それ何の車？」と聞かれると密かにガッツポーズしている','小物や芳香剤・シフトノブなど車内の世界観づくりが天才的','不人気車やマイナー車をオシャレに仕上げるセンスが光る'] },
+  ACIL: { code:'ACIL', cluster:'AC', car:'sedan', bg:'garage', name:'質感と音の完全主義者', catch:'外からはさりげなく、中に入れば別世界。細部の質感に宿る神を信じる。', desc:'派手さより「わかる人だけが唸る」ディテール、デッドニング、ハイファイ音響、完璧なツライチなど静かな完成度を一人で極める。', bullets:['純正風なのにどこか異常にカッコいい「OEM+」の達人','内装の軋み音ひとつ許さず、静粛性と音質に投資する','仕上げた車をガレージで眺めながら飲む酒が一番うまい'] },
+  AOSR: { code:'AOSR', cluster:'AO', car:'compact', bg:'city', name:'朝活カフェ巡りアンバサダー', catch:'「この子と一緒なら日常がちょっと映画になる」をシェアする発信者。', desc:'車の可愛さ・美しさ・乗っているライフスタイルそのものを愛し、カフェ巡りや朝活オフ会でゆるく楽しく輪を広げるムードメーカー。', bullets:['丸目や2トーンカラー、欧州車特有の佇まいに目がハートになる','ガチガチのスペック談義より「この色可愛い！」の共感が好き','愛車と季節の風景を撮ってストーリーに上げるのが日課'] },
+  AOSL: { code:'AOSL', cluster:'AO', car:'coupe', bg:'city', name:'カタログ語り＆歴史キュレーター', catch:'「このプレスラインは先代のオマージュでね…」と愛を語る百科事典。', desc:'自動車史・デザインの系譜・グレード違いの細部まで精通しており、車好き同士の語らいに最高の深みをもたらす知識人。', bullets:['街ですれ違った車の年式と特別仕様車を瞬時に当てられる','実車を持っていなくてもカタログ・ミニカー・イベントだけで一生語れる','「あの時代のこのデザインが一番美しい」という推し年代がある'] },
+  AOIR: { code:'AOIR', cluster:'AO', car:'open', bg:'nature', name:'静かなる愛車フェチ・艶守り', catch:'振り返って3秒見とれる。洗車後のボディの映り込みが精神安定剤。', desc:'大きく弄るより、愛車の本来の美しさを極限まで引き出す洗車・ディテーリングと、静かに愛でる時間を何より大切にするタイプ。', bullets:['駐車場から離れるとき必ず1回は振り返って愛車を見る','雨の日にボディの撥水ビーズを見て密かにテンションが上がる','洗車用品の棚がプロショップ並みに充実している'] },
+  AOIL: { code:'AOIL', cluster:'AO', car:'supercar', bg:'garage', name:'フルノーマル保存の審美眼', catch:'「オリジナルのままが一番美しい」を貫く、静謐なコレクター気質。', desc:'デザイナーが引いた線とオリジナルコンディションに絶対の敬意を払い、流行に流されず本質的な名車の価値を見抜く審美眼。', bullets:['中古車サイトでは「フルノーマル・禁煙・記録簿あり」で絞り込む','時代の波に飲まれないクラシックやタイムレスな造形に惹かれる','派手なアピールはしないが、審美眼の鋭さは界隈トップクラス'] }
+};
+
+const QUESTIONS = [
+  { kind:'os', axis:'FA', left:'F', right:'A', tag:'軸1：愛の矛先（機能・体験 vs 造形・空間）', q:'車に一番最初に惹かれる決め手は？', lText:'走りの手応え・使い勝手・音質・メカなど中身の実力', rText:'シルエット・艶・佇まい・内装空間の雰囲気' },
+  { kind:'os', axis:'CO', left:'C', right:'O', tag:'軸2：手のかけ方（創る・弄る vs 守る・味わう）', q:'理想の1台を手に入れたら、どう向き合いたい？', lText:'自分色にパーツや設定・内装を煮詰めて仕上げたい', rText:'メーカーの設計思想そのままの完成度を味わいたい' },
+  { kind:'os', axis:'SI', left:'S', right:'I', tag:'軸3：楽しみ方の場（社交・共有 vs 没入・孤高）', q:'休日の最高な車の楽しみ方はどっち？', lText:'仲間や家族とPA・オフ会・キャンプでワイワイ共有する', rText:'誰にも邪魔されず自分のペースでドライブや作業に没入する' },
+  { kind:'os', axis:'RL', left:'R', right:'L', tag:'軸4：判断の軸（ロマン・感性 vs 論理・データ）', q:'欲しい車やパーツを選ぶときの最後の決め手は？', lText:'スペックより「音・エモさ・一目惚れ」の直感', rText:'剛性・コスパ・歴史・データで納得してから決める' },
+  { kind:'os', axis:'FA', left:'F', right:'A', tag:'軸1：愛の矛先（機能・体験 vs 造形・空間）', q:'他の人の車を見せてもらうとき、つい目がいくのは？', lText:'タイヤや足回り・積載の工夫・オーディオ機器など機能面', rText:'塗装の艶・車高のバランス・色合わせなど全体の見栄え' },
+  { kind:'os', axis:'CO', left:'C', right:'O', tag:'軸2：手のかけ方（創る・弄る vs 守る・味わう）', q:'YouTubeやSNSでつい見続けてしまう車コンテンツは？', lText:'DIY整備・カスタム施工・セッティング・オーディオ制作', rText:'試乗インプレ・自動車史・絶景ドライブ・レース観戦' },
+  { kind:'os', axis:'SI', left:'S', right:'I', tag:'軸3：楽しみ方の場（社交・共有 vs 没入・孤高）', q:'愛車や推し車への愛、どう表現するタイプ？', lText:'SNSに投稿したりオフ会で語り合ってリアクションをもらいたい', rText:'わかる人だけに伝わればいい。基本は自分の心の中で愛でる' },
+  { kind:'os', axis:'RL', left:'R', right:'L', tag:'軸4：判断の軸（ロマン・感性 vs 論理・データ）', q:'クセが強かったり、少し不便な車に対してどう思う？', lText:'「その不便さこそ味で愛おしい！」とロマンを感じる', rText:'「なぜその構造なのか」合理的な理由や対策を調べたくなる' },
+  { kind:'os', axis:'FA', left:'F', right:'A', tag:'軸1：愛の矛先（機能・体験 vs 造形・空間）', q:'予算をかけるなら、どっちを優先する？', lText:'シート・足回り・スピーカー・積載ギアなど体験が変わる部分', rText:'ホイール・エアロ・コーティング・照明など世界観が変わる部分' },
+  { kind:'os', axis:'CO', left:'C', right:'O', tag:'軸2：手のかけ方（創る・弄る vs 守る・味わう）', q:'車で一番「最高だ…」と達成感を感じる瞬間は？', lText:'悩んで選んだパーツやDIY・設定がドンピシャで決まったとき', rText:'名車の素性・絶景・レースの名勝負をじっくり堪能したとき' },
+  { kind:'os', axis:'SI', left:'S', right:'I', tag:'軸3：楽しみ方の場（社交・共有 vs 没入・孤高）', q:'車好きの集まりやコミュニティでの立ち位置は？', lText:'自分から声をかけたり集まりやツーリングを企画する方', rText:'端っこで静かに車を眺めるか、少人数で深く話す方が落ち着く' },
+  { kind:'os', axis:'RL', left:'R', right:'L', tag:'軸4：判断の軸（ロマン・感性 vs 論理・データ）', q:'注目の新型車ニュースを見たとき、最初に浮かぶのは？', lText:'「うわカッコいい！どんな音・乗り味なんだろう！」と感情が動く', rText:'「先代比で車重・出力・プラットフォームはどう変わった？」と数値を見る' },
+  { kind:'os', axis:'FA', left:'F', right:'A', tag:'軸1：愛の矛先（機能・体験 vs 造形・空間）', q:'「この車、やっぱりいいな」と心から思うのは？', lText:'長距離や悪路・ワインディングを思い通りにこなしてくれたとき', rText:'駐車場に停めて振り返った姿や内装の雰囲気にうっとりしたとき' },
+  { kind:'os', axis:'CO', left:'C', right:'O', tag:'軸2：手のかけ方（創る・弄る vs 守る・味わう）', q:'メンテナンスや手入れに対するスタンスは？', lText:'工具やケミカル・施工法を自分で研究して手を動かしたい', rText:'プロや純正品質を信頼して、乗る・眺める時間に集中したい' },
+  { kind:'os', axis:'SI', left:'S', right:'I', tag:'軸3：楽しみ方の場（社交・共有 vs 没入・孤高）', q:'愛車（または推し車）の完璧な1枚が撮れたら？', lText:'すぐXやインスタにアップしてみんなに見てもらいたい', rText:'待ち受けや自分だけのアルバムでニヤニヤ眺めて満足する' },
+  { kind:'os', axis:'RL', left:'R', right:'L', tag:'軸4：判断の軸（ロマン・感性 vs 論理・データ）', q:'究極の1台を選ぶとしたら、どっちに心が決まる？', lText:'理屈抜きで心が震える「一生の推し」と思える1台', rText:'自分の用途・美意識・条件を完璧に満たす「最適解」の1台' },
+  {
+    kind:'temp', tag:'交流スタンス①：関わり方の温度感',
+    q:'PAやイベントで気になる車を見つけたとき、あなたの本音は？',
+    options: [
+      { val:'active', label:'「カッコいいですね！」と自分から話しかけたい', sub:'積極的に車好きの輪を広げたいオープン派' },
+      { val:'passive', label:'自分からは行けないけど、向こうから話しかけてくれたら嬉しい', sub:'受け身ウェルカム・話しかけ待ち派' },
+      { val:'solo', label:'静かに眺めるだけで満足。あまり絡まずそっとしておいてほしい', sub:'自分のペースを守りたいソロ・静観派' }
+    ]
+  },
+  {
+    kind:'temp', tag:'交流スタンス①：SNSやオフ会での距離感',
+    q:'SNSで同じ車好きと繋がるとしたら、どんな距離感が一番心地いい？',
+    options: [
+      { val:'active', label:'リプやDMで気軽に絡んで、機会があればオフ会やツーリングも行きたい', sub:'リアルの交流まで楽しみたい積極派' },
+      { val:'passive', label:'いいねやリプをもらえたら嬉しい！誘われたら参加するかも', sub:'相手からのきっかけ待ち・ゆる交流派' },
+      { val:'solo', label:'基本はROM専・マイペース投稿。深い付き合いやオフ会は控えたい', sub:'適度な距離感を保ちたいマイペース派' }
+    ]
+  },
+  {
+    kind:'scope', tag:'交流スタンス②：仲良くなりたい相手の系統',
+    q:'車好き仲間として一番テンションが上がる相手はどの範囲？',
+    options: [
+      { val:'all_genre', label:'車種も楽しみ方も完全不問！車好きなら誰でもウェルカム', sub:'軽トラからスーパーカーまで全部愛でる箱推し派' },
+      { val:'same_stance', label:'車種は違ってもOK！走り・キャンプ・オーディオなど「楽しみ方の系統」が同じ人', sub:'スタンス・趣味の方向性が一致していれば仲間' },
+      { val:'same_category', label:'スポーツカー同士、セダン同士、クロカン同士など「同じ車の系統」の仲間', sub:'同じボディカテゴリ・カルチャー圏で集まりたい派' },
+      { val:'same_model', label:'同じ車種・同じ型式・同じメーカーの純血ガチ勢と深く語りたい', sub:'流用パーツや細部の沼を共有できる同車種ラバー' }
+    ]
+  },
+  {
+    kind:'scope', tag:'交流スタンス②：理想のオフ会・集まり',
+    q:'もし休日に参加するなら、どの集まりが一番ワクワクする？',
+    options: [
+      { val:'all_genre', label:'いろんな車がごちゃ混ぜに集まるオールジャンルミーティング', sub:'普段見ないジャンルも含めて全部見たい' },
+      { val:'same_stance', label:'車種バラバラだけど「車中泊勢」「洗車勢」「峠勢」など同じ目的の集まり', sub:'楽しみ方や熱量の方向性が合うのが一番' },
+      { val:'same_category', label:'「セダンMT」「四駆フェス」「オープンカーの集い」など車種系統ごとの集まり', sub:'同じ系統の車がズラッと並ぶ景色が最高' },
+      { val:'same_model', label:'同じ車種・同じ型式だけがズラッと並ぶオーナーズクラブ全国オフ', sub:'やっぱり自分の推し車種の仲間が一番落ち着く' }
+    ]
+  }
+];
+
+function imgPath(carId, bgId) { return `./images/${carId}_${bgId}.jpg`; }
+
+const state = {
+  view: 'top', heroCarId: 'coupe', heroBgId: 'highway',
+  qIndex: 0, answers: Array(QUESTIONS.length).fill(null),
+  resultCode: 'FCSR', axisPct: { FA: 68, CO: 64, SI: 62, RL: 66 },
+  socialTemp: 'passive', socialScope: 'all_genre',
+  selectedCar: 'coupe', visualCar: 'coupe',
+  selectedStances: ['shuto'], selectedBg: 'highway',
+  selectedRegion: '国産（JDM）', selectedExtras: [],
+  customPhotoUrl: null, dexFilter: 'ALL', matrixSelected: 'FCSR'
+};
+
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('show');
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(() => el.classList.remove('show'), 2400);
+}
+function flipChar(ch) { return { F:'A', A:'F', C:'O', O:'C', S:'I', I:'S', R:'L', L:'R' }[ch]; }
+function getCompat(code) {
+  return {
+    best: code[0] + code[1] + flipChar(code[2]) + code[3],
+    rival: flipChar(code[0]) + code[1] + code[2] + flipChar(code[3]),
+    enemy: flipChar(code[0]) + flipChar(code[1]) + flipChar(code[2]) + flipChar(code[3])
+  };
+}
+function getSocialGuideText(tempId, scopeId) {
+  const map = {
+    active: {
+      all_genre: '車種もジャンルも完全不問のムードメーカー！PAでもSNSでも自分から気さくに絡みに行くので、初対面でもすぐ打ち解けられます。',
+      same_stance: '車種は問わず「同じ楽しみ方（走り・キャンプ・オーディオ等）」の仲間を見つけると秒速で話しかけに行くアクティブ派です。',
+      same_category: '同じ車の系統（スポーツカー同士・セダン同士・四駆同士など）を見つけるとテンション爆上がり。同系統の輪を広げるリーダー気質です。',
+      same_model: '同じ車種・型式のオーナーを見かけるといてもたってもいられず声をかける純血ラバー。濃い情報交換が大好物です。'
+    },
+    passive: {
+      all_genre: '自分から話しかけるのは少し照れますが、車種不問で車好きなら誰でも大歓迎！「いい車ですね」の一言で一気に心を開きます。',
+      same_stance: '普段は控えめですが、同じ楽しみ方・スタンスの人から声をかけられると一気に饒舌になる受け身ウェルカム派です。',
+      same_category: '自分からは行けませんが、同じ車の系統のオーナーに隣へ停められたり話しかけられたりすると密かにめちゃくちゃ嬉しいです。',
+      same_model: '他ジャンルには少し人見知りですが、同じ車種・同型式オーナーから声をかけられた瞬間だけはスイッチが入って語り始めます。'
+    },
+    solo: {
+      all_genre: '基本は1人で静かに楽しみたいマイペース派。ただ車種への偏見はゼロで、いろんな車を遠くからそっと眺めるのが好きです。',
+      same_stance: '群れるのは苦手ですが、同じ楽しみ方を極めている人のこだわりは静かにリスペクト。PAでは会釈くらいの距離感がベストです。',
+      same_category: '1人で走る・弄る時間が最優先。交流は控えめですが、同じ系統のカッコいい車を見ると心の中で静かにサムズアップしています。',
+      same_model: '基本はそっとしておいてほしい孤高派。ただし同じ車種・型式のガチ勢とだけは、たまにディープな整備や流用の情報交換をします。'
+    }
+  };
+  return map[tempId][scopeId];
+}
+
+function switchView(v) {
+  state.view = v;
+  document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+  document.getElementById('view-' + v).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.view === v || (v === 'result' && b.dataset.view === 'quiz'));
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (v === 'dex') renderDex();
+  if (v === 'matrix') { renderMatrix(); renderChecker(); }
+  if (v === 'result') renderResult();
+}
+
+function initTop() {
+  renderTopScenes(); renderTopShowcase(); updateHeroVisual();
+  document.getElementById('top-clusters').innerHTML = Object.values(CLUSTERS).map(cl => `
+    <div class="cluster-card" onclick="state.dexFilter='${cl.code}'; switchView('dex');">
+      <div class="cluster-thumb">
+        <img src="${imgPath(cl.car, cl.bg)}" alt="${cl.name}" loading="lazy" />
+        <span class="cluster-code mono" style="background:${cl.color}">${cl.code} CLUSTER</span>
+      </div>
+      <div class="cluster-body">
+        <h3>${cl.name}</h3>
+        <div style="font-size:11px; color:${cl.color}; font-weight:800; margin-bottom:5px;">${cl.sub}</div>
+        <p>${cl.desc}</p>
+      </div>
+    </div>
+  `).join('');
+}
+function renderTopScenes() {
+  document.getElementById('top-scene-tabs').innerHTML = BACKGROUNDS.map(b => `
+    <button class="scene-tab ${b.id === state.heroBgId ? 'active' : ''}" onclick="setHeroBg('${b.id}')">${b.name}</button>
+  `).join('');
+}
+function renderTopShowcase() {
+  document.getElementById('top-showcase').innerHTML = CARS.map(c => `
+    <div class="car-mini ${c.id === state.heroCarId ? 'active' : ''}" data-car="${c.id}" onclick="setHeroCar('${c.id}')">
+      <div class="car-mini-img"><img src="${imgPath(c.id, state.heroBgId)}" alt="${c.name}" loading="lazy" /></div>
+      <div class="car-mini-body">
+        <div class="car-mini-title">${c.short}</div>
+        <div class="car-mini-sub">${c.sub}</div>
+      </div>
+    </div>
+  `).join('');
+}
+function updateHeroVisual() {
+  const car = CARS.find(c => c.id === state.heroCarId);
+  const bg = BACKGROUNDS.find(b => b.id === state.heroBgId);
+  document.getElementById('hero-img').src = imgPath(car.id, bg.id);
+  document.getElementById('hero-car-label').textContent = car.name;
+  document.getElementById('hero-scene-label').textContent = bg.short;
+}
+function setHeroCar(carId) {
+  state.heroCarId = carId; updateHeroVisual();
+  document.querySelectorAll('#top-showcase .car-mini').forEach(el => el.classList.toggle('active', el.dataset.car === carId));
+}
+function setHeroBg(bgId) { state.heroBgId = bgId; renderTopScenes(); renderTopShowcase(); updateHeroVisual(); }
+
+function startNewQuiz() { state.qIndex = 0; state.answers = Array(QUESTIONS.length).fill(null); switchView('quiz'); renderQuestion(); }
+function startOrResumeQuiz() {
+  if (state.answers.filter(v => v !== null).length === QUESTIONS.length && state.view !== 'result') switchView('result');
+  else { switchView('quiz'); renderQuestion(); }
+}
+function renderQuestion() {
+  const q = QUESTIONS[state.qIndex];
+  const pct = Math.round((state.qIndex / QUESTIONS.length) * 100);
+  document.getElementById('quiz-counter').textContent = `Q ${String(state.qIndex + 1).padStart(2, '0')} / ${QUESTIONS.length}`;
+  document.getElementById('quiz-percent').textContent = `${pct}%`;
+  document.getElementById('quiz-fill').style.width = `${pct}%`;
+  const tagEl = document.getElementById('quiz-axis-tag');
+  tagEl.textContent = q.tag;
+  tagEl.classList.toggle('social', q.kind !== 'os');
+  document.getElementById('quiz-question').textContent = q.q;
+  document.getElementById('quiz-prev').style.visibility = state.qIndex > 0 ? 'visible' : 'hidden';
+  const cur = state.answers[state.qIndex];
+  const polesEl = document.getElementById('quiz-poles');
+  if (q.kind === 'os') {
+    polesEl.style.display = 'grid';
+    document.getElementById('pole-left-label').textContent = `タイプ ${q.left} 寄り`;
+    document.getElementById('pole-left-text').textContent = q.lText;
+    document.getElementById('pole-right-label').textContent = `タイプ ${q.right} 寄り`;
+    document.getElementById('pole-right-text').textContent = q.rText;
+    const opts = [
+      { val: 2, label: `かなり ${q.left} 寄り（強く当てはまる）` },
+      { val: 1, label: `やや ${q.left} 寄り` },
+      { val: -1, label: `やや ${q.right} 寄り` },
+      { val: -2, label: `かなり ${q.right} 寄り（強く当てはまる）` }
+    ];
+    document.getElementById('quiz-choices').innerHTML = opts.map(o => `
+      <button class="choice-btn ${cur === o.val ? 'selected' : ''}" onclick="answerQuestion(${o.val})">
+        <span>${o.label}</span><span class="choice-dot"></span>
+      </button>
+    `).join('');
+  } else {
+    polesEl.style.display = 'none';
+    document.getElementById('quiz-choices').innerHTML = q.options.map(o => `
+      <button class="choice-btn ${cur === o.val ? 'selected' : ''}" onclick="answerQuestion('${o.val}')">
+        <span>${o.label}<span class="choice-sub">${o.sub}</span></span><span class="choice-dot"></span>
+      </button>
+    `).join('');
+  }
+}
+function answerQuestion(val) {
+  state.answers[state.qIndex] = val;
+  if (state.qIndex < QUESTIONS.length - 1) { state.qIndex++; renderQuestion(); }
+  else { computeResult(); switchView('result'); }
+}
+function prevQuestion() { if (state.qIndex > 0) { state.qIndex--; renderQuestion(); } }
+
+function computeResult() {
+  const sums = { FA: 0, CO: 0, SI: 0, RL: 0 };
+  const tieBreak = { FA: 0, CO: 0, SI: 0, RL: 0 };
+  const tempCounts = { active: 0, passive: 0, solo: 0 };
+  const scopeCounts = { all_genre: 0, same_stance: 0, same_category: 0, same_model: 0 };
+  QUESTIONS.forEach((q, idx) => {
+    const v = state.answers[idx];
+    if (q.kind === 'os') {
+      const n = typeof v === 'number' ? v : 1;
+      sums[q.axis] += n;
+      if (idx < 4) tieBreak[q.axis] = n;
+    } else if (q.kind === 'temp' && v && tempCounts[v] !== undefined) {
+      tempCounts[v] += (idx === 16 ? 1.1 : 1);
+    } else if (q.kind === 'scope' && v && scopeCounts[v] !== undefined) {
+      scopeCounts[v] += (idx === 18 ? 1.1 : 1);
+    }
+  });
+  const getLetter = (axis, l, r) => ((sums[axis] !== 0 ? sums[axis] : tieBreak[axis]) >= 0 ? l : r);
+  const code = getLetter('FA','F','A') + getLetter('CO','C','O') + getLetter('SI','S','I') + getLetter('RL','R','L');
+  state.resultCode = code;
+  state.axisPct = {
+    FA: Math.round(((sums.FA + 8) / 16) * 100),
+    CO: Math.round(((sums.CO + 8) / 16) * 100),
+    SI: Math.round(((sums.SI + 8) / 16) * 100),
+    RL: Math.round(((sums.RL + 8) / 16) * 100)
+  };
+  state.socialTemp = Object.entries(tempCounts).sort((a,b) => b[1] - a[1])[0][0];
+  state.socialScope = Object.entries(scopeCounts).sort((a,b) => b[1] - a[1])[0][0];
+  const t = TYPES[code];
+  state.visualCar = t.car;
+  state.selectedCar = state.socialScope === 'all_genre' ? 'all' : t.car;
+  const carObj = CARS.find(c => c.id === state.visualCar);
+  state.selectedStances = state.selectedCar === 'all' ? ['all_love'] : [carObj.recStances[0]];
+  state.selectedBg = t.bg || carObj.defaultBg;
+  state.matrixSelected = code;
+  updateHash();
+}
+function updateHash() {
+  const params = new URLSearchParams();
+  params.set('type', state.resultCode);
+  params.set('car', state.selectedCar);
+  params.set('vcar', state.visualCar);
+  params.set('bg', state.selectedBg);
+  params.set('temp', state.socialTemp);
+  params.set('scope', state.socialScope);
+  history.replaceState(null, '', '#result?' + params.toString());
+}
+
+function renderResult() {
+  const t = TYPES[state.resultCode];
+  const cl = CLUSTERS[t.cluster];
+  const isAll = state.selectedCar === 'all';
+  const carObj = CARS.find(c => c.id === state.visualCar) || CARS[0];
+  const bg = BACKGROUNDS.find(b => b.id === state.selectedBg) || BACKGROUNDS[0];
+  const tempObj = SOCIAL_TEMPS[state.socialTemp];
+  const scopeObj = SOCIAL_SCOPES[state.socialScope];
+
+  document.getElementById('res-car-img').src = state.customPhotoUrl || imgPath(state.visualCar, state.selectedBg);
+  document.getElementById('reset-photo-btn').style.display = state.customPhotoUrl ? 'inline-flex' : 'none';
+  const clusterBadge = document.getElementById('res-cluster-badge');
+  clusterBadge.textContent = `${cl.code}｜${cl.name}`;
+  clusterBadge.style.borderColor = cl.color; clusterBadge.style.color = cl.color;
+  document.getElementById('res-bg-badge').textContent = bg.name;
+  document.getElementById('res-code').textContent = t.code;
+  document.getElementById('res-car-name').textContent = isAll ? 'オールジャンル（車種不問）' : carObj.name;
+  document.getElementById('res-name').textContent = t.name;
+  document.getElementById('res-catch').textContent = t.catch;
+  document.getElementById('res-desc').textContent = t.desc;
+  document.getElementById('res-bullets').innerHTML = t.bullets.map(b => `<li>${b}</li>`).join('');
+  document.getElementById('res-temp-pill').textContent = `温度感：${tempObj.label}`;
+  document.getElementById('res-scope-pill').textContent = `仲間範囲：${scopeObj.label}`;
+  document.getElementById('res-social-guide').textContent = getSocialGuideText(state.socialTemp, state.socialScope);
+
+  const tags = [];
+  if (state.selectedRegion && state.selectedRegion !== 'こだわりなし') tags.push(`<span class="tag-chip warm">${state.selectedRegion}</span>`);
+  state.selectedStances.forEach(sid => {
+    const st = ALL_STANCES.find(s => s.id === sid);
+    if (st) tags.push(`<span class="tag-chip accent"># ${st.name}</span>`);
+  });
+  state.selectedExtras.forEach(ex => tags.push(`<span class="tag-chip">${ex}</span>`));
+  document.getElementById('res-tags').innerHTML = tags.join('');
+
+  const axesMeta = [
+    { key:'FA', l:'F 機能・体験', r:'A 造形・空間' },
+    { key:'CO', l:'C 創る・弄る', r:'O 守る・味わう' },
+    { key:'SI', l:'S 社交・共有', r:'I 没入・孤高' },
+    { key:'RL', l:'R ロマン・感性', r:'L 論理・データ' }
+  ];
+  document.getElementById('res-axes').innerHTML = axesMeta.map(a => {
+    const p = state.axisPct[a.key];
+    return `<div class="axis-row"><div class="axis-labels"><span style="color:${p>=50?'var(--cyan)':'var(--muted)'}">${a.l} ${p}%</span><span style="color:${p<50?'var(--crimson)':'var(--muted)'}">${100-p}% ${a.r}</span></div><div class="axis-track"><div class="axis-fill" style="width:${p}%"></div></div></div>`;
+  }).join('');
+
+  const comp = getCompat(t.code);
+  document.getElementById('res-compat').innerHTML = [
+    { label:'最高の相棒', color:'var(--emerald)', code:comp.best },
+    { label:'刺激的ライバル', color:'var(--amber)', code:comp.rival },
+    { label:'犬猿の仲（天敵）', color:'var(--crimson)', code:comp.enemy }
+  ].map(item => `<div class="compat-mini" onclick="openTypeModal('${item.code}')"><span class="label" style="color:${item.color}">${item.label}</span><span class="code mono">${item.code}</span><span class="name">${TYPES[item.code].name}</span></div>`).join('');
+
+  const allBtn = `<button class="car-opt ${isAll ? 'active' : ''}" onclick="selectCar('all')"><div class="all-box">ALL GENRE<br>車種不問</div><span>オールジャンル（箱推し）</span></button>`;
+  document.getElementById('res-car-selector').innerHTML = allBtn + CARS.map(c => `<button class="car-opt ${c.id === state.selectedCar ? 'active' : ''}" onclick="selectCar('${c.id}')"><img src="${imgPath(c.id, state.selectedBg)}" alt="${c.short}" loading="lazy" /><span>${c.short}</span></button>`).join('');
+
+  const allPicker = document.getElementById('all-visual-picker');
+  allPicker.style.display = isAll ? 'block' : 'none';
+  if (isAll) {
+    document.getElementById('all-visual-chips').innerHTML = CARS.map(c => `<button class="sel-chip ${c.id === state.visualCar ? 'active' : ''}" onclick="selectVisualCar('${c.id}')">${c.short}</button>`).join('');
+  }
+
+  document.getElementById('res-temp-selector').innerHTML = Object.values(SOCIAL_TEMPS).map(o => `<button class="sel-chip ${o.id === state.socialTemp ? 'active-warm' : ''}" onclick="selectTemp('${o.id}')">${o.label}</button>`).join('');
+  document.getElementById('res-scope-selector').innerHTML = Object.values(SOCIAL_SCOPES).map(o => `<button class="sel-chip ${o.id === state.socialScope ? 'active-warm' : ''}" onclick="selectScope('${o.id}')">${o.label}</button>`).join('');
+
+  document.getElementById('stance-count').textContent = `${state.selectedStances.length} / 3`;
+  const recSet = new Set(isAll ? ['all_love','rental','drive','photo','motorsport','history'] : carObj.recStances);
+  document.getElementById('res-stance-selector').innerHTML = STANCE_CATEGORIES.map(cat => `<div class="cat-label">${cat.label}</div><div class="chip-group">${cat.items.map(s => {
+    const active = state.selectedStances.includes(s.id);
+    const rec = recSet.has(s.id);
+    return `<button class="sel-chip ${rec ? 'rec' : ''} ${active ? 'active' : ''}" onclick="toggleStance('${s.id}')">${rec ? '★ ' : ''}${s.name}</button>`;
+  }).join('')}</div>`).join('');
+
+  document.getElementById('res-bg-selector').innerHTML = BACKGROUNDS.map(b => `<button class="sel-chip ${b.id === state.selectedBg ? 'active' : ''}" onclick="selectBg('${b.id}')">${b.name}</button>`).join('');
+  document.getElementById('res-region-selector').innerHTML = REGIONS.map(r => `<button class="sel-chip ${r === state.selectedRegion ? 'active' : ''}" onclick="selectRegion('${r}')">${r}</button>`).join('');
+  document.getElementById('res-extra-selector').innerHTML = EXTRAS.map(ex => `<button class="sel-chip ${state.selectedExtras.includes(ex) ? 'active' : ''}" onclick="toggleExtra('${ex}')">${ex}</button>`).join('');
+}
+
+function selectCar(carId) {
+  state.selectedCar = carId; state.customPhotoUrl = null;
+  if (carId !== 'all') { state.visualCar = carId; state.selectedBg = CARS.find(c => c.id === carId).defaultBg; }
+  updateHash(); renderResult();
+}
+function selectVisualCar(carId) { state.visualCar = carId; state.customPhotoUrl = null; updateHash(); renderResult(); }
+function selectTemp(id) { state.socialTemp = id; updateHash(); renderResult(); }
+function selectScope(id) { state.socialScope = id; updateHash(); renderResult(); }
+function toggleStance(stanceId) {
+  const idx = state.selectedStances.indexOf(stanceId);
+  if (idx >= 0) state.selectedStances.splice(idx, 1);
+  else {
+    if (state.selectedStances.length >= 3) { showToast('スタンスは最大3つまで選べます'); return; }
+    state.selectedStances.push(stanceId);
+    const st = ALL_STANCES.find(s => s.id === stanceId);
+    if (st && st.bg) state.selectedBg = st.bg;
+  }
+  updateHash(); renderResult();
+}
+function selectBg(bgId) { state.selectedBg = bgId; updateHash(); renderResult(); }
+function selectRegion(r) { state.selectedRegion = r; renderResult(); }
+function toggleExtra(ex) {
+  const idx = state.selectedExtras.indexOf(ex);
+  if (idx >= 0) state.selectedExtras.splice(idx, 1);
+  else {
+    if (state.selectedExtras.length >= 3) { showToast('補助タグは最大3つまでです'); return; }
+    state.selectedExtras.push(ex);
+  }
+  renderResult();
+}
+function handleCustomPhoto(ev) {
+  const file = ev.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => { state.customPhotoUrl = reader.result; renderResult(); showToast('愛車写真をカードに反映しました'); };
+  reader.readAsDataURL(file);
+}
+function resetCustomPhoto() { state.customPhotoUrl = null; document.getElementById('custom-photo-input').value = ''; renderResult(); }
+
+function exportLicenseCard() {
+  const t = TYPES[state.resultCode], cl = CLUSTERS[t.cluster], isAll = state.selectedCar === 'all';
+  const car = CARS.find(c => c.id === state.visualCar), bg = BACKGROUNDS.find(b => b.id === state.selectedBg) || BACKGROUNDS[0];
+  const tempObj = SOCIAL_TEMPS[state.socialTemp], scopeObj = SOCIAL_SCOPES[state.socialScope];
+  const canvas = document.createElement('canvas'); canvas.width = 1200; canvas.height = 1000;
+  const ctx = canvas.getContext('2d');
+  const grad = ctx.createLinearGradient(0, 0, 1200, 1000);
+  grad.addColorStop(0, '#070b15'); grad.addColorStop(1, '#10182d');
+  ctx.fillStyle = grad; ctx.fillRect(0, 0, 1200, 1000);
+  const img = new Image(); img.crossOrigin = 'anonymous';
+  img.onload = () => {
+    const targetW = 1200, targetH = 540, scale = Math.max(targetW / img.width, targetH / img.height);
+    const dw = img.width * scale, dh = img.height * scale, dx = (targetW - dw) / 2, dy = (targetH - dh) / 2;
+    ctx.save(); ctx.beginPath(); ctx.rect(0, 0, targetW, targetH); ctx.clip();
+    ctx.drawImage(img, dx, dy, dw, dh);
+    const fade = ctx.createLinearGradient(0, 320, 0, targetH);
+    fade.addColorStop(0, 'rgba(7,11,21,0)'); fade.addColorStop(1, 'rgba(7,11,21,0.96)');
+    ctx.fillStyle = fade; ctx.fillRect(0, 320, targetW, targetH - 320); ctx.restore();
+    ctx.fillStyle = 'rgba(6,10,20,0.8)'; roundRect(ctx, 36, 28, 300, 44, 22); ctx.fill();
+    ctx.strokeStyle = cl.color; ctx.lineWidth = 2; ctx.stroke();
+    ctx.fillStyle = cl.color; ctx.font = 'bold 20px "Noto Sans JP", sans-serif';
+    ctx.fillText(`${cl.code}｜${cl.name}`, 58, 57);
+    ctx.fillStyle = 'rgba(6,10,20,0.8)'; roundRect(ctx, 840, 28, 324, 44, 22); ctx.fill();
+    ctx.strokeStyle = 'rgba(255,255,255,0.28)'; ctx.lineWidth = 1.5; ctx.stroke();
+    ctx.fillStyle = '#f8fafc'; ctx.font = 'bold 18px "Noto Sans JP", sans-serif';
+    ctx.fillText(`SCENE: ${bg.badge}`, 862, 57);
+    const lineGrad = ctx.createLinearGradient(0, 540, 1200, 540);
+    lineGrad.addColorStop(0, '#22d3ee'); lineGrad.addColorStop(0.5, cl.color); lineGrad.addColorStop(1, '#f43f5e');
+    ctx.fillStyle = lineGrad; ctx.fillRect(0, 538, 1200, 4);
+    ctx.fillStyle = '#22d3ee'; ctx.font = '900 72px "Rajdhani", sans-serif'; ctx.fillText(t.code, 44, 626);
+    ctx.fillStyle = '#ffffff'; ctx.font = '900 40px "Noto Sans JP", sans-serif'; ctx.fillText(t.name, 235, 620);
+    const carLabel = isAll ? '車種系統：オールジャンル（車種不問）' : `車種系統：${car.name}`;
+    ctx.font = 'bold 19px "Noto Sans JP", sans-serif';
+    const wCar = ctx.measureText(carLabel).width + 32;
+    ctx.fillStyle = 'rgba(34,211,238,0.16)'; roundRect(ctx, 44, 646, wCar, 36, 18); ctx.fill();
+    ctx.fillStyle = '#67e8f9'; ctx.fillText(carLabel, 60, 671);
+    const tLbl = `温度感：${tempObj.label}`, sLbl = `仲間範囲：${scopeObj.label}`;
+    const wT = ctx.measureText(tLbl).width + 30, wS = ctx.measureText(sLbl).width + 30;
+    ctx.fillStyle = 'rgba(52,211,153,0.16)'; roundRect(ctx, 44, 696, wT, 36, 18); ctx.fill();
+    ctx.fillStyle = '#6ee7b7'; ctx.fillText(tLbl, 59, 721);
+    ctx.fillStyle = 'rgba(245,158,11,0.16)'; roundRect(ctx, 44 + wT + 12, 696, wS, 36, 18); ctx.fill();
+    ctx.fillStyle = '#fcd34d'; ctx.fillText(sLbl, 59 + wT + 12, 721);
+    ctx.fillStyle = '#cbd5e1'; ctx.font = '500 22px "Noto Sans JP", sans-serif'; ctx.fillText(t.catch, 44, 774);
+    const tagLabels = [];
+    if (state.selectedRegion && state.selectedRegion !== 'こだわりなし') tagLabels.push(state.selectedRegion);
+    state.selectedStances.forEach(sid => { const s = ALL_STANCES.find(x => x.id === sid); if (s) tagLabels.push('#' + s.name); });
+    state.selectedExtras.forEach(ex => tagLabels.push(ex));
+    let tx = 44, ty = 804; ctx.font = 'bold 18px "Noto Sans JP", sans-serif';
+    tagLabels.slice(0, 6).forEach(lbl => {
+      const w = ctx.measureText(lbl).width + 28;
+      if (tx + w > 1156) { tx = 44; ty += 44; }
+      ctx.fillStyle = 'rgba(255,255,255,0.09)'; roundRect(ctx, tx, ty, w, 34, 17); ctx.fill();
+      ctx.strokeStyle = 'rgba(148,163,184,0.35)'; ctx.lineWidth = 1; ctx.stroke();
+      ctx.fillStyle = '#f1f5f9'; ctx.fillText(lbl, tx + 14, ty + 23); tx += w + 10;
+    });
+    ctx.fillStyle = '#64748b'; ctx.font = 'bold 18px "Rajdhani", "Noto Sans JP", sans-serif';
+    ctx.fillText('CAR-BTI｜車好き16タイプ診断  #CARBTI', 44, 964);
+    const comp = getCompat(t.code);
+    ctx.fillStyle = '#94a3b8'; ctx.font = 'bold 18px "Noto Sans JP", sans-serif';
+    ctx.fillText(`相棒: ${comp.best}   ライバル: ${comp.rival}   天敵: ${comp.enemy}`, 640, 964);
+    try {
+      const dataUrl = canvas.toDataURL('image/png');
+      const a = document.createElement('a'); a.href = dataUrl; a.download = `CAR-BTI_${t.code}_${state.selectedCar}.png`; a.click();
+      openModal(`<h3 style="margin:0 0 8px; font-size:17px; font-weight:900;">ライセンスカード完成！</h3><p style="margin:0 0 12px; font-size:12.5px; color:var(--muted);">自動で保存されない場合（XやInstagramアプリ内ブラウザ等）は、下の画像を長押しして保存してください。</p><img src="${dataUrl}" class="preview-export-img" alt="CAR-BTI License Card" />`);
+    } catch (e) {
+      showToast('ローカル直開きのため画像書き出しが制限されました。サーバー公開後に自動保存できます。');
+    }
+  };
+  img.src = state.customPhotoUrl || imgPath(state.visualCar, state.selectedBg);
+}
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+}
+function shareOnX() {
+  const t = TYPES[state.resultCode];
+  const carLabel = state.selectedCar === 'all' ? 'オールジャンル（車種不問）' : CARS.find(c => c.id === state.visualCar).short;
+  const tempObj = SOCIAL_TEMPS[state.socialTemp], scopeObj = SOCIAL_SCOPES[state.socialScope], comp = getCompat(t.code);
+  const text = `【CAR-BTI 車好き16タイプ診断】\n私は【${t.code}：${t.name}】でした！\n車種系統：${carLabel}\n交流：${tempObj.label} × ${scopeObj.label}\n最高の相棒：${comp.best} ／ 天敵：${comp.enemy}\n#CARBTI #車好き診断`;
+  const shareUrl = `https://ota-leftover.github.io/car-bti/share/${t.code}.html?car=${state.selectedCar}&vcar=${state.visualCar}&bg=${state.selectedBg}&temp=${state.socialTemp}&scope=${state.socialScope}`;
+  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`, '_blank');
+}
+function copyShareUrl() {
+  updateHash();
+  if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(() => showToast('結果URLをコピーしました'));
+  else showToast('URLをコピーできませんでした');
+}
+
+function renderDex() {
+  const tabs = [
+    { id:'ALL', label:'すべて（16）' }, { id:'FC', label:'FC：魔改造・探求者' },
+    { id:'FO', label:'FO：本質・体験派' }, { id:'AC', label:'AC：美学・クリエイター' }, { id:'AO', label:'AO：純正・審美眼' }
+  ];
+  document.getElementById('dex-filters').innerHTML = tabs.map(tb => `<button class="filter-tab ${state.dexFilter === tb.id ? 'active' : ''}" onclick="state.dexFilter='${tb.id}'; renderDex();">${tb.label}</button>`).join('');
+  const list = Object.values(TYPES).filter(t => state.dexFilter === 'ALL' || t.cluster === state.dexFilter);
+  document.getElementById('dex-grid').innerHTML = list.map(t => `<div class="dex-card" onclick="openTypeModal('${t.code}')"><div class="dex-thumb"><img src="${imgPath(t.car, t.bg)}" alt="${t.name}" loading="lazy" /><span class="dex-code-badge mono">${t.code}</span></div><div class="dex-body"><h3>${t.name}</h3><p>${t.catch}</p></div></div>`).join('');
+}
+
+function openTypeModal(code) {
+  const t = TYPES[code], cl = CLUSTERS[t.cluster], comp = getCompat(code);
+  openModal(`
+    <div style="border-radius:12px; overflow:hidden; margin-bottom:14px; border:1px solid var(--border);"><img src="${imgPath(t.car, t.bg)}" style="width:100%; aspect-ratio:16/9; object-fit:cover; display:block;" alt="${t.name}" /></div>
+    <span class="pill" style="color:${cl.color}; border-color:${cl.color}; background:rgba(255,255,255,0.05);">${cl.code}｜${cl.name}</span>
+    <div style="display:flex; align-items:baseline; gap:10px; margin-top:8px;"><span class="mono" style="font-size:32px; font-weight:900; color:var(--cyan);">${t.code}</span><h3 style="margin:0; font-size:20px; font-weight:900;">${t.name}</h3></div>
+    <p style="margin:6px 0 10px; font-size:13.5px; color:#cbd5e1;">${t.catch}</p>
+    <p style="margin:0 0 10px; font-size:13.5px; color:#e2e8f0;">${t.desc}</p>
+    <ul style="margin:0 0 14px; padding-left:18px; font-size:13px; color:#cbd5e1;">${t.bullets.map(b => `<li style="margin-bottom:4px;">${b}</li>`).join('')}</ul>
+    <div class="compat-mini-grid">
+      <div class="compat-mini" onclick="openTypeModal('${comp.best}')"><span class="label" style="color:var(--emerald)">最高の相棒</span><span class="code mono">${comp.best}</span><span class="name">${TYPES[comp.best].name}</span></div>
+      <div class="compat-mini" onclick="openTypeModal('${comp.rival}')"><span class="label" style="color:var(--amber)">刺激的ライバル</span><span class="code mono">${comp.rival}</span><span class="name">${TYPES[comp.rival].name}</span></div>
+      <div class="compat-mini" onclick="openTypeModal('${comp.enemy}')"><span class="label" style="color:var(--crimson)">犬猿の仲</span><span class="code mono">${comp.enemy}</span><span class="name">${TYPES[comp.enemy].name}</span></div>
+    </div>
+    <div style="margin-top:14px; display:flex; gap:8px;"><button class="btn btn-primary btn-sm" onclick="state.resultCode='${code}'; state.selectedCar='${t.car}'; state.visualCar='${t.car}'; state.selectedBg='${t.bg}'; closeModal(); switchView('result');">このタイプでカードを作る</button></div>
+  `);
+}
+
+function renderMatrix() {
+  const sel = state.matrixSelected, comp = getCompat(sel);
+  document.getElementById('matrix-quads').innerHTML = Object.values(CLUSTERS).map(cl => {
+    const items = Object.values(TYPES).filter(t => t.cluster === cl.code);
+    return `<div class="card quad-box"><div class="quad-head"><span class="mono" style="background:${cl.color}; color:#050a14; padding:2px 8px; border-radius:999px; font-size:11px;">${cl.code}</span><span>${cl.name}</span></div><div class="quad-grid">${items.map(t => {
+      let cls = '';
+      if (t.code === sel) cls = 'sel'; else if (t.code === comp.best) cls = 'rel-best'; else if (t.code === comp.rival) cls = 'rel-rival'; else if (t.code === comp.enemy) cls = 'rel-enemy';
+      return `<button class="m-cell ${cls}" onclick="state.matrixSelected='${t.code}'; document.getElementById('chk-a').value='${t.code}'; renderMatrix(); renderChecker();"><strong class="mono">${t.code}</strong><span>${t.name}</span></button>`;
+    }).join('')}</div></div>`;
+  }).join('');
+
+  const selA = document.getElementById('chk-a');
+  if (!selA.options.length) {
+    const typeOpts = Object.values(TYPES).map(t => `<option value="${t.code}">${t.code}｜${t.name}</option>`).join('');
+    const tempOpts = Object.values(SOCIAL_TEMPS).map(o => `<option value="${o.id}">温度感：${o.label}</option>`).join('');
+    const scopeOpts = Object.values(SOCIAL_SCOPES).map(o => `<option value="${o.id}">範囲：${o.label}</option>`).join('');
+    document.getElementById('chk-a').innerHTML = typeOpts; document.getElementById('chk-b').innerHTML = typeOpts;
+    document.getElementById('chk-a-temp').innerHTML = tempOpts; document.getElementById('chk-b-temp').innerHTML = tempOpts;
+    document.getElementById('chk-a-scope').innerHTML = scopeOpts; document.getElementById('chk-b-scope').innerHTML = scopeOpts;
+    document.getElementById('chk-a').value = state.resultCode; document.getElementById('chk-b').value = getCompat(state.resultCode).best;
+    document.getElementById('chk-a-temp').value = state.socialTemp; document.getElementById('chk-b-temp').value = 'active';
+    document.getElementById('chk-a-scope').value = state.socialScope; document.getElementById('chk-b-scope').value = 'all_genre';
+  }
+}
+
+function renderChecker() {
+  const aCode = document.getElementById('chk-a').value || 'FCSR', bCode = document.getElementById('chk-b').value || 'FCIR';
+  const aTemp = document.getElementById('chk-a-temp').value || 'passive', bTemp = document.getElementById('chk-b-temp').value || 'active';
+  const aScope = document.getElementById('chk-a-scope').value || 'all_genre', bScope = document.getElementById('chk-b-scope').value || 'all_genre';
+  const a = TYPES[aCode], b = TYPES[bCode];
+  let same = 0; for (let i = 0; i < 4; i++) if (aCode[i] === bCode[i]) same++;
+  const compA = getCompat(aCode);
+  let score = 50, title = 'ほどよい距離感の車仲間', talk = '';
+  if (aCode === bCode) { score = 94; title = '完全ミラーソウル（同種族の共鳴）'; talk = `「え、それめっちゃわかる！」が10分に8回飛び交う関係。価値観が完全一致しているので、初対面でも気づけば2時間経過している。`; }
+  else if (bCode === compA.best) { score = 96; title = '最高の相棒（補完し合うゴールデンコンビ）'; talk = `核となる車愛は一致しつつ、社交派(${aCode[2]==='S'?aCode:bCode})が場を回し、孤高派(${aCode[2]==='I'?aCode:bCode})がディープな知見を供給する最強バディ。`; }
+  else if (bCode === compA.enemy) { score = 24; title = '犬猿の仲（4軸すべて真逆の異星人）'; talk = `${a.name}「いやそこ一番大事じゃない？」 ／ ${b.name}「えっ、真逆じゃない？w」——価値観が真逆だからこそ、SNSで絡むと一番大喜利が盛り上がる関係。`; }
+  else if (bCode === compA.rival) { score = 84; title = '刺激し合う好敵手（リスペクト系ライバル）'; talk = `重視するポイントは違うのに熱量の方向が近い。「俺はやらないけど、お前のそのこだわりはカッコいいな」と認め合える最高の刺激相手。`; }
+  else if (same === 3) { score = 86; title = 'ほぼ仲間（すぐ打ち解ける好相性）'; talk = `4軸中3つが一致。ちょっとした判断基準の違いが新鮮で、お互いの車の良さを素直に褒め合える平和な関係。`; }
+  else if (same === 2) { score = 68; title = '別派閥の面白隣人'; talk = `共通点半分・違い半分。「そういう楽しみ方もあるのか！」と新しい沼への入り口を開いてくれる相手。`; }
+  else { score = 46; title = 'カルチャーショック枠'; talk = `ほとんど真逆の価値観。最初は「マジで？」と戸惑うが、一度お互いの沼を覗くと意外と尊敬し始める不思議な関係。`; }
+
+  let socialNote = '';
+  if (aTemp === 'solo' && bTemp === 'solo') { socialNote = '【PAでの距離感】お互いにソロ静観派。無理に話しかけず、軽く会釈してそれぞれの車を楽しむのが一番心地よい大人の関係です。'; score = Math.min(99, score + 3); }
+  else if ((aTemp === 'active' && bTemp === 'passive') || (aTemp === 'passive' && bTemp === 'active')) { socialNote = '【PAでの距離感】積極派×声かけ待ち派の黄金バランス！積極派が一言声をかければ、受け身派がパッと笑顔になって一気に距離が縮まります。'; score = Math.min(99, score + 4); }
+  else if ((aTemp === 'active' && bTemp === 'solo') || (aTemp === 'solo' && bTemp === 'active')) { socialNote = '【PAでの距離感】温度差に要注意！積極派がグイグイ行きすぎるとソロ派が身構えてしまいます。まずは「いい音／いい色ですね」と短く褒めるくらいが◎。'; score = Math.max(15, score - 6); }
+  else if (aTemp === 'passive' && bTemp === 'passive') { socialNote = '【PAでの距離感】お互いに声かけ待ち同士なので、PAでは「いい車だな…」と思い合いながら無言ですれ違いがち。SNSのいいねから入るのがおすすめ！'; }
+  else { socialNote = '【PAでの距離感】お互いにノリよく話しかけられる同士。出会って3分で連絡先交換＆次のツーリング計画が立ち上がります。'; score = Math.min(99, score + 3); }
+
+  let scopeNote = '';
+  if (aScope === bScope) scopeNote = `【仲間の範囲】どちらも「${SOCIAL_SCOPES[aScope].label}」で完全一致。期待する関わり方にズレが起きません。`;
+  else if (aScope === 'same_model' || bScope === 'same_model') scopeNote = '【仲間の範囲】片方が「同車種・同型式ガチ勢」。同じ車種・メーカーなら最強の戦友になりますが、別ジャンルだと話が噛み合いにくいのでリスペクト重視で！';
+  else if (aScope === 'same_category' || bScope === 'same_category') scopeNote = '【仲間の範囲】片方が「同・車種系統派」。同じボディ系統なら即意気投合、別系統ならお互いのカルチャーの違いを楽しむスタンスが吉。';
+  else scopeNote = '【仲間の範囲】車種にこだわらない柔軟な組み合わせ。ジャンルを越えて「車好き」としてフラットに楽しめます。';
+
+  document.getElementById('checker-output').innerHTML = `
+    <div class="vs-cards">
+      <div class="vs-mini"><img src="${imgPath(a.car, a.bg)}" alt="${a.name}" /><div><span class="mono" style="color:var(--cyan)">${a.code}</span> ${a.name}</div></div>
+      <div class="vs-mini"><img src="${imgPath(b.car, b.bg)}" alt="${b.name}" /><div><span class="mono" style="color:var(--crimson)">${b.code}</span> ${b.name}</div></div>
+    </div>
+    <div class="pa-dialogue">
+      <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:6px;"><strong style="font-size:15px; color:var(--cyan);">${title}</strong><span class="mono" style="font-size:26px; font-weight:900; color:#fff;">総合相性 ${score}%</span></div>
+      <p style="margin:0 0 8px; color:#e2e8f0;">${talk}</p>
+      <p style="margin:0 0 6px; font-size:12.5px; color:#6ee7b7;">${socialNote}</p>
+      <p style="margin:0; font-size:12.5px; color:#fcd34d;">${scopeNote}</p>
+    </div>
+  `;
+}
+
+function openModal(html) { document.getElementById('modal-body').innerHTML = html; document.getElementById('modal').classList.add('open'); }
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+function init() {
+  initTop();
+  if (location.hash.startsWith('#result?')) {
+    const q = new URLSearchParams(location.hash.slice(8));
+    const tc = q.get('type');
+    if (tc && TYPES[tc]) {
+      state.resultCode = tc;
+      const cc = q.get('car'), vc = q.get('vcar'), bg = q.get('bg'), tp = q.get('temp'), sc = q.get('scope');
+      state.selectedCar = (cc === 'all' || CARS.some(c => c.id === cc)) ? cc : TYPES[tc].car;
+      state.visualCar = (vc && CARS.some(c => c.id === vc)) ? vc : (state.selectedCar === 'all' ? TYPES[tc].car : state.selectedCar);
+      state.selectedBg = (bg && BACKGROUNDS.some(b => b.id === bg)) ? bg : TYPES[tc].bg;
+      if (tp && SOCIAL_TEMPS[tp]) state.socialTemp = tp;
+      if (sc && SOCIAL_SCOPES[sc]) state.socialScope = sc;
+      switchView('result');
+    }
+  }
+}
+init();
+</script>
+</body>
+</html>
