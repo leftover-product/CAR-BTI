@@ -8,9 +8,9 @@
 <meta property="og:title" content="CAR-BTI｜車好き16タイプ診断" />
 <meta property="og:description" content="全車種・全派閥・車種不問まで対応。あなたの車好きタイプとPA・SNSでの交流スタイルを20問で診断！" />
 <meta property="og:type" content="website" />
-<meta property="og:image" content="https://leftover-product.github.io/CAR-BTI/ogp.jpg" />
+<meta property="og:image" content="https://car-bti.epcj.info/ogp.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="https://leftover-product.github.io/CAR-BTI/ogp.jpg" />
+<meta name="twitter:image" content="https://car-bti.epcj.info/ogp.jpg" />
 <meta name="theme-color" content="#070b14" />
 <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
 <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
@@ -1300,7 +1300,7 @@ function shareOnX() {
   const carLabel = state.selectedCar === 'all' ? 'オールジャンル（車種不問）' : CARS.find(c => c.id === state.visualCar).short;
   const tempObj = SOCIAL_TEMPS[state.socialTemp], scopeObj = SOCIAL_SCOPES[state.socialScope], comp = getCompat(t.code);
   const text = `【CAR-BTI 車好き16タイプ診断】\n私は【${t.code}：${t.name}】でした！\n車種系統：${carLabel}\n交流：${tempObj.label} × ${scopeObj.label}\n最高の相棒：${comp.best} ／ 天敵：${comp.enemy}\n#CARBTI #車好き診断`;
-  const shareUrl = `https://leftover-product.github.io/CAR-BTI/share/${t.code}.html?car=${state.selectedCar}&vcar=${state.visualCar}&bg=${state.selectedBg}&temp=${state.socialTemp}&scope=${state.socialScope}`;
+  const shareUrl = `https://car-bti.epcj.info/share/${t.code}.html?car=${state.selectedCar}&vcar=${state.visualCar}&bg=${state.selectedBg}&temp=${state.socialTemp}&scope=${state.socialScope}`;
   window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`, '_blank');
 }
 function copyShareUrl() {
