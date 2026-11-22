@@ -1185,7 +1185,7 @@ function renderResult() {
 
 function selectCar(carId) {
   state.selectedCar = carId; state.customPhotoUrl = null;
-  if (carId !== 'all') { state.visualCar = carId; state.selectedBg = CARS.find(c => c.id === carId).defaultBg; }
+  if (carId !== 'all') { state.visualCar = carId; }
   updateHash(); renderResult();
 }
 function selectVisualCar(carId) { state.visualCar = carId; state.customPhotoUrl = null; updateHash(); renderResult(); }
