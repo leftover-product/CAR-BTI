@@ -1645,9 +1645,7 @@ function roundRect(ctx, x, y, w, h, r) {
 }
 function shareOnX() {
   const t = TYPES[state.resultCode];
-  const carLabel = state.selectedCar === 'all' ? 'オールジャンル' : (state.selectedCars.length > 2 ? `${state.selectedCars.slice(0,2).map(id => (CARS.find(c => c.id === id) || {}).short).join('・')}ほか` : (state.selectedCars.length === 2 ? state.selectedCars.map(id => (CARS.find(c => c.id === id) || {}).short).join('・') : CARS.find(c => c.id === state.visualCar).short));
-  const openObj = SOCIAL_OPENNESS[state.socialOpen] || SOCIAL_OPENNESS.welcome, scopeObj = SOCIAL_SCOPES[state.socialScope], commObj = SOCIAL_PERSONALITY[state.socialComm] || SOCIAL_PERSONALITY.shy_want, realObj = REALITY_MODES[state.realityMode] || REALITY_MODES.doing;
-  const text = `【CAR-BTI】私は【${t.code}：${t.name}】でした！\n車種：${carLabel}\n性格：${commObj.label}（${realObj.label}）\n交流：${openObj.label}×${scopeObj.label}\n#CARBTI #車好き診断`;
+  const text = `【CAR-BTI 車好き16タイプ診断】\n私は【${t.code}：${t.name}】でした！\n${t.catch}\n#CARBTI #車好き診断`;
   const rgIdx = state.selectedRegions.map(r => REGIONS.indexOf(r)).filter(i => i >= 0).join('.');
   const exIdx = state.selectedExtras.map(e => EXTRAS.indexOf(e)).filter(i => i >= 0).join('.');
   const stShort = state.selectedStances.slice(0, 4).join('.');
