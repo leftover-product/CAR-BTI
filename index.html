@@ -1652,7 +1652,7 @@ function shareOnX() {
   const exIdx = state.selectedExtras.map(e => EXTRAS.indexOf(e)).filter(i => i >= 0).join('.');
   const stShort = state.selectedStances.slice(0, 4).join('.');
   const carShort = state.selectedCar.replace(/,/g, '.');
-  const shareUrl = `https://car-bti.epcj.info/share/${t.code}.html?car=${carShort}&vcar=${state.visualCar}&bg=${state.selectedBg}&temp=${state.socialTemp}&open=${state.socialOpen}&scope=${state.socialScope}&comm=${state.socialComm}&real=${state.realityMode}&st=${stShort}&rg=${rgIdx}&ex=${exIdx}`;
+  const shareUrl = `https://car-bti.epcj.info/share/${t.code}_${state.visualCar}.html?car=${carShort}&vcar=${state.visualCar}&bg=${state.selectedBg}&temp=${state.socialTemp}&open=${state.socialOpen}&scope=${state.socialScope}&comm=${state.socialComm}&real=${state.realityMode}&st=${stShort}&rg=${rgIdx}&ex=${exIdx}`;
   window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`, '_blank');
 }
 function copyShareUrl() {

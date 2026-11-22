@@ -12,20 +12,22 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONFIG_PATH = os.path.join(ROOT, "site_config.json")
 
+CARS = ["coupe","supercar","open","sedan","vip_minivan","utility_van","wagon","crocan","urban_suv","compact","truck_work"]
+
 TYPES_META = {
-    "FCSR": ("FC", "coupe", "touge", "熱血セッティング番長", "FC CLUSTER", (34, 211, 238)),
-    "FCSL": ("FC", "truck_work", "garage", "現場のチーフエンジニア", "FC CLUSTER", (34, 211, 238)),
-    "FCIR": ("FC", "open", "garage", "深夜の魔改造アルケミスト", "FC CLUSTER", (34, 211, 238)),
-    "FCIL": ("FC", "wagon", "garage", "孤高の数値オタク職人", "FC CLUSTER", (34, 211, 238)),
-    "FOSR": ("FO", "crocan", "nature", "週末ロードトリップ隊長", "FO CLUSTER", (52, 211, 153)),
+    "FCSR": ("FC", "coupe", "touge", "熱血セッティング志向", "FC CLUSTER", (56, 189, 248)),
+    "FCSL": ("FC", "truck_work", "garage", "合理的エンジニア志向", "FC CLUSTER", (56, 189, 248)),
+    "FCIR": ("FC", "open", "garage", "孤高のカスタムロマン派", "FC CLUSTER", (56, 189, 248)),
+    "FCIL": ("FC", "wagon", "garage", "緻密なデータ探求派", "FC CLUSTER", (56, 189, 248)),
+    "FOSR": ("FO", "crocan", "nature", "週末ロードトリップ派", "FO CLUSTER", (52, 211, 153)),
     "FOSL": ("FO", "utility_van", "nature", "語れる実用データ派", "FO CLUSTER", (52, 211, 153)),
     "FOIR": ("FO", "sedan", "nature", "ひとり時間至上主義ドライバー", "FO CLUSTER", (52, 211, 153)),
     "FOIL": ("FO", "supercar", "touge", "設計思想の吟味家", "FO CLUSTER", (52, 211, 153)),
-    "ACSR": ("AC", "vip_minivan", "highway", "夜のPAスター・魅せ師", "AC CLUSTER", (167, 139, 250)),
+    "ACSR": ("AC", "vip_minivan", "highway", "夜のPA・オーラ魅せ感性派", "AC CLUSTER", (167, 139, 250)),
     "ACSL": ("AC", "urban_suv", "city", "ミリ単位の美学ディレクター", "AC CLUSTER", (167, 139, 250)),
     "ACIR": ("AC", "compact", "garage", "自己満アートの求道者", "AC CLUSTER", (167, 139, 250)),
     "ACIL": ("AC", "sedan", "garage", "質感と音の完全主義者", "AC CLUSTER", (167, 139, 250)),
-    "AOSR": ("AO", "compact", "city", "朝活カフェ巡りアンバサダー", "AO CLUSTER", (251, 191, 36)),
+    "AOSR": ("AO", "compact", "city", "朝活カフェ巡り感性派", "AO CLUSTER", (251, 191, 36)),
     "AOSL": ("AO", "coupe", "city", "カタログ語り＆歴史キュレーター", "AO CLUSTER", (251, 191, 36)),
     "AOIR": ("AO", "open", "nature", "静かなる愛車フェチ・艶守り", "AO CLUSTER", (251, 191, 36)),
     "AOIL": ("AO", "supercar", "garage", "フルノーマル保存の審美眼", "AO CLUSTER", (251, 191, 36)),
@@ -75,9 +77,9 @@ def build_type_ogp(code, car, bg, cluster_label, accent_rgb, out_path):
     draw.text((98, 474), "VIEW MY RESULT  >", fill=(6, 12, 24), font=f_sm)
     ogp.save(out_path, format="JPEG", quality=88, optimize=True)
 
-def build_share_html(code, jp_name, site_url):
-    og_img = f"{site_url}/ogp/{code}.jpg"
-    share_url = f"{site_url}/share/{code}.html"
+def build_share_html(code, jp_name, site_url, suffix=""):
+    og_img = f"{site_url}/ogp/{code}{suffix}.jpg"
+    share_url = f"{site_url}/share/{code}{suffix}.html"
     return f"""<!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -124,6 +126,10 @@ def main():
         build_type_ogp(code, car, bg, cl_label, accent, os.path.join(ogp_dir, f"{code}.jpg"))
         with open(os.path.join(share_dir, f"{code}.html"), "w", encoding="utf-8") as f:
             f.write(build_share_html(code, jp_name, site_url))
+        for c in CARS:
+            build_type_ogp(code, c, bg, cl_label, accent, os.path.join(ogp_dir, f"{code}_{c}.jpg"))
+            with open(os.path.join(share_dir, f"{code}_{c}.html"), "w", encoding="utf-8") as f:
+                f.write(build_share_html(code, jp_name, site_url, f"_{c}"))
 
     # Update index.html with absolute og:image, twitter:image, and X share URL
     idx_path = os.path.join(ROOT, "index.html")
@@ -140,7 +146,7 @@ def main():
         "  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`, '_blank');"
     )
     if "const shareUrl =" in html:
-        html = re.sub(r"const shareUrl = `[^`]+`;", f"const shareUrl = `{site_url}/share/${{t.code}}.html?car=${{carShort}}&vcar=${{state.visualCar}}&bg=${{state.selectedBg}}&temp=${{state.socialTemp}}&open=${{state.socialOpen}}&scope=${{state.socialScope}}&comm=${{state.socialComm}}&real=${{state.realityMode}}&st=${{stShort}}&rg=${{rgIdx}}&ex=${{exIdx}}`;", html)
+        html = re.sub(r"const shareUrl = `[^`]+`;", f"const shareUrl = `{site_url}/share/${{t.code}}_${{state.visualCar}}.html?car=${{carShort}}&vcar=${{state.visualCar}}&bg=${{state.selectedBg}}&temp=${{state.socialTemp}}&open=${{state.socialOpen}}&scope=${{state.socialScope}}&comm=${{state.socialComm}}&real=${{state.realityMode}}&st=${{stShort}}&rg=${{rgIdx}}&ex=${{exIdx}}`;", html)
     else:
         assert re.search(old_share_pattern, html), "shareOnX pattern not found in index.html"
         html = re.sub(old_share_pattern, new_share_code, html, count=1)
