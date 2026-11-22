@@ -84,7 +84,7 @@ def build_share_html(code, jp_name, site_url):
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>CAR-BTI 診断結果｜{code}：{jp_name}</title>
-<meta name="description" content="CAR-BTI（車好き16タイプ診断）の結果は【{code}：{jp_name}】！あなたも25問で自分の車好きタイプと交流スタイルを診断しよう。" />
+<meta name="description" content="CAR-BTI（車好き16タイプ診断）の結果は【{code}：{jp_name}】！あなたも27問で自分の車好きタイプと本音×リアルな交流スタイルを診断しよう。" />
 <meta property="og:title" content="CAR-BTI 診断結果｜{code}：{jp_name}" />
 <meta property="og:description" content="車好き16タイプ診断の結果は【{code}：{jp_name}】！車種不問・全派閥対応のライセンスカードを発行。" />
 <meta property="og:type" content="website" />
@@ -140,7 +140,7 @@ def main():
         "  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`, '_blank');"
     )
     if "const shareUrl =" in html:
-        html = re.sub(r"const shareUrl = `[^`]+`;", f"const shareUrl = `{site_url}/share/${{t.code}}.html?car=${{state.selectedCar}}&vcar=${{state.visualCar}}&bg=${{state.selectedBg}}&temp=${{state.socialTemp}}&open=${{state.socialOpen}}&scope=${{state.socialScope}}&st=${{encodeURIComponent(state.selectedStances.join(','))}}&rg=${{encodeURIComponent(state.selectedRegions.join(','))}}&ex=${{encodeURIComponent(state.selectedExtras.join(','))}}`;", html)
+        html = re.sub(r"const shareUrl = `[^`]+`;", f"const shareUrl = `{site_url}/share/${{t.code}}.html?car=${{state.selectedCar}}&vcar=${{state.visualCar}}&bg=${{state.selectedBg}}&temp=${{state.socialTemp}}&open=${{state.socialOpen}}&scope=${{state.socialScope}}&comm=${{state.socialComm}}&real=${{state.realityMode}}&st=${{encodeURIComponent(state.selectedStances.join(','))}}&rg=${{encodeURIComponent(state.selectedRegions.join(','))}}&ex=${{encodeURIComponent(state.selectedExtras.join(','))}}`;", html)
     else:
         assert re.search(old_share_pattern, html), "shareOnX pattern not found in index.html"
         html = re.sub(old_share_pattern, new_share_code, html, count=1)
