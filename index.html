@@ -482,13 +482,13 @@ select {
           <div id="hero-scene-label" class="hero-car-label" style="border-color:rgba(56,189,248,0.45); color:#7dd3fc;">夜の首都高</div>
         </div>
         <div class="hero-content">
-          <span class="pill">4グループ色分け × 16タイプ × 7段階24問</span>
+          <span class="pill">4グループ色分け × 16タイプ × 7段階25問</span>
           <h1>あなたの<span>車好きタイプ</span>と<br><span>仲間との距離感</span>を診断する。</h1>
           <p class="hero-desc">
             「走り派・鑑賞派・DIY派・純正派」だけでなく、好きな車種・カルチャー圏・PAやSNSでの距離感まで一発で可視化。SNSで結果を見た瞬間「あ、この人と気が合いそう！」がわかるライセンスカードを発行します。
           </p>
           <div class="hero-actions">
-            <button class="btn btn-primary" onclick="startNewQuiz()">診断をスタート（プロフィール＋24問）</button>
+            <button class="btn btn-primary" onclick="startNewQuiz()">診断をスタート（プロフィール＋25問）</button>
             <button class="btn btn-secondary" onclick="switchView('dex')">16タイプ図鑑を見る</button>
           </div>
         </div>
@@ -554,7 +554,7 @@ select {
 
       <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-top:18px;">
         <button class="btn btn-secondary" onclick="switchView('top')">← TOPへ戻る</button>
-        <button class="btn btn-primary" onclick="beginQuestions()">このプロフィールで質問へ進む（全24問）→</button>
+        <button class="btn btn-primary" onclick="beginQuestions()">このプロフィールで質問へ進む（全25問）→</button>
       </div>
     </div>
   </section>
@@ -601,6 +601,7 @@ select {
           <div class="social-banner">
             <div class="social-banner-badges">
               <span id="res-temp-pill" class="social-pill temp">声かけ待ち・受け身派</span>
+              <span id="res-open-pill" class="social-pill" style="background:rgba(56,189,248,0.16); color:#7dd3fc; border:1px solid rgba(56,189,248,0.4);">新しい仲間ウェルカム</span>
               <span id="res-scope-pill" class="social-pill scope">オールジャンル歓迎</span>
             </div>
             <p id="res-social-guide" class="social-banner-text"></p>
@@ -728,6 +729,12 @@ const SOCIAL_TEMPS = {
   solo: { id: 'solo', label: '基本ソロ・静観派', desc: '群れずに自分のペースで走りたい・眺めたいマイペース派。遠くからそっと見守る距離感が心地いい。' }
 };
 
+const SOCIAL_OPENNESS = {
+  welcome: { id: 'welcome', label: '新しい仲間ウェルカム', desc: '初対面や新しい車仲間との出会いも大歓迎！気軽に輪を広げたいオープン派。' },
+  gradual: { id: 'gradual', label: 'SNSで仲良くなってからOK', desc: 'まずはSNSで少しやり取りしてから、気が合えばリアルでも合流したい慎重ウェルカム派。' },
+  inner: { id: 'inner', label: '身内・いつもの仲間だけで集まりたい', desc: '基本は気心知れた身内・いつもの仲間と集まるのが一番落ち着く内輪重視派。' }
+};
+
 const SOCIAL_SCOPES = {
   all_genre: { id: 'all_genre', label: 'オールジャンル歓迎', desc: '軽トラからスーパーカーまで車種も楽しみ方も不問。車好きなら誰でも大歓迎！' },
   same_stance: { id: 'same_stance', label: '同・楽しみ方系統', desc: '車種は違っても、走り・キャンプ・洗車・オーディオなど楽しみ方が同じなら秒速で意気投合。' },
@@ -753,7 +760,9 @@ const STANCE_CATEGORIES = [
     { id: 'dressup', name: 'ドレスアップ・電飾', bg: 'highway' },
     { id: 'itasha', name: '痛車・フルラッピング', bg: 'garage' },
     { id: 'lift', name: 'アゲ系・アウトドア仕様', bg: 'nature' },
-    { id: 'diy', name: 'DIY整備・レストア', bg: 'garage' }
+    { id: 'tune', name: '走り系チューニング（足回り・吸排気・ECU）', bg: 'touge' },
+    { id: 'diy', name: 'DIY整備・レストア', bg: 'garage' },
+    { id: 'event_mt', name: 'イベント・ドレコン・夜のMT勢', bg: 'highway' }
   ]},
   { label: '【愛でる・使う】', items: [
     { id: 'oem', name: '純正プラス（OEM+）・ノーマル維持', bg: 'city' },
@@ -775,7 +784,7 @@ const STANCE_CATEGORIES = [
 ];
 const ALL_STANCES = STANCE_CATEGORIES.flatMap(c => c.items);
 const REGIONS = ['国産（JDM）', 'ドイツ車', 'イタフラ車', 'アメ車（US）', '英・北欧車'];
-const EXTRAS = ['旧車・クラシック', 'ネオクラ（80s-90s）', '丸目レトロ・可愛い系', '次世代EV・HV', 'K-CAR（軽）', 'MT（マニュアル）愛', '多頭飼い', 'これから所有・憧れ'];
+const EXTRAS = ['旧車・クラシック', 'ネオクラ（80s-90s）', '00s〜現行車', '丸目レトロ・可愛い系', 'シャコタン・エアサス', '次世代EV・HV', 'K-CAR（軽）', 'MT（マニュアル）愛', 'ファミリー・子育て世代', '初心者・ライト層', '多頭飼い', 'これから所有・憧れ'];
 
 const CLUSTERS = {
   FC: { code: 'FC', name: '探求・チューナー系', sub: '機能・体験 × 創る・弄る', desc: '走らせてなんぼ、弄ってなんぼ。自分の手と頭で性能や使い勝手を煮詰めていくエンジニア魂の持ち主。', color: '#38bdf8', car: 'coupe', bg: 'garage', types: ['FCSR','FCSL','FCIR','FCIL'] },
@@ -1083,7 +1092,7 @@ const QUESTIONS = [
 
   // Axis 4: RL (R=+1, L=-1)
   { kind:'likert', axis:'RL', dir: 1, tag:'軸4：選び方・判断の軸（ロマン・感性 vs 論理・データ）', q:'燃費やスペックの数字より、エンジン音や「一目惚れ」の直感で欲しい車が決まる。' },
-  { kind:'likert', axis:'RL', dir:-1, tag:'軸4：選び方・判断の軸（ロマン・感性 vs 論理・データ）', q:'車やパーツを買う前は、剛性・コスパ・維持費・歴史やデータを徹底的に調べて納得してから決めたい。' },
+  { kind:'likert', axis:'RL', dir:-1, tag:'軸4：選び方・判断の軸（ロマン・感性 vs 論理・データ）', q:'車やパーツを選ぶときは、剛性・コスパ・歴史・ホイールサイズや配色バランスまで理論で納得してから決めたい。' },
   { kind:'likert', axis:'RL', dir: 1, tag:'軸4：選び方・判断の軸（ロマン・感性 vs 論理・データ）', q:'少し不便だったりクセが強い車でも、「その不便さこそ味で愛おしい！」とロマンを感じる。' },
   { kind:'likert', axis:'RL', dir:-1, tag:'軸4：選び方・判断の軸（ロマン・感性 vs 論理・データ）', q:'新型車のニュースを見たら、まず「先代比で車重・出力・プラットフォームがどう変わったか」が気になる。' },
   { kind:'likert', axis:'RL', dir: 1, tag:'軸4：選び方・判断の軸（ロマン・感性 vs 論理・データ）', q:'「理屈はよくわからないけど、乗ってて心が震える！」という感覚を何より大切にしている。' },
@@ -1122,6 +1131,14 @@ const QUESTIONS = [
       { val:'same_category', label:'「セダンMT」「四駆フェス」「オープンカーの集い」など車種系統ごとの集まり', sub:'同じ系統の車がズラッと並ぶ景色が最高' },
       { val:'same_model', label:'同じ車種・同じ型式だけがズラッと並ぶオーナーズクラブ全国オフ', sub:'やっぱり自分の推し車種の仲間が一番落ち着く' }
     ]
+  },
+  { kind:'open', tag:'交流スタイル⑤：新しい仲間 vs 身内スタイル',
+    q:'集まったり繋がったりするとき、「新しい仲間」と「身内」どっちの空気感が好き？',
+    options:[
+      { val:'welcome', label:'新しい仲間ウェルカム！初対面でもどんどん輪を広げたい', sub:'知らない車好きとの出会い・新規歓迎派' },
+      { val:'gradual', label:'まずはSNSで少し仲良くなってからリアルでも合流したい', sub:'段階的に距離を縮めたい慎重ウェルカム派' },
+      { val:'inner', label:'基本は身内・いつもの仲間だけで集まりたい（新規は控えめ）', sub:'気心知れたメンバーでゆっくり楽しみたい内輪重視派' }
+    ]
   }
 ];
 
@@ -1131,10 +1148,10 @@ const state = {
   view: 'top', heroCarId: 'coupe', heroBgId: 'highway',
   qIndex: 0, answers: Array(QUESTIONS.length).fill(null),
   resultCode: 'FCSR', axisPct: { FA:65, CO:65, SI:65, RL:65 },
-  socialTemp: 'passive', socialScope: 'all_genre',
+  socialTemp: 'passive', socialOpen: 'welcome', socialScope: 'all_genre',
   selectedCar: 'all', visualCar: 'coupe',
-  selectedStances: ['drive'], selectedBg: 'city',
-  selectedRegions: ['国産（JDM）'], selectedExtras: [],
+  selectedStances: [], selectedBg: 'city',
+  selectedRegions: [], selectedExtras: [],
   dexFilter: 'ALL', matrixSelected: 'FCSR'
 };
 
@@ -1328,6 +1345,8 @@ function computeResult() {
       tempCounts[v] += (idx === 20 ? 1.1 : 1);
     } else if (q.kind === 'scope' && v && scopeCounts[v] !== undefined) {
       scopeCounts[v] += (idx === 22 ? 1.1 : 1);
+    } else if (q.kind === 'open' && v && SOCIAL_OPENNESS[v]) {
+      state.socialOpen = v;
     }
   });
   const getLetter = (axis, l, r) => (sums[axis] >= 0 ? l : r);
@@ -1344,8 +1363,9 @@ function computeResult() {
   state.socialScope = Object.entries(scopeCounts).sort((a,b) => b[1] - a[1])[0][0];
 
   const t = TYPES[code];
-  // Auto-determine background from result type (never user-forced)
-  state.selectedBg = t.bg;
+  // Auto-determine background: prefer first selected stance scene if chosen, otherwise type default
+  const firstStance = state.selectedStances.length ? ALL_STANCES.find(s => s.id === state.selectedStances[0]) : null;
+  state.selectedBg = (firstStance && firstStance.bg) ? firstStance.bg : t.bg;
   state.matrixSelected = code;
   updateHash();
 }
@@ -1357,7 +1377,11 @@ function updateHash() {
   params.set('vcar', state.visualCar);
   params.set('bg', state.selectedBg);
   params.set('temp', state.socialTemp);
+  params.set('open', state.socialOpen);
   params.set('scope', state.socialScope);
+  if (state.selectedStances.length) params.set('st', state.selectedStances.join(','));
+  if (state.selectedRegions.length) params.set('rg', state.selectedRegions.join(','));
+  if (state.selectedExtras.length) params.set('ex', state.selectedExtras.join(','));
   history.replaceState(null, '', '#result?' + params.toString());
 }
 
@@ -1383,6 +1407,7 @@ function renderResult() {
   const carObj = CARS.find(c => c.id === state.visualCar) || CARS[0];
   const bg = BACKGROUNDS.find(b => b.id === state.selectedBg) || BACKGROUNDS[0];
   const tempObj = SOCIAL_TEMPS[state.socialTemp];
+  const openObj = SOCIAL_OPENNESS[state.socialOpen] || SOCIAL_OPENNESS.welcome;
   const scopeObj = SOCIAL_SCOPES[state.socialScope];
 
   const frame = document.getElementById('license-card');
@@ -1397,8 +1422,9 @@ function renderResult() {
   document.getElementById('res-name').textContent = t.name;
   document.getElementById('res-catch').textContent = t.catch;
   document.getElementById('res-temp-pill').textContent = `温度感：${tempObj.label}`;
+  document.getElementById('res-open-pill').textContent = `${openObj.label}`;
   document.getElementById('res-scope-pill').textContent = `仲間範囲：${scopeObj.label}`;
-  document.getElementById('res-social-guide').textContent = `${tempObj.desc} ${scopeObj.desc}`;
+  document.getElementById('res-social-guide').textContent = `${tempObj.desc} ${openObj.desc} ${scopeObj.desc}`;
 
   const tags = [];
   state.selectedRegions.forEach(r => tags.push(`<span class="tag-chip warm">${r}</span>`));
@@ -1527,9 +1553,11 @@ function roundRect(ctx, x, y, w, h, r) {
 function shareOnX() {
   const t = TYPES[state.resultCode];
   const carLabel = state.selectedCar === 'all' ? 'オールジャンル（車種不問）' : CARS.find(c => c.id === state.visualCar).short;
-  const tempObj = SOCIAL_TEMPS[state.socialTemp], scopeObj = SOCIAL_SCOPES[state.socialScope], comp = getCompat(t.code);
-  const text = `【CAR-BTI 車好き16タイプ診断】\n私は【${t.code}：${t.name}】でした！\n車種系統：${carLabel}\n交流：${tempObj.label} × ${scopeObj.label}\n最高の相棒：${comp.best} ／ 天敵：${comp.enemy}\n#CARBTI #車好き診断`;
-  const shareUrl = `https://car-bti.epcj.info/share/${t.code}.html?car=${state.selectedCar}&vcar=${state.visualCar}&bg=${state.selectedBg}&temp=${state.socialTemp}&scope=${state.socialScope}`;
+  const tempObj = SOCIAL_TEMPS[state.socialTemp], openObj = SOCIAL_OPENNESS[state.socialOpen] || SOCIAL_OPENNESS.welcome, scopeObj = SOCIAL_SCOPES[state.socialScope], comp = getCompat(t.code);
+  const extraTags = [...state.selectedRegions, ...state.selectedStances.map(sid => (ALL_STANCES.find(s => s.id === sid) || {}).name).filter(Boolean)].slice(0, 3).join(' / ');
+  const tagLine = extraTags ? `\n好き：${extraTags}` : '';
+  const text = `【CAR-BTI 車好き16タイプ診断】\n私は【${t.code}：${t.name}】でした！\n車種：${carLabel}${tagLine}\n交流：${tempObj.label} × ${openObj.label} × ${scopeObj.label}\n最高の相棒：${comp.best} ／ 天敵：${comp.enemy}\n#CARBTI #車好き診断`;
+  const shareUrl = `https://car-bti.epcj.info/share/${t.code}.html?car=${state.selectedCar}&vcar=${state.visualCar}&bg=${state.selectedBg}&temp=${state.socialTemp}&open=${state.socialOpen}&scope=${state.socialScope}&st=${encodeURIComponent(state.selectedStances.join(','))}&rg=${encodeURIComponent(state.selectedRegions.join(','))}&ex=${encodeURIComponent(state.selectedExtras.join(','))}`;
   window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`, '_blank');
 }
 function copyShareUrl() {
@@ -1621,13 +1649,18 @@ function applyHash() {
     const tc = q.get('type');
     if (tc && TYPES[tc]) {
       state.resultCode = tc;
-      const car = q.get('car'), vcar = q.get('vcar'), bg = q.get('bg'), temp = q.get('temp'), scope = q.get('scope');
+      const car = q.get('car'), vcar = q.get('vcar'), bg = q.get('bg'), temp = q.get('temp'), open = q.get('open'), scope = q.get('scope');
+      const st = q.get('st'), rg = q.get('rg'), ex = q.get('ex');
       if (car === 'all' || CARS.some(c => c.id === car)) state.selectedCar = car;
       if (vcar && CARS.some(c => c.id === vcar)) state.visualCar = vcar;
       else state.visualCar = TYPES[tc].car;
       state.selectedBg = (bg && BACKGROUNDS.some(b => b.id === bg)) ? bg : TYPES[tc].bg;
       if (temp && SOCIAL_TEMPS[temp]) state.socialTemp = temp;
+      if (open && SOCIAL_OPENNESS[open]) state.socialOpen = open;
       if (scope && SOCIAL_SCOPES[scope]) state.socialScope = scope;
+      if (st !== null) state.selectedStances = st ? st.split(',').filter(id => ALL_STANCES.some(s => s.id === id)) : [];
+      if (rg !== null) state.selectedRegions = rg ? rg.split(',').filter(Boolean) : [];
+      if (ex !== null) state.selectedExtras = ex ? ex.split(',').filter(Boolean) : [];
       switchView('result');
     }
   }
