@@ -1645,12 +1645,14 @@ function roundRect(ctx, x, y, w, h, r) {
 }
 function shareOnX() {
   const t = TYPES[state.resultCode];
-  const carLabel = state.selectedCar === 'all' ? 'オールジャンル（車種不問）' : (state.selectedCars.length > 1 ? state.selectedCars.map(id => (CARS.find(c => c.id === id) || {}).short).filter(Boolean).join('・') : CARS.find(c => c.id === state.visualCar).short);
-  const tempObj = SOCIAL_TEMPS[state.socialTemp], openObj = SOCIAL_OPENNESS[state.socialOpen] || SOCIAL_OPENNESS.welcome, scopeObj = SOCIAL_SCOPES[state.socialScope], commObj = SOCIAL_PERSONALITY[state.socialComm] || SOCIAL_PERSONALITY.shy_want, realObj = REALITY_MODES[state.realityMode] || REALITY_MODES.doing, comp = getCompat(t.code);
-  const extraTags = [...state.selectedRegions, ...state.selectedStances.map(sid => (ALL_STANCES.find(s => s.id === sid) || {}).name).filter(Boolean)].slice(0, 3).join(' / ');
-  const tagLine = extraTags ? `\n好き：${extraTags}` : '';
-  const text = `【CAR-BTI 車好き16タイプ診断】\n私は【${t.code}：${t.name}】でした！\n車種：${carLabel}${tagLine}\n性格：${commObj.label}（${realObj.label}）\n交流：${openObj.label} × ${scopeObj.label}\n#CARBTI #車好き診断`;
-  const shareUrl = `https://car-bti.epcj.info/share/${t.code}.html?car=${state.selectedCar}&vcar=${state.visualCar}&bg=${state.selectedBg}&temp=${state.socialTemp}&open=${state.socialOpen}&scope=${state.socialScope}&comm=${state.socialComm}&real=${state.realityMode}&st=${encodeURIComponent(state.selectedStances.join(','))}&rg=${encodeURIComponent(state.selectedRegions.join(','))}&ex=${encodeURIComponent(state.selectedExtras.join(','))}`;
+  const carLabel = state.selectedCar === 'all' ? 'オールジャンル' : (state.selectedCars.length > 2 ? `${state.selectedCars.slice(0,2).map(id => (CARS.find(c => c.id === id) || {}).short).join('・')}ほか` : (state.selectedCars.length === 2 ? state.selectedCars.map(id => (CARS.find(c => c.id === id) || {}).short).join('・') : CARS.find(c => c.id === state.visualCar).short));
+  const openObj = SOCIAL_OPENNESS[state.socialOpen] || SOCIAL_OPENNESS.welcome, scopeObj = SOCIAL_SCOPES[state.socialScope], commObj = SOCIAL_PERSONALITY[state.socialComm] || SOCIAL_PERSONALITY.shy_want, realObj = REALITY_MODES[state.realityMode] || REALITY_MODES.doing;
+  const text = `【CAR-BTI】私は【${t.code}：${t.name}】でした！\n車種：${carLabel}\n性格：${commObj.label}（${realObj.label}）\n交流：${openObj.label}×${scopeObj.label}\n#CARBTI #車好き診断`;
+  const rgIdx = state.selectedRegions.map(r => REGIONS.indexOf(r)).filter(i => i >= 0).join('.');
+  const exIdx = state.selectedExtras.map(e => EXTRAS.indexOf(e)).filter(i => i >= 0).join('.');
+  const stShort = state.selectedStances.slice(0, 4).join('.');
+  const carShort = state.selectedCar.replace(/,/g, '.');
+  const shareUrl = `https://car-bti.epcj.info/share/${t.code}.html?car=${carShort}&vcar=${state.visualCar}&bg=${state.selectedBg}&temp=${state.socialTemp}&open=${state.socialOpen}&scope=${state.socialScope}&comm=${state.socialComm}&real=${state.realityMode}&st=${stShort}&rg=${rgIdx}&ex=${exIdx}`;
   window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`, '_blank');
 }
 function copyShareUrl() {
@@ -1746,7 +1748,7 @@ function applyHash() {
       const st = q.get('st'), rg = q.get('rg'), ex = q.get('ex');
       if (car === 'all') { state.selectedCar = 'all'; state.selectedCars = []; }
       else if (car) {
-        const validCars = car.split(',').filter(id => CARS.some(c => c.id === id));
+        const validCars = car.split(/[,.]/).filter(id => CARS.some(c => c.id === id));
         if (validCars.length) { state.selectedCars = validCars; state.selectedCar = validCars.join(','); }
       }
       if (vcar && CARS.some(c => c.id === vcar)) state.visualCar = vcar;
@@ -1757,9 +1759,9 @@ function applyHash() {
       if (scope && SOCIAL_SCOPES[scope]) state.socialScope = scope;
       if (comm && SOCIAL_PERSONALITY[comm]) state.socialComm = comm;
       if (real && REALITY_MODES[real]) state.realityMode = real;
-      if (st !== null) state.selectedStances = st ? st.split(',').filter(id => ALL_STANCES.some(s => s.id === id)) : [];
-      if (rg !== null) state.selectedRegions = rg ? rg.split(',').filter(Boolean) : [];
-      if (ex !== null) state.selectedExtras = ex ? ex.split(',').filter(Boolean) : [];
+      if (st !== null) state.selectedStances = st ? st.split(/[,.]/).filter(id => ALL_STANCES.some(s => s.id === id)) : [];
+      if (rg !== null) state.selectedRegions = rg ? rg.split(/[,.]/).map(x => /^\d+$/.test(x) ? REGIONS[Number(x)] : x).filter(Boolean) : [];
+      if (ex !== null) state.selectedExtras = ex ? ex.split(/[,.]/).map(x => /^\d+$/.test(x) ? EXTRAS[Number(x)] : x).filter(Boolean) : [];
       switchView('result');
     }
   }

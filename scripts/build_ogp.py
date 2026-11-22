@@ -140,7 +140,7 @@ def main():
         "  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`, '_blank');"
     )
     if "const shareUrl =" in html:
-        html = re.sub(r"const shareUrl = `[^`]+`;", f"const shareUrl = `{site_url}/share/${{t.code}}.html?car=${{state.selectedCar}}&vcar=${{state.visualCar}}&bg=${{state.selectedBg}}&temp=${{state.socialTemp}}&open=${{state.socialOpen}}&scope=${{state.socialScope}}&comm=${{state.socialComm}}&real=${{state.realityMode}}&st=${{encodeURIComponent(state.selectedStances.join(','))}}&rg=${{encodeURIComponent(state.selectedRegions.join(','))}}&ex=${{encodeURIComponent(state.selectedExtras.join(','))}}`;", html)
+        html = re.sub(r"const shareUrl = `[^`]+`;", f"const shareUrl = `{site_url}/share/${{t.code}}.html?car=${{carShort}}&vcar=${{state.visualCar}}&bg=${{state.selectedBg}}&temp=${{state.socialTemp}}&open=${{state.socialOpen}}&scope=${{state.socialScope}}&comm=${{state.socialComm}}&real=${{state.realityMode}}&st=${{stShort}}&rg=${{rgIdx}}&ex=${{exIdx}}`;", html)
     else:
         assert re.search(old_share_pattern, html), "shareOnX pattern not found in index.html"
         html = re.sub(old_share_pattern, new_share_code, html, count=1)
