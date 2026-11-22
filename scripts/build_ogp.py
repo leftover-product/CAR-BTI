@@ -21,14 +21,14 @@ TYPES_META = {
     "FOSL": ("FO", "utility_van", "nature", "語れる実用データ派", "FO CLUSTER", (52, 211, 153)),
     "FOIR": ("FO", "sedan", "nature", "ひとり時間至上主義ドライバー", "FO CLUSTER", (52, 211, 153)),
     "FOIL": ("FO", "supercar", "touge", "設計思想の吟味家", "FO CLUSTER", (52, 211, 153)),
-    "ACSR": ("AC", "vip_minivan", "highway", "夜のPAスター・魅せ師", "AC CLUSTER", (244, 63, 94)),
-    "ACSL": ("AC", "urban_suv", "city", "ミリ単位の美学ディレクター", "AC CLUSTER", (244, 63, 94)),
-    "ACIR": ("AC", "compact", "garage", "自己満アートの求道者", "AC CLUSTER", (244, 63, 94)),
-    "ACIL": ("AC", "sedan", "garage", "質感と音の完全主義者", "AC CLUSTER", (244, 63, 94)),
-    "AOSR": ("AO", "compact", "city", "朝活カフェ巡りアンバサダー", "AO CLUSTER", (167, 139, 250)),
-    "AOSL": ("AO", "coupe", "city", "カタログ語り＆歴史キュレーター", "AO CLUSTER", (167, 139, 250)),
-    "AOIR": ("AO", "open", "nature", "静かなる愛車フェチ・艶守り", "AO CLUSTER", (167, 139, 250)),
-    "AOIL": ("AO", "supercar", "garage", "フルノーマル保存の審美眼", "AO CLUSTER", (167, 139, 250)),
+    "ACSR": ("AC", "vip_minivan", "highway", "夜のPAスター・魅せ師", "AC CLUSTER", (167, 139, 250)),
+    "ACSL": ("AC", "urban_suv", "city", "ミリ単位の美学ディレクター", "AC CLUSTER", (167, 139, 250)),
+    "ACIR": ("AC", "compact", "garage", "自己満アートの求道者", "AC CLUSTER", (167, 139, 250)),
+    "ACIL": ("AC", "sedan", "garage", "質感と音の完全主義者", "AC CLUSTER", (167, 139, 250)),
+    "AOSR": ("AO", "compact", "city", "朝活カフェ巡りアンバサダー", "AO CLUSTER", (251, 191, 36)),
+    "AOSL": ("AO", "coupe", "city", "カタログ語り＆歴史キュレーター", "AO CLUSTER", (251, 191, 36)),
+    "AOIR": ("AO", "open", "nature", "静かなる愛車フェチ・艶守り", "AO CLUSTER", (251, 191, 36)),
+    "AOIL": ("AO", "supercar", "garage", "フルノーマル保存の審美眼", "AO CLUSTER", (251, 191, 36)),
 }
 
 def load_font(size, bold=True):
