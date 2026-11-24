@@ -15,6 +15,8 @@
 <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
 <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
 <link rel="manifest" href="./manifest.json" />
+<link rel="canonical" href="https://car-bti.epcj.info/" />
+<!-- GA4_INJECT_START --><!-- GA4_INJECT_END -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
@@ -473,6 +475,7 @@ select {
 <main>
   <!-- TOP -->
   <section id="view-top" class="view active">
+    <div id="invite-banner" style="display:none; margin-bottom:16px; padding:14px 18px; border-radius:16px; background:linear-gradient(135deg, rgba(56,189,248,0.16), rgba(167,139,250,0.16)); border:1px solid rgba(56,189,248,0.45);"></div>
     <div class="hero">
       <div class="hero-bg-wrap">
         <img id="hero-img" src="./images/coupe_highway.jpg" alt="CAR-BTI Original Vehicle" />
@@ -582,6 +585,7 @@ select {
   <!-- RESULT -->
   <section id="view-result" class="view">
     <div class="result-wrap">
+      <div id="compat-vs-card" class="card" style="display:none; border-color:rgba(56,189,248,0.5); background:linear-gradient(135deg, rgba(14,28,48,0.92), rgba(24,18,48,0.92));"></div>
       <div id="license-card" class="license-frame">
         <div class="license-visual">
           <img id="res-car-img" src="./images/coupe_highway.jpg" alt="Your CAR-BTI Vehicle" />
@@ -616,6 +620,7 @@ select {
       <div class="action-bar">
         <button class="btn btn-primary btn-sm" onclick="exportLicenseCard()">ライセンスカードを画像保存</button>
         <button class="btn btn-secondary btn-sm" onclick="shareOnX()">Xで結果をシェア</button>
+        <button class="btn btn-secondary btn-sm" onclick="copyCompatInviteUrl()" style="border-color:rgba(56,189,248,0.55); color:#7dd3fc;">友達と相性診断（招待URL）</button>
         <button class="btn btn-secondary btn-sm" onclick="copyShareUrl()">結果URLをコピー</button>
         <button class="btn btn-secondary btn-sm" onclick="startNewQuiz()">最初から診断し直す</button>
       </div>
@@ -1246,10 +1251,18 @@ function updateHeroVisual() {
 function setHeroCar(id) { state.heroCarId = id; renderTopShowcase(); updateHeroVisual(); }
 function setHeroBg(id) { state.heroBgId = id; renderTopScenes(); renderTopShowcase(); updateHeroVisual(); }
 
+// Analytics helper (GA4 ready)
+function trackEvent(name, params) {
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', name, params || {});
+  }
+}
+
 // STEP 0: Profile Setup
 function startNewQuiz() {
   state.qIndex = 0;
   state.answers = Array(QUESTIONS.length).fill(null);
+  trackEvent('quiz_start', { invite_from: state.inviteFrom || 'none' });
   switchView('profile');
 }
 function renderProfileSetup() {
@@ -1415,6 +1428,7 @@ function computeResult() {
   const firstStance = state.selectedStances.length ? ALL_STANCES.find(s => s.id === state.selectedStances[0]) : null;
   state.selectedBg = (firstStance && firstStance.bg) ? firstStance.bg : t.bg;
   state.matrixSelected = code;
+  trackEvent('quiz_complete', { type: code, car: state.visualCar, invite_from: state.inviteFrom || 'none' });
   updateHash();
 }
 
@@ -1488,6 +1502,7 @@ function buildSocialGuide(comm, open, scope, real) {
 }
 
 function renderResult() {
+  renderCompatVsCard();
   const t = TYPES[state.resultCode];
   const cl = CLUSTERS[t.cluster];
   const isAll = state.selectedCar === 'all';
@@ -1671,7 +1686,57 @@ function shareOnX() {
   const stShort = state.selectedStances.slice(0, 4).join('.');
   const carShort = state.selectedCar.replace(/,/g, '.');
   const shareUrl = `https://car-bti.epcj.info/share/${t.code}_${state.visualCar}.html?car=${carShort}&vcar=${state.visualCar}&bg=${state.selectedBg}&temp=${state.socialTemp}&open=${state.socialOpen}&scope=${state.socialScope}&comm=${state.socialComm}&real=${state.realityMode}&st=${stShort}&rg=${rgIdx}&ex=${exIdx}`;
+  trackEvent('share_x', { type: t.code, car: state.visualCar });
   window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`, '_blank');
+}
+function copyCompatInviteUrl() {
+  const t = TYPES[state.resultCode];
+  const base = location.origin + location.pathname;
+  const inviteUrl = `${base}?vs=${t.code}`;
+  trackEvent('share_compat_invite', { type: t.code });
+  if (navigator.clipboard) navigator.clipboard.writeText(inviteUrl).then(() => showToast('相性診断の招待URLをコピーしました！友達に送ってみよう'));
+  else showToast('URLをコピーできませんでした');
+}
+function renderInviteBanner() {
+  const el = document.getElementById('invite-banner');
+  if (!el) return;
+  const code = state.inviteFrom;
+  if (!code || !TYPES[code]) { el.style.display = 'none'; return; }
+  const ft = TYPES[code], fcl = CLUSTERS[ft.cluster];
+  el.style.display = 'block';
+  el.innerHTML = `
+    <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px;">
+      <div>
+        <div style="font-size:12px; font-weight:700; color:${fcl.color}; margin-bottom:2px;">🤝 友達から相性診断の招待が届いています</div>
+        <div style="font-size:15px; font-weight:900;">相手は <span class="mono" style="color:${fcl.color};">${ft.code}</span>（${ft.name}）！診断すると2人の相性がわかります</div>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="startNewQuiz()">診断して相性を見る</button>
+    </div>
+  `;
+}
+function renderCompatVsCard() {
+  const el = document.getElementById('compat-vs-card');
+  if (!el) return;
+  const from = state.inviteFrom;
+  const mine = state.resultCode;
+  if (!from || !TYPES[from] || !mine || !TYPES[mine]) { el.style.display = 'none'; return; }
+  let same = 0; for (let i = 0; i < 4; i++) if (mine[i] === from[i]) same++;
+  const msgs = [
+    '真逆の異文化ペア！お互いの世界観を面白がれると最強の刺激に。',
+    '違う視点が多いペア。ジャンル違いの交流として新鮮な発見があります。',
+    '程よい共通点と違いがある好バランス。ツーリングや雑談が弾みやすい相性！',
+    '価値観がかなり近い好相性！オフ会でも秒速で打ち解けられる仲間候補。',
+    '完全一致のソウルメイト！同じ沼にハマって朝まで語り明かせる相性です。'
+  ];
+  const scorePct = [35, 55, 78, 92, 100][same];
+  const mt = TYPES[mine], ft = TYPES[from];
+  el.style.display = 'block';
+  el.innerHTML = `
+    <div style="font-size:12px; font-weight:700; color:#7dd3fc; margin-bottom:6px;">🤝 友達との相性診断結果</div>
+    <div style="font-size:18px; font-weight:900; margin-bottom:6px;">あなた（${mt.code}） × 友達（${ft.code}）｜相性度 <span class="mono" style="color:#34d399;">${scorePct}%</span></div>
+    <p style="margin:0 0 10px; font-size:13.5px; color:#cbd5e1; line-height:1.7;">${msgs[same]}</p>
+    <div style="font-size:12px; color:var(--muted);">あなた：${mt.name} ／ 友達：${ft.name}</div>
+  `;
 }
 function copyShareUrl() {
   updateHash();
@@ -1757,6 +1822,12 @@ function openModal(html) { document.getElementById('modal-content').innerHTML = 
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
 
 function applyHash() {
+  const sp = new URLSearchParams(location.search);
+  const vsParam = (sp.get('vs') || '').toUpperCase();
+  if (vsParam && TYPES[vsParam]) {
+    state.inviteFrom = vsParam;
+    renderInviteBanner();
+  }
   if (location.hash.startsWith('#result')) {
     const q = new URLSearchParams(location.hash.split('?')[1] || '');
     const tc = q.get('type');

@@ -7,7 +7,11 @@ site_config.json の site_url を読み込み、以下を自動生成・更新�
   3. index.html                og:image / twitter:image / Xシェア関数のURLを本番URLへ自動反映
 """
 import json, os, re, sys
-from PIL import Image, ImageDraw, ImageFont
+try:
+    from PIL import Image, ImageDraw, ImageFont
+    HAS_PIL = True
+except ImportError:
+    HAS_PIL = False
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONFIG_PATH = os.path.join(ROOT, "site_config.json")
@@ -48,6 +52,10 @@ def load_font(size, bold=True):
     return ImageFont.load_default()
 
 def build_type_ogp(code, car, bg, cluster_label, accent_rgb, out_path):
+    if not HAS_PIL:
+        if os.path.exists(out_path) and os.path.getsize(out_path) >= 10000:
+            return
+        raise RuntimeError(f"PIL is required to generate missing OGP image: {out_path}")
     src = os.path.join(ROOT, "images", f"{car}_{bg}.jpg")
     ogp = Image.new("RGB", (1200, 630), (7, 11, 20))
     hero = Image.open(src).convert("RGB").resize((1200, 675), Image.Resampling.LANCZOS)
@@ -109,32 +117,114 @@ def build_share_html(code, jp_name, site_url, suffix=""):
 </html>
 """
 
+def build_ga4_snippet(ga_id):
+    if not ga_id:
+        return ""
+    return (
+        f'<script async src="https://www.googletagmanager.com/gtag/js?id={ga_id}"></script>\n'
+        "<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}"
+        f"gtag('js',new Date());gtag('config','{ga_id}');</script>"
+    )
+
+def build_type_seo_html(code, jp_name, cl_label, accent, site_url, ga_snippet):
+    og_img = f"{site_url}/ogp/{code}.jpg"
+    page_url = f"{site_url}/types/{code}.html"
+    accent_hex = "#%02x%02x%02x" % accent
+    other_links = "".join(
+        f'<a href="./{c}.html" style="display:inline-block;padding:6px 12px;margin:4px;border-radius:10px;background:#10182b;border:1px solid rgba(148,163,184,0.25);color:#e2e8f0;text-decoration:none;font-size:13px;">{c}：{meta[3]}</a>'
+        for c, meta in TYPES_META.items() if c != code
+    )
+    return f"""<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{code}（{jp_name}）の性格・特徴・相性｜CAR-BTI 車好き16タイプ診断</title>
+<meta name="description" content="CAR-BTI（車好き16タイプ診断）の【{code}：{jp_name}】タイプの特徴、車との向き合い方、他タイプとの相性を解説。あなたも無料で27問の車好きタイプ診断を受けてみよう！" />
+<link rel="canonical" href="{page_url}" />
+<meta property="og:title" content="{code}（{jp_name}）｜CAR-BTI 車好き16タイプ診断" />
+<meta property="og:description" content="車好き16タイプ診断【{code}：{jp_name}】の解説ページ。あなたも自分の車好きタイプを診断しよう。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="{page_url}" />
+<meta property="og:image" content="{og_img}" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="{og_img}" />
+{ga_snippet}
+</head>
+<body style="margin:0;background:#070b14;color:#f1f5f9;font-family:-apple-system,BlinkMacSystemFont,'Noto Sans JP',sans-serif;line-height:1.75;">
+  <main style="max-width:760px;margin:0 auto;padding:28px 18px 60px;">
+    <a href="../index.html" style="color:#38bdf8;text-decoration:none;font-size:13px;font-weight:700;">← CAR-BTI トップへ戻る</a>
+    <div style="margin-top:16px;border-radius:18px;overflow:hidden;border:1px solid rgba(148,163,184,0.25);background:#0d1324;">
+      <img src="../ogp/{code}.jpg" alt="{code} {jp_name}" style="width:100%;display:block;" />
+      <div style="padding:22px;">
+        <span style="display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;color:{accent_hex};border:1px solid {accent_hex};">{cl_label}</span>
+        <h1 style="margin:10px 0 8px;font-size:26px;font-weight:900;">{code}：{jp_name}</h1>
+        <p style="margin:0 0 18px;color:#cbd5e1;font-size:15px;">CAR-BTI（車好き16タイプ診断）における「{jp_name}（{code}）」タイプです。自分の詳しい4軸バランス・あるあるワードクラウド・PAやオフ会での立ち回り・他タイプとの相性は診断ページから確認できます。</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;">
+          <a href="../index.html" style="display:inline-block;padding:12px 20px;border-radius:12px;background:{accent_hex};color:#070b14;font-weight:900;text-decoration:none;">自分の車好きタイプを診断する（無料）</a>
+          <a href="../index.html?vs={code}" style="display:inline-block;padding:12px 20px;border-radius:12px;background:#1e293b;color:#f1f5f9;font-weight:700;text-decoration:none;border:1px solid rgba(148,163,184,0.35);">{code}との相性を診断する</a>
+        </div>
+      </div>
+    </div>
+    <section style="margin-top:28px;">
+      <h2 style="font-size:18px;font-weight:900;margin:0 0 10px;">他の車好き16タイプを見る</h2>
+      <div>{other_links}</div>
+    </section>
+  </main>
+</body>
+</html>
+"""
+
 def main():
     with open(CONFIG_PATH, "r", encoding="utf-8") as f:
         cfg = json.load(f)
     site_url = cfg.get("site_url", "").strip().rstrip("/")
+    ga_id = cfg.get("ga_measurement_id", "").strip()
+    ga_snippet = build_ga4_snippet(ga_id)
     if not site_url.startswith("https://"):
         print("ERROR: site_config.json の site_url に https:// から始まる公開URLを設定してください。", file=sys.stderr)
         sys.exit(1)
 
     ogp_dir = os.path.join(ROOT, "ogp")
     share_dir = os.path.join(ROOT, "share")
+    types_dir = os.path.join(ROOT, "types")
     os.makedirs(ogp_dir, exist_ok=True)
     os.makedirs(share_dir, exist_ok=True)
+    os.makedirs(types_dir, exist_ok=True)
 
     for code, (cl, car, bg, jp_name, cl_label, accent) in TYPES_META.items():
         build_type_ogp(code, car, bg, cl_label, accent, os.path.join(ogp_dir, f"{code}.jpg"))
         with open(os.path.join(share_dir, f"{code}.html"), "w", encoding="utf-8") as f:
             f.write(build_share_html(code, jp_name, site_url))
+        with open(os.path.join(types_dir, f"{code}.html"), "w", encoding="utf-8") as f:
+            f.write(build_type_seo_html(code, jp_name, cl_label, accent, site_url, ga_snippet))
         for c in CARS:
             build_type_ogp(code, c, bg, cl_label, accent, os.path.join(ogp_dir, f"{code}_{c}.jpg"))
             with open(os.path.join(share_dir, f"{code}_{c}.html"), "w", encoding="utf-8") as f:
                 f.write(build_share_html(code, jp_name, site_url, f"_{c}"))
 
-    # Update index.html with absolute og:image, twitter:image, and X share URL
+    # Generate sitemap.xml and robots.txt for SEO
+    urls = [f"{site_url}/"] + [f"{site_url}/types/{code}.html" for code in TYPES_META.keys()]
+    sitemap_xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    for u in urls:
+        sitemap_xml += f"  <url><loc>{u}</loc></url>\n"
+    sitemap_xml += "</urlset>\n"
+    with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8") as f:
+        f.write(sitemap_xml)
+    with open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8") as f:
+        f.write(f"User-agent: *\nAllow: /\nSitemap: {site_url}/sitemap.xml\n")
+
+    # Update index.html with absolute og:image, twitter:image, GA4, and X share URL
     idx_path = os.path.join(ROOT, "index.html")
     with open(idx_path, "r", encoding="utf-8") as f:
         html = f.read()
+
+    html = re.sub(
+        r'<!-- GA4_INJECT_START -->.*?<!-- GA4_INJECT_END -->',
+        f'<!-- GA4_INJECT_START -->{ga_snippet}<!-- GA4_INJECT_END -->',
+        html,
+        flags=re.DOTALL,
+    )
 
     html = re.sub(r'(<meta property="og:image" content=")[^"]+(")', rf'\g<1>{site_url}/ogp.jpg\g<2>', html)
     html = re.sub(r'(<meta name="twitter:image" content=")[^"]+(")', rf'\g<1>{site_url}/ogp.jpg\g<2>', html)
