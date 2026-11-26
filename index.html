@@ -4,9 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>CAR-BTI｜車好き16タイプ診断</title>
-<meta name="description" content="スポーツカーから高級ミニバン、クロカン、丸目コンパクト、車種不問の箱推しまで。車好きタイプ（全16タイプ）× 交流スタイルを24問で深く診断！" />
+<meta name="description" content="スポーツカーから高級ミニバン、クロカン、丸目コンパクト、車種不問の箱推しまで。車好きタイプ（全16タイプ）× 交流スタイルを25問で深く診断！" />
 <meta property="og:title" content="CAR-BTI｜車好き16タイプ診断" />
-<meta property="og:description" content="全車種・全派閥・車種不問まで対応。あなたの車好きタイプとPA・SNSでの交流スタイルを24問で診断！" />
+<meta property="og:description" content="全車種・全派閥・車種不問まで対応。あなたの車好きタイプとイベント・SNSでの交流スタイルを25問で診断！" />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="https://car-bti.epcj.info/ogp.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -486,13 +486,13 @@ select {
           <div id="hero-scene-label" class="hero-car-label" style="border-color:rgba(56,189,248,0.45); color:#7dd3fc;">夜の首都高</div>
         </div>
         <div class="hero-content">
-          <span class="pill">4グループ色分け × 16タイプ × 本音×リアル27問</span>
+          <span class="pill">4グループ色分け × 16タイプ × 本音×リアル25問</span>
           <h1>あなたの<span>車好きタイプ</span>と<br><span>仲間との距離感</span>を診断する。</h1>
           <p class="hero-desc">
             「走り派・鑑賞派・DIY派・純正派」だけでなく、好きな車種・カルチャー圏・PAやSNSでの距離感まで一発で可視化。SNSで結果を見た瞬間「あ、この人と気が合いそう！」がわかるライセンスカードを発行します。
           </p>
           <div class="hero-actions">
-            <button class="btn btn-primary" onclick="startNewQuiz()">診断をスタート（プロフィール＋27問）</button>
+            <button class="btn btn-primary" onclick="startNewQuiz()">診断をスタート（全25問・約4分）</button>
             <button class="btn btn-secondary" onclick="switchView('dex')">16タイプ図鑑を見る</button>
           </div>
         </div>
@@ -523,7 +523,7 @@ select {
       <div class="section-head" style="margin-top:0;">
         <div>
           <h2>まずは、あなたの好きな車プロフィールを選択</h2>
-          <p>ここで選んだ内容が診断結果カードに反映され、SNSで見た人が「仲間かどうか」を一目で判断できるようになります。</p>
+          <p>ここで選んだ内容が診断結果カードに反映され、SNSで見た人が「仲間かどうか」を一目で判断できるようになります。<strong>未選択のままでも診断できます</strong>（タイプ判定は質問の回答だけで決まります）。</p>
         </div>
       </div>
 
@@ -558,7 +558,7 @@ select {
 
       <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-top:18px;">
         <button class="btn btn-secondary" onclick="switchView('top')">← TOPへ戻る</button>
-        <button class="btn btn-primary" onclick="beginQuestions()">このプロフィールで質問へ進む（全27問）→</button>
+        <button class="btn btn-primary" onclick="beginQuestions()">このプロフィールで質問へ進む（全25問）→</button>
       </div>
     </div>
   </section>
@@ -567,7 +567,7 @@ select {
   <section id="view-quiz" class="view">
     <div class="quiz-wrap">
       <div class="progress-meta">
-        <span id="quiz-counter" class="mono">Q 01 / 24</span>
+        <span id="quiz-counter" class="mono">Q 01 / 25</span>
         <span id="quiz-percent">0%</span>
       </div>
       <div class="progress-track"><div id="quiz-fill" class="progress-fill"></div></div>
@@ -713,13 +713,13 @@ const CARS = [
   { id: 'coupe', name: 'スポーツクーペ / GT', short: 'スポーツクーペ', sub: '2ドア・走り・GT', defaultBg: 'highway', recStances: ['circuit','touge','shuto','drift','stance','oem'] },
   { id: 'supercar', name: 'スーパーカー / ハイパーカー', short: 'スーパーカー', sub: 'ミッドシップ・造形美', defaultBg: 'highway', recStances: ['circuit','morning','detailing','oem','photo'] },
   { id: 'open', name: 'オープンカー / ロードスター', short: 'オープンカー', sub: '開放感・ライトウェイト', defaultBg: 'touge', recStances: ['touge','drive','morning','oem','photo'] },
-  { id: 'sedan', name: 'セダン（古典3ボックス）', short: 'セダン', sub: 'VIP・スポーツ・欧州', defaultBg: 'garage', recStances: ['vip','shuto','audio_hi','oem','stance'] },
+  { id: 'sedan', name: 'セダン', short: 'セダン', sub: 'VIP・スポーツ・欧州', defaultBg: 'garage', recStances: ['vip','shuto','audio_hi','oem','stance'] },
   { id: 'vip_minivan', name: '高級ミニバン / VIP 1BOX', short: '高級ミニバン', sub: 'アルヴェル系・重厚ラグジュアリー', defaultBg: 'highway', recStances: ['vip','audio_hi','audio_spl','dressup','detailing','family'] },
   { id: 'utility_van', name: '実用ミニバン / ファミリー1BOX', short: '実用1BOX', sub: 'ステップワゴン・デリカ・車中泊', defaultBg: 'nature', recStances: ['vanlife','family','diy','drive','oem'] },
   { id: 'wagon', name: 'ステーションワゴン / ツーリング', short: 'ワゴン', sub: 'ロングルーフ・ユーロ・積載', defaultBg: 'city', recStances: ['usdm','drive','stance','oem','vanlife'] },
   { id: 'crocan', name: 'クロカン・本格四駆', short: 'クロカン四駆', sub: '無骨オフロード・林道・ギア', defaultBg: 'nature', recStances: ['offroad','lift','vanlife','diy','drive'] },
   { id: 'urban_suv', name: '都会派SUV / クロスオーバー', short: '都会派SUV', sub: '街乗り・高速クルーザー', defaultBg: 'city', recStances: ['drive','detailing','oem','dressup','family'] },
-  { id: 'compact', name: 'コンパクト / ハッチバック', short: 'コンパクト', sub: '丸目レトロ・ホットハッチ・軽含む', defaultBg: 'city', recStances: ['drive','touge','usdm','itasha','minor','morning'] },
+  { id: 'compact', name: 'コンパクト・軽 / ハッチバック', short: 'コンパクト・軽', sub: '軽自動車・丸目レトロ・ホットハッチ', defaultBg: 'city', recStances: ['drive','touge','usdm','itasha','minor','morning'] },
   { id: 'truck_work', name: 'トラック・商用バン', short: 'トラック・商用', sub: 'ピックアップ・トランポ・働く車', defaultBg: 'nature', recStances: ['lift','vanlife','diy','offroad','minor'] }
 ];
 
@@ -732,7 +732,7 @@ const BACKGROUNDS = [
 ];
 
 const SOCIAL_TEMPS = {
-  active: { id: 'active', label: '自分から絡む派', desc: 'PAやSNSでも自分から声をかけて車の輪を広げたいオープン派。初対面でも気軽に話しかけてOK！' },
+  active: { id: 'active', label: '自分から絡む派', desc: 'イベントやSNSでも自分から声をかけて車の輪を広げたいオープン派。初対面でも気軽に話しかけてOK！' },
   passive: { id: 'passive', label: '声かけ待ち・受け身派', desc: '自分からは話しかけに行けないが、向こうから声をかけられると実はめちゃくちゃ嬉しいタイプ。' },
   solo: { id: 'solo', label: '基本ソロ・静観派', desc: '群れずに自分のペースで走りたい・眺めたいマイペース派。遠くからそっと見守る距離感が心地いい。' }
 };
@@ -746,7 +746,7 @@ const SOCIAL_PERSONALITY = {
 
 const REALITY_MODES = {
   doing: { id: 'doing', label: '理想どおり実践中', desc: '自分の理想のスタイルでしっかり愛車ライフを満喫中！' },
-  wanna_custom: { id: 'wanna_custom', label: '心はカスタム派・今は控えめ', desc: '本当はカスタムや走りが大好きだけど、予算・家族・環境の関係で今はノーマル〜控えめに楽しんでいる（パーツ談義は大歓迎！）。' },
+  wanna_custom: { id: 'wanna_custom', label: '心はガチ勢・今は控えめ', desc: '理想のスタイルはあるけれど、予算・家族・環境の関係で今は控えめに楽しんでいる（理想の話は大好物！）。' },
   aspiring: { id: 'aspiring', label: 'これからデビュー・憧れ勢', desc: 'これから愛車をお迎えしたい・これから本格的に趣味を広げていきたいワクワク期！先輩オーナーの話もぜひ聞きたい。' }
 };
 
@@ -775,7 +775,7 @@ const STANCE_CATEGORIES = [
   { label: '【いじる】', items: [
     { id: 'vip', name: 'VIP・極低・ラグジュアリー', bg: 'highway' },
     { id: 'stance', name: 'スタンス・エアサス・ツライチ', bg: 'highway' },
-    { id: 'usdm', name: 'USDM・ユーロスタイル', bg: 'city' },
+    { id: 'usdm', name: 'USDM / ユーロ系ドレスアップ', bg: 'city' },
     { id: 'audio_hi', name: 'オーディオ（内向きハイファイ）', bg: 'garage' },
     { id: 'audio_spl', name: 'オーディオ（外向き・大音圧）', bg: 'garage' },
     { id: 'dressup', name: 'ドレスアップ・電飾', bg: 'highway' },
@@ -783,7 +783,7 @@ const STANCE_CATEGORIES = [
     { id: 'lift', name: 'アゲ系・アウトドア仕様', bg: 'nature' },
     { id: 'tune', name: '走り系チューニング（足回り・吸排気・ECU）', bg: 'touge' },
     { id: 'diy', name: 'DIY整備・レストア', bg: 'garage' },
-    { id: 'event_mt', name: 'イベント・ドレコン・夜のMT勢', bg: 'highway' }
+    { id: 'event_mt', name: 'イベント・ドレコン・ミーティング勢', bg: 'highway' }
   ]},
   { label: '【愛でる・使う】', items: [
     { id: 'oem', name: '純正プラス（OEM+）・ノーマル維持', bg: 'city' },
@@ -804,8 +804,8 @@ const STANCE_CATEGORIES = [
   ]}
 ];
 const ALL_STANCES = STANCE_CATEGORIES.flatMap(c => c.items);
-const REGIONS = ['国産（JDM）', 'ドイツ車', 'イタフラ車', 'アメ車（US）', '英・北欧車'];
-const EXTRAS = ['旧車・クラシック', 'ネオクラ（80s-90s）', '00s〜現行車', 'スーパーカー', '丸目レトロ・可愛い系', 'シャコタン・エアサス', '次世代EV・HV', 'K-CAR（軽）', 'MT（マニュアル）愛', 'ファミリー・子育て世代', '初心者・ライト層', '多頭飼い', 'これから所有・憧れ'];
+const REGIONS = ['国産（JDM）', 'ドイツ車', 'イタフラ車', 'アメ車（US）', '英・北欧車', 'EV・新興ブランド（テスラ・BYD等）'];
+const EXTRAS = ['旧車・クラシック', 'ネオクラ（80s-90s）', '00s〜現行車', 'ハイパフォーマンス・限定車', '丸目レトロ・可愛い系', 'シャコタン・エアサス', 'EV・PHEV・最新テック', 'K-CAR（軽）', 'MT（マニュアル）愛', 'ファミリー・子育て世代', '初心者・ライト層', '多頭飼い', 'これから所有・憧れ'];
 
 const CLUSTERS = {
   FC: { code: 'FC', name: '探求・チューナー系', sub: '機能・体験 × 創る・弄る', desc: '走らせてなんぼ、弄ってなんぼ。自分の手と頭で性能や使い勝手を煮詰めていくエンジニア魂の持ち主。', color: '#38bdf8', car: 'coupe', bg: 'garage', types: ['FCSR','FCSL','FCIR','FCIL'] },
@@ -879,7 +879,7 @@ const TYPES = {
     pitfall:'「売るとき値落ちするよ」「定番のこっちにしなよ」といった損得勘定や一般論の押し付けが一番苦手です。'
   },
   FCIL: { code:'FCIL', cluster:'FC', car:'wagon', bg:'garage', name:'緻密なデータ探求派',
-    catch:'ミリ単位のセッティングや構造の理屈を深く味わう、静かなる沼の住人。',
+    catch:'「なぜそうなるか」を数値とログで確かめずにいられない、検証型セッティング職人。',
     longDesc:[
       'FCIL（緻密なデータ探求派）のあなたは、曖昧な感覚論よりも「なぜそうなるのか」というメカニズムや数値、比較検証の裏付けに強く惹かれる知的な探求者です。',
       '足回りの減衰、空気圧、音響特性、燃費ログなど、細かな調整で車の表情が変わる奥深さにワクワクするタイプ。普段は物静かでも、同じ解像度でメカニズムや検証話ができる相手に出会うと、何時間でも楽しく語り合えます。',
@@ -887,7 +887,7 @@ const TYPES = {
     ],
     wordcloud:[
       ['プラシーボより検証',3],['数値とデータの奥深さ',3],['理屈が通るカスタムが好き',3],['比較検証レポート必読',2],
-      ['空気圧や足回りの変化に興味',2],['同じ解像度なら3時間語れる',2],['静かなる沼の住人',2],['外見はさりげなく中身は本気',2],
+      ['空気圧や足回りの変化に興味',2],['同じ解像度なら3時間語れる',2],['ログで語るタイプ',2],['外見はさりげなく中身は本気',2],
       ['メモやログを見るのが好き',2],['DSPやECUの仕組みに興味',2],['ネットの曖昧情報を疑う',2],['最適解を探すのが楽しい',1],
       ['一人でもくもく調べる',1],['細部のセッティングに唸る',1],['知的な車談義',1],['納得して選びたい',1]
     ],
@@ -908,7 +908,7 @@ const TYPES = {
       ['仲間と走る楽しさ',1],['季節の景色と愛車',1],['大らかな車愛',1],['誰とでも話が合う',1]
     ],
     meetup:'ツーリングやドライブ・キャンプの話題で一気に仲良くなれます。派閥を作らずフラットに接する温かさが魅力です。',
-    pitfall:'駐車場で車から一歩も動かずマウント合戦ばかりしている空気は少し苦手。楽しすぎてつい距離を走りすぎがちです。'
+    pitfall:'同じ場所に長居するより、つい次の景色を見に行きたくなる。楽しすぎて気づけば一日500km走っていることも。'
   },
   FOSL: { code:'FOSL', cluster:'FO', car:'utility_van', bg:'nature', name:'語れる実用データ派',
     catch:'「用途に対する最適解」を見抜く、頼れる車選びの参謀タイプ。',
@@ -946,7 +946,7 @@ const TYPES = {
     catch:'メーカーが込めたエンジニアリングの意図を、五感と頭脳で読み解く。',
     longDesc:[
       'FOIL（設計思想の吟味家）のあなたは、過度な改造よりも「開発エンジニアが調律した純正のバランスと設計思想」をじっくり味わう知的な車好きです。新車ニュースでも見た目より先にプラットフォームや足回り形式、重量配分に目がいきます。',
-      '実車のコンディションを大切に保つことはもちろん、モータースポーツ観戦や開発者インタビュー、試乗インプレを読み込むことでも深く楽しめるのが強み。',
+      '所有している車でも憧れの車でも、モータースポーツ観戦や開発者インタビュー、試乗インプレを読み込むことで深く楽しめるのが強み。',
       '流行に踊らされず、車の本質的な価値とメカニズムの美しさを見抜く目は界隈トップクラスです。'
     ],
     wordcloud:[
@@ -958,15 +958,15 @@ const TYPES = {
     meetup:'騒がしいイベントより、車やレースの話を静かに深掘りできる少人数の場やSNSでの考察トークが居心地抜群です。',
     pitfall:'安全性を損なう無茶な改造にはつい眉をひそめがち。こだわりが強いぶん、次の1台選びに何年も悩んでしまうことも。'
   },
-  ACSR: { code:'ACSR', cluster:'AC', car:'vip_minivan', bg:'highway', name:'夜のPA・オーラ魅せ感性派',
+  ACSR: { code:'ACSR', cluster:'AC', car:'vip_minivan', bg:'highway', name:'停めた瞬間に空気を変えるオーラ演出家',
     catch:'停めた瞬間に空気が変わる「存在感とオーラのあるカスタム車」に心が震える。',
     longDesc:[
-      'ACSR（夜のPA・オーラ魅せ感性派）のあなたは、存在感たっぷりに仕上げられたカスタム車や、夜のPA・イベント会場ならではの華やかな高揚感に一番ときめくクリエイター気質です。',
+      'ACSR（停めた瞬間に空気を変えるオーラ演出家）のあなたは、存在感たっぷりに仕上げられたカスタム車や、ミーティング・イベント会場ならではの華やかな高揚感に一番ときめくクリエイター気質です。',
       'ライトワーク、ホイール、車高、全体のオーラなど「パッと見てカッコいい！」と直感で刺さる世界観が大好き。たとえ今は自分の車がノーマルであっても、手が入ったカスタム車を眺めるだけでテンションが上がり、「この角度が一番映える！」と一瞬で見抜ける感性を持っています。',
       'ジャンルを問わず「ちゃんと愛情とこだわりが入っている車」に素直なリスペクトを送れる器の広さも魅力です。'
     ],
     wordcloud:[
-      ['映える角度を0.5秒で把握',3],['存在感とオーラに弱い',3],['夜のPA・イベントの高揚感',3],['カスタム車の世界観が好き',2],
+      ['映える角度を0.5秒で把握',3],['存在感とオーラに弱い',3],['ミーティングの高揚感',3],['カスタム車の世界観が好き',2],
       ['ライトワーク＆ホイール注目',2],['SNS映えのセンス',2],['手が入ってる車にリスペクト',2],['ガラスに映る車をチェック',2],
       ['写真映えスポット好き',2],['並べて撮る景色が最高',2],['直感で「カッコいい！」',2],['華やかな空気感が好き',1],
       ['カスタムを見るだけで楽しい',1],['オーラで勝負する車に憧れ',1],['こだわりポイント探しが趣味',1],['感性派クリエイター',1]
@@ -1074,7 +1074,7 @@ const TYPES = {
     catch:'「オリジナルのままが一番美しい」を貫く、静謐なコレクター気質。',
     longDesc:[
       'AOIL（フルノーマル保存の審美眼）のあなたは、デザイナーが引いたオリジナルの線と工場出荷時のコンディションに絶対の敬意を払い、流行に一切流されず「時代を超えて残る名車の価値」を見抜く静謐なコレクター気質です。',
-      '中古車サイトでは迷わず「フルノーマル・禁煙・記録簿あり」で絞り込み、純正部品や当時物にこだわる徹底ぶり。派手な自己主張はしませんが、その審美眼の鋭さは界隈トップクラスです。',
+      '中古車サイトでは迷わず「フルノーマル・禁煙・記録簿あり」で絞り込み、純正部品や当時物にこだわる徹底ぶり。派手な自己主張はしませんが、「本物かどうか」を見抜く目は誰よりも厳しめです。',
       '車を単なる消費財ではなく「文化遺産・美術品」として慈しむ姿勢は、本物を知る大人の車好きから深い敬意を集めます。'
     ],
     wordcloud:[
@@ -1088,72 +1088,56 @@ const TYPES = {
   }
 };
 
-// 24 Questions: 20 Likert-scale (5 per axis, balanced positive & negative) + 4 social style
+// 25 Questions: 20 Likert-scale (5 per axis; scored with acquiescence-robust mean difference) + 5 social style
+// NOTE: 車を持っていない人も「憧れの車・理想」で答えられる文言に統一。CO軸は「DIYかショップか」ではなく「純正から変えたいか」を測る。
 const QUESTIONS = [
   // Axis 1: FA (F=+1, A=-1)
-  { kind:'likert', axis:'FA', dir: 1, tag:'軸1：車への愛の矛先（機能・体験 vs 造形・空間）', q:'車を選ぶとき、見た目のデザインより「運転したときの手応えや実用性」を重視する。' },
-  { kind:'likert', axis:'FA', dir:-1, tag:'軸1：車への愛の矛先（機能・体験 vs 造形・空間）', q:'駐車場に停めた愛車を振り返って眺める瞬間や、塗装の艶に一番うっとりする。' },
-  { kind:'likert', axis:'FA', dir: 1, tag:'軸1：車への愛の矛先（機能・体験 vs 造形・空間）', q:'他人の車を見るとき、ボディの綺麗さより先にタイヤの銘柄や足回り・機能面をチェックしがちだ。' },
-  { kind:'likert', axis:'FA', dir:-1, tag:'軸1：車への愛の矛先（機能・体験 vs 造形・空間）', q:'予算をかけるなら、走りや実用性より「ホイール・車高・内装の雰囲気」など世界観が変わる部分を優先したい。' },
-  { kind:'likert', axis:'FA', dir: 1, tag:'軸1：車への愛の矛先（機能・体験 vs 造形・空間）', q:'「この車、最高だな」と心から思うのは、峠や長距離・悪路を思い通りに走れたときだ。' },
+  { kind:'likert', axis:'FA', dir: 1, tag:'軸1：車への愛の矛先（機能・体験 vs 造形・空間）', q:'車を選ぶなら、見た目のデザインより「運転したときの手応えや使い勝手」を重視する。' },
+  { kind:'likert', axis:'FA', dir:-1, tag:'軸1：車への愛の矛先（機能・体験 vs 造形・空間）', q:'停まっている車（愛車や憧れの車）のボディラインや艶を、ただ眺めている時間が一番うっとりする。' },
+  { kind:'likert', axis:'FA', dir: 1, tag:'軸1：車への愛の矛先（機能・体験 vs 造形・空間）', q:'他人の車を見るとき、ボディの綺麗さより先にタイヤ・足回り・装備など「機能面」をチェックしがちだ。' },
+  { kind:'likert', axis:'FA', dir:-1, tag:'軸1：車への愛の矛先（機能・体験 vs 造形・空間）', q:'車の一番の魅力は、走りよりも「デザイン・佇まい・車内空間の雰囲気」だと思う。' },
+  { kind:'likert', axis:'FA', dir: 1, tag:'軸1：車への愛の矛先（機能・体験 vs 造形・空間）', q:'「この車、最高だな」と心から思うのは、峠・高速・悪路・街中を問わず「思い通りに走れたとき」だ。' },
 
   // Axis 2: CO (C=+1, O=-1)
-  { kind:'likert', axis:'CO', dir: 1, tag:'軸2：愛車への手のかけ方（創る・弄る vs 守る・味わう）', q:'パーツ交換やDIY整備など、自分の手で車を少しずつ自分色に進化させていく過程がたまらない。' },
-  { kind:'likert', axis:'CO', dir:-1, tag:'軸2：愛車への手のかけ方（創る・弄る vs 守る・味わう）', q:'改造するより、メーカーが設計した純正状態のバランスや美しさをそのまま味わいたい。' },
-  { kind:'likert', axis:'CO', dir: 1, tag:'軸2：愛車への手のかけ方（創る・弄る vs 守る・味わう）', q:'YouTubeやSNSでは、試乗レビューより「カスタム施工・DIY・セッティング」の動画をつい見続けてしまう。' },
-  { kind:'likert', axis:'CO', dir:-1, tag:'軸2：愛車への手のかけ方（創る・弄る vs 守る・味わう）', q:'整備やカスタムに時間をかけるより、プロや純正品質を信頼して「乗る・眺める時間」に集中したい。' },
-  { kind:'likert', axis:'CO', dir: 1, tag:'軸2：愛車への手のかけ方（創る・弄る vs 守る・味わう）', q:'ノーマルのまま乗っていると、「ここをこう変えたらもっと良くなるのに…」とつい妄想してしまう。' },
+  { kind:'likert', axis:'CO', dir: 1, tag:'軸2：愛車への手のかけ方（創る・弄る vs 守る・味わう）', q:'純正から少しずつ手を入れて、自分好みの姿や性能に仕上げていく過程がたまらない（DIYでもショップ施工でもOK）。' },
+  { kind:'likert', axis:'CO', dir:-1, tag:'軸2：愛車への手のかけ方（創る・弄る vs 守る・味わう）', q:'改造するより、メーカーが設計した純正状態のバランスや完成度をそのまま味わいたい。' },
+  { kind:'likert', axis:'CO', dir: 1, tag:'軸2：愛車への手のかけ方（創る・弄る vs 守る・味わう）', q:'動画やSNSでは、試乗レビューより「カスタム・DIY・セッティング」系の投稿をつい見続けてしまう。' },
+  { kind:'likert', axis:'CO', dir:-1, tag:'軸2：愛車への手のかけ方（創る・弄る vs 守る・味わう）', q:'お金や時間をかけるなら、改造よりも「乗る・出かける・眺める・良い状態に保つ」ことに使いたい。' },
+  { kind:'likert', axis:'CO', dir: 1, tag:'軸2：愛車への手のかけ方（創る・弄る vs 守る・味わう）', q:'純正のままの車を見ると、「ここをこう変えたらもっと良くなるのに…」とつい妄想してしまう。' },
 
   // Axis 3: SI (S=+1, I=-1)
-  { kind:'likert', axis:'SI', dir: 1, tag:'軸3：楽しみ方の場（社交・共有 vs 没入・孤高）', q:'休日は仲間とPAやオフ会・ツーリング・キャンプで車の話をワイワイ共有するのが最高だ。' },
-  { kind:'likert', axis:'SI', dir:-1, tag:'軸3：楽しみ方の場（社交・共有 vs 没入・孤高）', q:'誰にも気を使わず、一人で深夜や早朝をマイペースに走ったり作業に没入する時間が一番幸せだ。' },
-  { kind:'likert', axis:'SI', dir: 1, tag:'軸3：楽しみ方の場（社交・共有 vs 没入・孤高）', q:'愛車や推し車の完璧な1枚が撮れたら、すぐXやインスタにアップしてみんなに見てもらいたい。' },
+  { kind:'likert', axis:'SI', dir: 1, tag:'軸3：楽しみ方の場（社交・共有 vs 没入・孤高）', q:'休日は仲間とオフ会・ツーリング・キャンプなどで、車の話をワイワイ共有するのが最高だ。' },
+  { kind:'likert', axis:'SI', dir:-1, tag:'軸3：楽しみ方の場（社交・共有 vs 没入・孤高）', q:'誰にも気を使わず、一人でマイペースに走ったり、車のことに没頭したりする時間が一番幸せだ。' },
+  { kind:'likert', axis:'SI', dir: 1, tag:'軸3：楽しみ方の場（社交・共有 vs 没入・孤高）', q:'愛車や推し車の良い写真が撮れたら、すぐXやインスタにアップしてみんなに見てもらいたい。' },
   { kind:'likert', axis:'SI', dir:-1, tag:'軸3：楽しみ方の場（社交・共有 vs 没入・孤高）', q:'車好きの集まりに行っても、輪の中心にいるより端っこで静かに車を眺めている方が落ち着く。' },
   { kind:'likert', axis:'SI', dir: 1, tag:'軸3：楽しみ方の場（社交・共有 vs 没入・孤高）', q:'「次の休みここ行かない？」と自分から仲間を誘ったり、SNSで気軽にリアクションし合うのが好きだ。' },
 
   // Axis 4: RL (R=+1, L=-1)
-  { kind:'likert', axis:'RL', dir: 1, tag:'軸4：選び方・判断の軸（ロマン・感性 vs 論理・データ）', q:'燃費やスペックの数字より、エンジン音や「一目惚れ」の直感で欲しい車が決まる。' },
-  { kind:'likert', axis:'RL', dir:-1, tag:'軸4：選び方・判断の軸（ロマン・感性 vs 論理・データ）', q:'車やパーツを選ぶときは、剛性・コスパ・歴史・ホイールサイズや配色バランスまで理論で納得してから決めたい。' },
+  { kind:'likert', axis:'RL', dir: 1, tag:'軸4：選び方・判断の軸（ロマン・感性 vs 論理・データ）', q:'スペックの数字より、音・加速感・「一目惚れ」といった直感で欲しい車が決まる。' },
+  { kind:'likert', axis:'RL', dir:-1, tag:'軸4：選び方・判断の軸（ロマン・感性 vs 論理・データ）', q:'車やパーツは、数値・比較データ・評判を調べ尽くして納得してから決めたい。' },
   { kind:'likert', axis:'RL', dir: 1, tag:'軸4：選び方・判断の軸（ロマン・感性 vs 論理・データ）', q:'少し不便だったりクセが強い車でも、「その不便さこそ味で愛おしい！」とロマンを感じる。' },
-  { kind:'likert', axis:'RL', dir:-1, tag:'軸4：選び方・判断の軸（ロマン・感性 vs 論理・データ）', q:'新型車のニュースを見たら、まず「先代比で車重・出力・プラットフォームがどう変わったか」が気になる。' },
-  { kind:'likert', axis:'RL', dir: 1, tag:'軸4：選び方・判断の軸（ロマン・感性 vs 論理・データ）', q:'「理屈はよくわからないけど、乗ってて心が震える！」という感覚を何より大切にしている。' },
+  { kind:'likert', axis:'RL', dir:-1, tag:'軸4：選び方・判断の軸（ロマン・感性 vs 論理・データ）', q:'新型車のニュースを見たら、まず「先代から性能・数値・中身がどう変わったか」が気になる。' },
+  { kind:'likert', axis:'RL', dir: 1, tag:'軸4：選び方・判断の軸（ロマン・感性 vs 論理・データ）', q:'「理屈はよくわからないけど、乗ってて（見てて）心が震える！」という感覚を何より大切にしている。' },
 
-  // Social Style (4 questions)
-  { kind:'temp', tag:'交流スタイル①：PAやイベントでの温度感',
-    q:'PAやイベントで気になる車を見つけたとき、あなたの本音に一番近いのは？',
+  // Social Style (5 questions)
+  { kind:'temp', tag:'交流スタイル①：イベントやSNSでの温度感',
+    q:'PA・道の駅・イベントやSNSで、気になる車（のオーナー）を見つけたとき、本音に一番近いのは？',
     options:[
-      { val:'active', label:'「カッコいいですね！」と自分から話しかけたい', sub:'積極的に車好きの輪を広げたいオープン派' },
+      { val:'active', label:'「カッコいいですね！」と自分から話しかけたい・絡みに行きたい', sub:'積極的に車好きの輪を広げたいオープン派' },
       { val:'passive', label:'自分からは行けないけど、向こうから話しかけてくれたら嬉しい', sub:'受け身ウェルカム・話しかけ待ち派' },
       { val:'solo', label:'静かに眺めるだけで満足。あまり絡まずそっとしておいてほしい', sub:'自分のペースを守りたいソロ・静観派' }
     ]
   },
-  { kind:'temp', tag:'交流スタイル②：SNSでの距離感',
-    q:'SNSで同じ車好きと繋がるとしたら、どんな距離感が一番心地いい？',
-    options:[
-      { val:'active', label:'リプやDMで気軽に絡んで、機会があればオフ会やツーリングも行きたい', sub:'リアルの交流まで楽しみたい積極派' },
-      { val:'passive', label:'いいねやリプをもらえたら嬉しい！誘われたら参加するかも', sub:'相手からのきっかけ待ち・ゆる交流派' },
-      { val:'solo', label:'基本はROM専・マイペース投稿。深い付き合いやオフ会は控えたい', sub:'適度な距離感を保ちたいマイペース派' }
-    ]
-  },
-  { kind:'scope', tag:'交流スタイル③：仲良くなりたい相手の系統',
+  { kind:'scope', tag:'交流スタイル②：仲良くなりたい相手の系統',
     q:'車好き仲間として一番テンションが上がる相手はどの範囲？',
     options:[
       { val:'all_genre', label:'車種も楽しみ方も完全不問！車好きなら誰でもウェルカム', sub:'軽トラからスーパーカーまで全部愛でる箱推し派' },
       { val:'same_stance', label:'車種は違ってもOK！走り・キャンプ・洗車など「楽しみ方」が同じ人', sub:'スタンス・趣味の方向性が一致していれば仲間' },
-      { val:'same_category', label:'スポーツカー同士・セダン同士・クロカン同士など「同じ車の系統」の仲間', sub:'同じボディカテゴリ・カルチャー圏で集まりたい派' },
-      { val:'same_model', label:'同じ車種・同じ型式・同じメーカーの純血ガチ勢と深く語りたい', sub:'流用パーツや細部の沼を共有できる同車種ラバー' }
+      { val:'same_category', label:'スポーツカー同士・ミニバン同士・四駆同士など「同じ車の系統」の仲間', sub:'同じボディカテゴリ・カルチャー圏で集まりたい派' },
+      { val:'same_model', label:'同じ車種・同じ型式・同じメーカーのオーナーと深く語りたい', sub:'流用パーツや細部の沼を共有できる同車種ラバー' }
     ]
   },
-  { kind:'scope', tag:'交流スタイル④：理想のオフ会・集まり',
-    q:'もし休日に参加するなら、どの集まりが一番ワクワクする？',
-    options:[
-      { val:'all_genre', label:'いろんな車がごちゃ混ぜに集まるオールジャンルミーティング', sub:'普段見ないジャンルも含めて全部見たい' },
-      { val:'same_stance', label:'車種バラバラだけど「朝活勢」「車中泊勢」「峠勢」など同じ目的の集まり', sub:'楽しみ方や熱量の方向性が合うのが一番' },
-      { val:'same_category', label:'「セダンMT」「四駆フェス」「オープンカーの集い」など車種系統ごとの集まり', sub:'同じ系統の車がズラッと並ぶ景色が最高' },
-      { val:'same_model', label:'同じ車種・同じ型式だけがズラッと並ぶオーナーズクラブ全国オフ', sub:'やっぱり自分の推し車種の仲間が一番落ち着く' }
-    ]
-  },
-  { kind:'open', tag:'交流スタイル⑤：新しい仲間 vs 身内スタイル',
+  { kind:'open', tag:'交流スタイル③：新しい仲間 vs 身内スタイル',
     q:'集まったり繋がったりするとき、「新しい仲間」と「身内」どっちの空気感が好き？',
     options:[
       { val:'welcome', label:'新しい仲間ウェルカム！初対面でもどんどん輪を広げたい', sub:'知らない車好きとの出会い・新規歓迎派' },
@@ -1161,7 +1145,7 @@ const QUESTIONS = [
       { val:'inner', label:'基本は身内・いつもの仲間だけで集まりたい（新規は控えめ）', sub:'気心知れたメンバーでゆっくり楽しみたい内輪重視派' }
     ]
   },
-  { kind:'comm', tag:'交流スタイル⑥：自分の性格（積極的 vs 内向的）',
+  { kind:'comm', tag:'交流スタイル④：素の性格（積極的 vs 内向的）',
     q:'「本当はこうしたい」とは別に、あなた自身の素の性格・コミュニケーションに一番近いのは？',
     options:[
       { val:'extrovert', label:'積極的・ムードメーカー寄り（自分から話しかけたり場を盛り上げられる）', sub:'初対面の輪にもわりとスッと入っていける' },
@@ -1171,10 +1155,10 @@ const QUESTIONS = [
     ]
   },
   { kind:'reality', tag:'本音とリアル：「こうありたい」vs「今の実際」',
-    q:'カスタムや走りなど「こうありたい気持ち」と「今のリアルな状況」に一番近いのは？',
+    q:'「こうありたい」という車趣味の理想と、今のリアルな状況に一番近いのは？',
     options:[
-      { val:'doing', label:'だいたい自分の理想どおりに実践・満喫できている', sub:'走りたい／弄りたい／愛でたいスタイルをそのまま実行中' },
-      { val:'wanna_custom', label:'カスタムや走りは大好きだけど、実際は予算・家族・環境でノーマル〜控えめ', sub:'心はガチ勢・今は抑えているだけなのでカスタム話は大好物！' },
+      { val:'doing', label:'だいたい自分の理想どおりに実践・満喫できている', sub:'走る／弄る／愛でる／出かける、自分のスタイルをそのまま実行中' },
+      { val:'wanna_custom', label:'理想のスタイルはあるけど、予算・家族・環境の都合で今は控えめ', sub:'心はガチ勢。今は抑えているだけで、気持ちは全開！' },
       { val:'aspiring', label:'まだ所有前・これから本格的に車好きデビューしたい憧れ勢', sub:'観る・調べる・イベント見学からワクワク楽しんでいる段階' }
     ]
   }
@@ -1372,7 +1356,7 @@ function renderQuestion() {
         <div class="likert-scale">
           ${pts.map(p => `<button class="likert-btn ${p.cls} ${cur === p.v ? 'selected' : ''}" title="${p.lbl}" aria-label="${p.lbl}" onclick="answerQuestion(${p.v})"></button>`).join('')}
         </div>
-        <div class="likert-hint">直感で丸ボタンをタップしてください（左ほど「強くそう思う」、中央が「どちらでもない」）</div>
+        <div class="likert-hint">直感で丸ボタンをタップ（左ほど「強くそう思う」、中央が「どちらでもない」）。車を持っていない人は「憧れの車・理想」で答えてOK</div>
       </div>
     `;
   } else {
@@ -1390,19 +1374,27 @@ function answerQuestion(val) {
 }
 function prevQuestion() { if (state.qIndex > 0) { state.qIndex--; renderQuestion(); } }
 
+// Profile-based tie-break hints (used only when an axis score is exactly 0)
+const AXIS_TIE_HINTS = {
+  FA: { L: ['circuit','touge','drift','rally','offroad','tune','shuto'], R: ['vip','stance','dressup','itasha','detailing','photo','usdm'] },
+  CO: { L: ['tune','diy','stance','vip','lift','audio_hi','audio_spl','dressup','itasha','usdm','drift'], R: ['oem','detailing','drive','family','rental','motorsport','history'] },
+  SI: { L: ['morning','event_mt'], R: [] },
+  RL: { L: ['minor','itasha'], R: ['history','sim'] }
+};
 function computeResult() {
-  const sums = { FA: 0, CO: 0, SI: 0, RL: 0 };
-  const tempCounts = { active: 0, passive: 0, solo: 0 };
-  const scopeCounts = { all_genre: 0, same_stance: 0, same_category: 0, same_model: 0 };
+  // Acquiescence-robust scoring: (mean of +keyed items) - (mean of -keyed items).
+  // 「何でもそう思う」傾向は両方の平均に同じだけ乗るため相殺され、3問:2問の不均衡でも偏らない。
+  const pos = { FA: [], CO: [], SI: [], RL: [] };
+  const neg = { FA: [], CO: [], SI: [], RL: [] };
   QUESTIONS.forEach((q, idx) => {
     const v = state.answers[idx];
     if (q.kind === 'likert') {
       const n = typeof v === 'number' ? v : 0;
-      sums[q.axis] += n * q.dir;
-    } else if (q.kind === 'temp' && v && tempCounts[v] !== undefined) {
-      tempCounts[v] += (idx === 20 ? 1.1 : 1);
-    } else if (q.kind === 'scope' && v && scopeCounts[v] !== undefined) {
-      scopeCounts[v] += (idx === 22 ? 1.1 : 1);
+      (q.dir > 0 ? pos : neg)[q.axis].push(n);
+    } else if (q.kind === 'temp' && v && SOCIAL_TEMPS[v]) {
+      state.socialTemp = v;
+    } else if (q.kind === 'scope' && v && SOCIAL_SCOPES[v]) {
+      state.socialScope = v;
     } else if (q.kind === 'open' && v && SOCIAL_OPENNESS[v]) {
       state.socialOpen = v;
     } else if (q.kind === 'comm' && v && SOCIAL_PERSONALITY[v]) {
@@ -1411,19 +1403,31 @@ function computeResult() {
       state.realityMode = v;
     }
   });
-  const getLetter = (axis, l, r) => (sums[axis] >= 0 ? l : r);
-  const code = getLetter('FA','F','A') + getLetter('CO','C','O') + getLetter('SI','S','I') + getLetter('RL','R','L');
+  const mean = arr => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
+  const answerSeed = state.answers.map(a => String(a)).join('|');
+  const hashBit = (s) => { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0; return h % 2; };
+  const letters = { FA: ['F','A'], CO: ['C','O'], SI: ['S','I'], RL: ['R','L'] };
+  let code = '';
+  state.axisPct = {};
+  ['FA','CO','SI','RL'].forEach(axis => {
+    const score = (mean(pos[axis]) - mean(neg[axis])) / 2; // range [-3, +3]
+    let leftWins;
+    if (Math.abs(score) > 1e-9) {
+      leftWins = score > 0;
+    } else {
+      // Tie: 1) プロフィールの楽しみ方から推定 2) それでも決まらなければ回答内容から決定的に（偏りなく）決める
+      const h = AXIS_TIE_HINTS[axis];
+      const l = state.selectedStances.filter(s => h.L.includes(s)).length;
+      const r = state.selectedStances.filter(s => h.R.includes(s)).length;
+      leftWins = l !== r ? l > r : hashBit(axis + answerSeed) === 0;
+    }
+    let pct = Math.round(((score + 3) / 6) * 100);
+    if (leftWins && pct <= 50) pct = 51;
+    if (!leftWins && pct >= 50) pct = 49;
+    state.axisPct[axis] = pct;
+    code += leftWins ? letters[axis][0] : letters[axis][1];
+  });
   state.resultCode = code;
-  // Max possible per axis = 5 * 3 = 15 -> range [-15, +15]
-  state.axisPct = {
-    FA: Math.round(((sums.FA + 15) / 30) * 100),
-    CO: Math.round(((sums.CO + 15) / 30) * 100),
-    SI: Math.round(((sums.SI + 15) / 30) * 100),
-    RL: Math.round(((sums.RL + 15) / 30) * 100)
-  };
-  state.socialTemp = Object.entries(tempCounts).sort((a,b) => b[1] - a[1])[0][0];
-  state.socialScope = Object.entries(scopeCounts).sort((a,b) => b[1] - a[1])[0][0];
-
   const t = TYPES[code];
   // Auto-determine background: prefer first selected stance scene if chosen, otherwise type default
   const firstStance = state.selectedStances.length ? ALL_STANCES.find(s => s.id === state.selectedStances[0]) : null;
@@ -1444,31 +1448,53 @@ function updateHash() {
   params.set('scope', state.socialScope);
   params.set('comm', state.socialComm);
   params.set('real', state.realityMode);
+  params.set('p', ['FA','CO','SI','RL'].map(k => state.axisPct[k]).join('.'));
   if (state.selectedStances.length) params.set('st', state.selectedStances.join(','));
   if (state.selectedRegions.length) params.set('rg', state.selectedRegions.join(','));
   if (state.selectedExtras.length) params.set('ex', state.selectedExtras.join(','));
   history.replaceState(null, '', '#result?' + params.toString());
 }
 
+// Unified compatibility model (used by result page, matrix, pair checker, and friend invite)
+// 1文字目（惚れるポイント）と2文字目（手のかけ方）が一致するほど話が合い、3文字目（交流）は違う方が補い合える。
+function compatScore(a, b) {
+  let s = 40;
+  if (a[0] === b[0]) s += 22;
+  if (a[1] === b[1]) s += 18;
+  if (a[3] === b[3]) s += 10;
+  s += (a[2] === b[2]) ? 6 : 8;
+  return s; // 46〜98
+}
+function compatInfo(a, b) {
+  const score = compatScore(a, b);
+  const parts = [
+    a[0] === b[0] ? '車のどこに惚れるかが一致していて' : '惚れるポイントが違うぶん新鮮で',
+    a[1] === b[1] ? '手のかけ方も同じなので話が早く、' : '「弄る派」と「守る派」で視点を補い合え、',
+    a[2] === b[2] ? '遊び方のテンポも合い、' : '交流の温度感をお互いに補い合え、',
+    a[3] === b[3] ? '車選びの感覚まで近いペア。' : '感性派と理論派で議論が盛り上がるペア。'
+  ];
+  const label = score >= 90 ? '最高の相棒級' : score >= 75 ? '好相性' : score >= 60 ? '刺激し合える相性' : '異文化交流ペア';
+  return { score, label, text: parts.join('') };
+}
 function getCompat(code) {
   const flip = (c, i) => {
     const m = { F:'A', A:'F', C:'O', O:'C', S:'I', I:'S', R:'L', L:'R' };
     const a = c.split(''); a[i] = m[a[i]]; return a.join('');
   };
-  const best = flip(code, 2); // Same core values, complementary social energy
+  const best = flip(code, 2); // Same core values, complementary social energy (highest compatScore)
   const rival = flip(flip(code, 0), 3); // Opposite focus & decision style
-  const enemy = flip(flip(flip(code, 0), 1), 3); // Opposite core + decision
+  const enemy = flip(flip(flip(code, 0), 1), 3); // Opposite core + decision (lowest compatScore)
   return {
-    best, bestReason: '車への愛し方とこだわりが一致しつつ、交流バランスが補い合える最高の相棒。',
-    rival, rivalReason: '見るポイントや判断基準が違うからこそ、一緒に語ると新しい発見がある刺激的な相手。',
-    enemy, enemyReason: '車に求める価値観が真逆。お互いの楽しみ方を尊重し合う距離感が大事。'
+    best, bestReason: `相性度${compatScore(code, best)}%。車への愛し方とこだわりが一致しつつ、交流バランスが補い合える最高の相棒。`,
+    rival, rivalReason: `相性度${compatScore(code, rival)}%。見るポイントや判断基準が違うからこそ、一緒に語ると新しい発見がある刺激的な相手。`,
+    enemy, enemyReason: `相性度${compatScore(code, enemy)}%。車に求める価値観が真逆。お互いの楽しみ方を尊重し合う距離感が大事。`
   };
 }
 
 function buildSocialGuide(comm, open, scope, real) {
   const realMap = {
     doing: '今は自分の理想のスタイルで愛車ライフを満喫中。',
-    wanna_custom: 'カスタムされた車やその世界観が大好きですが、いま自分の車はあえてノーマル〜控えめに楽しんでいます。',
+    wanna_custom: '理想のスタイルはしっかりあるけれど、今は予算・家族・環境に合わせて控えめに楽しんでいます。',
     aspiring: 'これから愛車をお迎えしたり本格的に趣味を広げたいワクワク期で、いろんな車を見るのが大好きです。'
   };
   const scopeMap = {
@@ -1547,11 +1573,13 @@ function renderResult() {
   document.getElementById('res-legend').innerHTML = AXES_META.map(a => {
     const p = state.axisPct[a.key];
     const isL = p >= 50;
+    const strength = Math.abs(p - 50);
+    const strengthLabel = strength <= 5 ? '<span style="color:var(--muted); font-weight:700;">（ほぼ中間・バランス型）</span>' : strength >= 30 ? '<span style="font-weight:700;">（かなりハッキリ）</span>' : '';
     return `
       <div class="legend-row">
         <div class="legend-head">
           <span style="color:${a.color}">${a.idx}｜${a.title}</span>
-          <span>${a.l.code} ${p}% ／ ${a.r.code} ${100 - p}%</span>
+          <span>${a.l.code} ${p}% ／ ${a.r.code} ${100 - p}% ${strengthLabel}</span>
         </div>
         <div class="legend-poles">
           <div class="legend-pole ${isL ? 'active' : ''}" style="--pole-color:${a.color}">
@@ -1668,7 +1696,7 @@ const SHARE_SUMMARIES = {
   FOSL: '積載・燃費・維持費・パッケージングまで「道具としての賢さ」を愛でる実用派。どんなジャンルの車にも良い点を見つけられる頼れる車選び参謀。',
   FOIR: '誰かと競うより、お気に入りの音楽と道で静かに愛車を味わう大人のマイペース派。シートや視界・静粛性など「移動書斎」の心地よさを重視。',
   FOIL: '過度な改造より、開発陣が調律した純正バランスと設計思想を読み解く知性派。プラットフォームや足回り、モータースポーツの奥深さをじっくり味わう。',
-  ACSR: '存在感あるカスタム車や夜のPA・イベントの高揚感にときめくクリエイター気質。愛情とこだわりが入った車にはジャンルを問わずリスペクトを送る感性派。',
+  ACSR: '存在感あるカスタム車やミーティング・イベントの高揚感にときめくクリエイター気質。愛情とこだわりが入った車にはジャンルを問わずリスペクトを送る感性派。',
   ACSL: 'ボディ色・ホイール・車高まで計算された「引き算の美学と統一感」に惚れる洗練派。写真の構図や光の当て方にも自然と目がいくプロデューサー視点。',
   ACIR: '定番やリセールより「自分がときめくか」を最優先にする自由なアーティスト気質。マイナー車や個性派カスタムなど唯一無二の世界観が大好物。',
   ACIL: '派手さより「わかる人だけ唸る」ディテールや静粛性・極上音響に惹かれる完全主義者。外はさりげなく中は別世界な大人の1台を愛する玄人派。',
@@ -1686,7 +1714,8 @@ function shareOnX() {
   const exIdx = state.selectedExtras.map(e => EXTRAS.indexOf(e)).filter(i => i >= 0).join('.');
   const stShort = state.selectedStances.slice(0, 4).join('.');
   const carShort = state.selectedCar.replace(/,/g, '.');
-  const shareUrl = `https://car-bti.epcj.info/share/${t.code}_${state.visualCar}.html?car=${carShort}&vcar=${state.visualCar}&bg=${state.selectedBg}&temp=${state.socialTemp}&open=${state.socialOpen}&scope=${state.socialScope}&comm=${state.socialComm}&real=${state.realityMode}&st=${stShort}&rg=${rgIdx}&ex=${exIdx}`;
+  const pShort = ['FA','CO','SI','RL'].map(k => state.axisPct[k]).join('.');
+  const shareUrl = `https://car-bti.epcj.info/share/${t.code}_${state.visualCar}.html?car=${carShort}&vcar=${state.visualCar}&bg=${state.selectedBg}&temp=${state.socialTemp}&open=${state.socialOpen}&scope=${state.socialScope}&comm=${state.socialComm}&real=${state.realityMode}&st=${stShort}&rg=${rgIdx}&ex=${exIdx}&p=${pShort}`;
   trackEvent('share_x', { type: t.code, car: state.visualCar });
   window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`, '_blank');
 }
@@ -1721,21 +1750,13 @@ function renderCompatVsCard() {
   const from = state.inviteFrom;
   const mine = state.resultCode;
   if (!from || !TYPES[from] || !mine || !TYPES[mine]) { el.style.display = 'none'; return; }
-  let same = 0; for (let i = 0; i < 4; i++) if (mine[i] === from[i]) same++;
-  const msgs = [
-    '真逆の異文化ペア！お互いの世界観を面白がれると最強の刺激に。',
-    '違う視点が多いペア。ジャンル違いの交流として新鮮な発見があります。',
-    '程よい共通点と違いがある好バランス。ツーリングや雑談が弾みやすい相性！',
-    '価値観がかなり近い好相性！オフ会でも秒速で打ち解けられる仲間候補。',
-    '完全一致のソウルメイト！同じ沼にハマって朝まで語り明かせる相性です。'
-  ];
-  const scorePct = [35, 55, 78, 92, 100][same];
+  const info = compatInfo(mine, from);
   const mt = TYPES[mine], ft = TYPES[from];
   el.style.display = 'block';
   el.innerHTML = `
     <div style="font-size:12px; font-weight:700; color:#7dd3fc; margin-bottom:6px;">🤝 友達との相性診断結果</div>
-    <div style="font-size:18px; font-weight:900; margin-bottom:6px;">あなた（${mt.code}） × 友達（${ft.code}）｜相性度 <span class="mono" style="color:#34d399;">${scorePct}%</span></div>
-    <p style="margin:0 0 10px; font-size:13.5px; color:#cbd5e1; line-height:1.7;">${msgs[same]}</p>
+    <div style="font-size:18px; font-weight:900; margin-bottom:6px;">あなた（${mt.code}） × 友達（${ft.code}）｜相性度 <span class="mono" style="color:#34d399;">${info.score}%</span>（${info.label}）</div>
+    <p style="margin:0 0 10px; font-size:13.5px; color:#cbd5e1; line-height:1.7;">${info.text}</p>
     <div style="font-size:12px; color:var(--muted);">あなた：${mt.name} ／ 友達：${ft.name}</div>
   `;
 }
@@ -1797,15 +1818,8 @@ function renderMatrix() {
 }
 function runPairCheck() {
   const a = document.getElementById('chk-a').value, b = document.getElementById('chk-b').value;
-  let same = 0; for (let i = 0; i < 4; i++) if (a[i] === b[i]) same++;
-  const msgs = [
-    '真逆の異文化ペア！お互いの世界観を面白がれると最強の刺激に。',
-    '違う視点が多いペア。ジャンル違いの交流として新鮮な発見があります。',
-    '程よい共通点と違いがある好バランス。ツーリングや雑談が弾みやすい相性！',
-    '価値観がかなり近い好相性！オフ会でも秒速で打ち解けられる仲間候補。',
-    '完全一致のソウルメイト！同じ沼にハマって朝まで語り明かせる相性です。'
-  ];
-  document.getElementById('chk-result').innerHTML = `<div style="padding:12px 14px; border-radius:12px; background:rgba(56,189,248,0.1); border:1px solid rgba(56,189,248,0.35); font-size:13.5px;"><strong>${a} × ${b}（一致度 ${same}/4）</strong><br>${msgs[same]}</div>`;
+  const info = compatInfo(a, b);
+  document.getElementById('chk-result').innerHTML = `<div style="padding:12px 14px; border-radius:12px; background:rgba(56,189,248,0.1); border:1px solid rgba(56,189,248,0.35); font-size:13.5px;"><strong>${a} × ${b}｜相性度 ${info.score}%（${info.label}）</strong><br>${info.text}</div>`;
 }
 
 function openTypeModal(code) {
@@ -1852,6 +1866,17 @@ function applyHash() {
       if (st !== null) state.selectedStances = st ? st.split(/[,.]/).filter(id => ALL_STANCES.some(s => s.id === id)) : [];
       if (rg !== null) state.selectedRegions = rg ? rg.split(/[,.]/).map(x => /^\d+$/.test(x) ? REGIONS[Number(x)] : x).filter(Boolean) : [];
       if (ex !== null) state.selectedExtras = ex ? ex.split(/[,.]/).map(x => /^\d+$/.test(x) ? EXTRAS[Number(x)] : x).filter(Boolean) : [];
+      // Axis % (shared links). Fallback: derive a consistent 65/35 from the type letters for old links.
+      const pv = (q.get('p') || '').split(/[,.]/).map(Number);
+      const axisKeys = ['FA','CO','SI','RL'], leftLetters = ['F','C','S','R'];
+      state.axisPct = {};
+      axisKeys.forEach((k, i) => {
+        const isLeft = tc[i] === leftLetters[i];
+        let v = pv.length === 4 && Number.isFinite(pv[i]) ? Math.max(0, Math.min(100, Math.round(pv[i]))) : (isLeft ? 65 : 35);
+        if (isLeft && v <= 50) v = 51;
+        if (!isLeft && v >= 50) v = 49;
+        state.axisPct[k] = v;
+      });
       switchView('result');
     }
   }

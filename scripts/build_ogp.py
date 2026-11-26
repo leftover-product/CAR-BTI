@@ -27,7 +27,7 @@ TYPES_META = {
     "FOSL": ("FO", "utility_van", "nature", "語れる実用データ派", "FO CLUSTER", (52, 211, 153)),
     "FOIR": ("FO", "sedan", "nature", "ひとり時間至上主義ドライバー", "FO CLUSTER", (52, 211, 153)),
     "FOIL": ("FO", "supercar", "touge", "設計思想の吟味家", "FO CLUSTER", (52, 211, 153)),
-    "ACSR": ("AC", "vip_minivan", "highway", "夜のPA・オーラ魅せ感性派", "AC CLUSTER", (167, 139, 250)),
+    "ACSR": ("AC", "vip_minivan", "highway", "停めた瞬間に空気を変えるオーラ演出家", "AC CLUSTER", (167, 139, 250)),
     "ACSL": ("AC", "urban_suv", "city", "ミリ単位の美学ディレクター", "AC CLUSTER", (167, 139, 250)),
     "ACIR": ("AC", "compact", "garage", "自己満アートの求道者", "AC CLUSTER", (167, 139, 250)),
     "ACIL": ("AC", "sedan", "garage", "質感と音の完全主義者", "AC CLUSTER", (167, 139, 250)),
@@ -94,7 +94,7 @@ def build_share_html(code, jp_name, site_url, suffix=""):
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>CAR-BTI 診断結果｜{code}：{jp_name}</title>
-<meta name="description" content="CAR-BTI（車好き16タイプ診断）の結果は【{code}：{jp_name}】！あなたも27問で自分の車好きタイプと本音×リアルな交流スタイルを診断しよう。" />
+<meta name="description" content="CAR-BTI（車好き16タイプ診断）の結果は【{code}：{jp_name}】！あなたも25問で自分の車好きタイプと本音×リアルな交流スタイルを診断しよう。" />
 <meta property="og:title" content="CAR-BTI 診断結果｜{code}：{jp_name}" />
 <meta property="og:description" content="車好き16タイプ診断の結果は【{code}：{jp_name}】！車種不問・全派閥対応のライセンスカードを発行。" />
 <meta property="og:type" content="website" />
@@ -140,7 +140,7 @@ def build_type_seo_html(code, jp_name, cl_label, accent, site_url, ga_snippet):
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>{code}（{jp_name}）の性格・特徴・相性｜CAR-BTI 車好き16タイプ診断</title>
-<meta name="description" content="CAR-BTI（車好き16タイプ診断）の【{code}：{jp_name}】タイプの特徴、車との向き合い方、他タイプとの相性を解説。あなたも無料で27問の車好きタイプ診断を受けてみよう！" />
+<meta name="description" content="CAR-BTI（車好き16タイプ診断）の【{code}：{jp_name}】タイプの特徴、車との向き合い方、他タイプとの相性を解説。あなたも無料で25問の車好きタイプ診断を受けてみよう！" />
 <link rel="canonical" href="{page_url}" />
 <meta property="og:title" content="{code}（{jp_name}）｜CAR-BTI 車好き16タイプ診断" />
 <meta property="og:description" content="車好き16タイプ診断【{code}：{jp_name}】の解説ページ。あなたも自分の車好きタイプを診断しよう。" />
@@ -236,7 +236,7 @@ def main():
         "  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`, '_blank');"
     )
     if "const shareUrl =" in html:
-        html = re.sub(r"const shareUrl = `[^`]+`;", f"const shareUrl = `{site_url}/share/${{t.code}}_${{state.visualCar}}.html?car=${{carShort}}&vcar=${{state.visualCar}}&bg=${{state.selectedBg}}&temp=${{state.socialTemp}}&open=${{state.socialOpen}}&scope=${{state.socialScope}}&comm=${{state.socialComm}}&real=${{state.realityMode}}&st=${{stShort}}&rg=${{rgIdx}}&ex=${{exIdx}}`;", html)
+        html = re.sub(r"const shareUrl = `[^`]+`;", f"const shareUrl = `{site_url}/share/${{t.code}}_${{state.visualCar}}.html?car=${{carShort}}&vcar=${{state.visualCar}}&bg=${{state.selectedBg}}&temp=${{state.socialTemp}}&open=${{state.socialOpen}}&scope=${{state.socialScope}}&comm=${{state.socialComm}}&real=${{state.realityMode}}&st=${{stShort}}&rg=${{rgIdx}}&ex=${{exIdx}}&p=${{pShort}}`;", html)
     else:
         assert re.search(old_share_pattern, html), "shareOnX pattern not found in index.html"
         html = re.sub(old_share_pattern, new_share_code, html, count=1)
