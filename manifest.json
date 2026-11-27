@@ -1,8 +1,8 @@
 {
   "name": "CAR-BTI｜車好き16タイプ診断",
   "short_name": "CAR-BTI",
-  "description": "全車種・全派閥・車種不問まで対応。車好きタイプ（全16タイプ）×交流温度感×仲間の範囲を判定してライセンスカードを発行するサイト",
-  "start_url": "./index.html",
+  "description": "全13車種・全派閥・車種不問まで対応。車好きタイプ（全16タイプ）×交流スタイル×リアル状況を28問で判定してライセンスカードを発行するサイト",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#070b14",
   "theme_color": "#070b14",
